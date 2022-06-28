@@ -1,0 +1,203 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <style>
+  td,th
+  {
+    padding: 10px;
+  }
+  input[type="submit"].save{
+  background-color:greenyellow;
+  color:blue;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+
+
+}
+input[type="submit"].save:hover{
+
+  font-size: x-large;
+
+}
+  </style>
+
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Edit Contact</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="../assets/img/favicon.png" rel="icon">
+  <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="../assets/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+  integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+  crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+  integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+  crossorigin=""></script>
+  <!-- =======================================================
+  * Template Name: KnightOne - v4.3.0
+  * Template URL: https://bootstrapmade.com/knight-simple-one-page-bootstrap-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+
+</head>
+
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top header-inner-pages ">
+    <div class="container-fluid">
+
+    <div class="row justify-content-center" style="padding-top:20px;padding-bottom:20px">
+    <div class="col-xl-9 d-flex align-items-center justify-content-lg-between">
+      <h1 class="logo me-auto me-lg-0"><a href="adminIndex.php"></a></h1>
+    </div>
+    </div>
+
+    </div>
+</header>
+<!-- End Header -->
+
+<main id="main">
+
+<!-- ======= Services Section ======= -->
+<section id="services" class="services">
+  <div class="container">
+  <div class="section-title">
+    <h2>Edit Contact</h2>
+  </div>
+  <div id ="map" style = "height: 600px; width: 800px;"></div>
+  <div class="row">
+  <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+
+  <script>
+
+
+
+        var map = L.map('map').setView([3.152815, 101.703651], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '© OpenStreetMap'
+}).addTo(map);
+var rememberLat = document.getElementById('latitude').value;
+var rememberLong = document.getElementById('longitude').value;
+if( !rememberLat || !rememberLong ) { rememberLat = 18.53; rememberLong = 73.85;}
+var map = new L.Map('map', {
+'center': [rememberLat, rememberLong],
+'zoom': 12,
+'layers': [tileLayer]
+});
+var marker = L.marker([rememberLat, rememberLong],{
+draggable: true
+}).addTo(map);
+marker.on('dragend', function (e) {
+updateLatLng(marker.getLatLng().lat, marker.getLatLng().lng);
+});
+map.on('click', function (e) {
+marker.setLatLng(e.latlng);
+updateLatLng(marker.getLatLng().lat, marker.getLatLng().lng);
+});
+function updateLatLng(lat,lng,reverse) {
+if(reverse) {
+marker.setLatLng([lat,lng]);
+map.panTo([lat,lng]);
+} else {
+document.getElementById('latitude').value = marker.getLatLng().lat;
+document.getElementById('longitude').value = marker.getLatLng().lng;
+map.panTo([lat,lng]);
+}
+}
+// map.locate({setView: true, maxZoom: 16});
+
+
+    </script>
+    <form action="editContact.php?id" method="POST">
+    <table >
+    <tr>
+      <th><label for="link">Google Map Link</label></th>
+      <th>:</th>
+      <td><input type="text" id="link" name="link" size="50"required value = "<?php echo $row['GoogleMap_link'] ?>"></td>
+    </tr>
+    <tr>
+      <th><label for="location">Location</label></th>
+      <th>:</th>
+      <td><textarea id="location" rows="5px" cols="50px" name="location" required></textarea></td>
+    </tr>
+
+    <tr>
+      <th><label for="email">Email</label></th>
+      <th>:</th>
+      <td><input type="text" id="email" name="email" size="50" required value = "<?php echo $row['Email'] ?>"> </td>
+    </tr>
+
+    <tr>
+      <th><label for="phone">Phone No</label></th>
+      <th>:</th>
+      <td><input type="text" id="phone" name="phone" size="50"required value = "<?php echo $row['Phone'] ?>"> </td>
+    </tr>
+
+
+    <tr>
+      <td></td>
+      <td></td>
+      <td> <input type="submit" value="Save" class="save"></td>
+    </tr>
+    </form>
+    <tr>
+      <td>
+      <form action="adminIndex.php">
+
+<input type="submit" value="Return To Previous Page" style="border-radius:25px;background-color:lightgrey;color:green;padding:10px;">
+</form>
+      </td>
+      <td></td>
+      <td></td>
+    </tr>
+    </table>
+
+
+
+  </div>
+  </div>
+
+  </div>
+</section>
+
+
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="../assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="../assets/vendor/php-email-form/validate.js"></script>
+  <script src="../assets/vendor/purecounter/purecounter.js"></script>
+  <script src="../assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="../assets/js/main.js"></script>
+
+
+
+</html>
