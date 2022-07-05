@@ -134,7 +134,9 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
           <div class="col-lg-4 col-md-6 portfolio-item filter-<?php echo $row['tbl_course_categoryid']?> ">
 
 
-            <a href="../coursedetail.php?id=<?php echo $row['tbl_course_courseid'] ;?>"><img src="data:image;base64,<?php echo $row['tbl_course_image']; ?>" style="width:max-content"class="img-fluid" alt=""></a>
+            <a href="../coursedetail.php?id=<?php echo $row['tbl_course_courseid'] ;?>">
+            <img src="data:image;base64,<?php echo $row['tbl_course_image']; ?>" style="width:max-content"class="img-fluid" alt="">
+          </a>
 
             <div class="portfolio-info" >
               <h4><?php echo $row['tbl_course_title']?></h4>

@@ -1,8 +1,12 @@
   <!DOCTYPE html>
   <html>
+
+        <script type="text/javascript"  src="../config/urlToFrontend.js"></script>
+  <script type="text/javascript"  src="../config/urlToBackend.js"></script>
+
     <script>
         var xhr=new XMLHttpRequest();
-        xhr.open("get",'http://localhost/project/Web-Tech-Project-frontend/admin/kong/getProfile.php');
+        xhr.open("get",ToGetProfilePHP);
         xhr.send();
         xhr.onload=function()
         {
@@ -11,6 +15,7 @@
             var profile=JSON.parse(responseText);
 
             document.getElementsByTagName("a")[0].innerHTML=profile[0].name;
+            document.getElementsByTagName("a")[0].href=ToAdminIndexHTML;
         }
 
     </script>
@@ -20,7 +25,7 @@
 
       <div class="row justify-content-center" style="padding-top:20px;padding-bottom:20px">
         <div class="col-xl-9 d-flex align-items-center justify-content-lg-between" >
-          <h1 class="logo me-auto me-lg-0"><a href="adminIndex.php"></a></h1>
+          <h1 class="logo me-auto me-lg-0"><a href="adminIndex.php" ></a></h1>
 
         </div>
       </div>

@@ -1,7 +1,6 @@
 <?php
     require 'config/postgresqlDB.php';
-    require 'config/urlToFrontend.php';
-    require 'config/urlToBackend.php';
+    require 'config/urlSummary.php';
 
     $courseid=$_POST['courseid'];
 

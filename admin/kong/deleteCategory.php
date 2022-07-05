@@ -3,12 +3,12 @@
     require 'config/urlSummary.php';
     $id=$_GET['id'];
 
-    $sql="DELETE FROM tbl_course WHERE courseid='".$id."'";
+    $sql="DELETE FROM tbl_category WHERE id='".$id."'";
 
     $result=pg_query($db,$sql);
 
-    header("Location: $ToAdminIndexHTML");
-exit();
+//     header("Location:$ToViewCourseCategoryHTML");
+// exit();
 
 
 ?>

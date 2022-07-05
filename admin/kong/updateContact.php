@@ -1,6 +1,6 @@
 <?php
     require 'config/postgresqlDB.php';
-    require 'config/urlToFrontend.php';
+    require 'config/urlSummary.php';
     $latitude=doubleval($_POST["latitude"]);
 
     $longitude=doubleval($_POST["longitude"]);

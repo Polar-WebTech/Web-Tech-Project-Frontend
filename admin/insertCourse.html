@@ -36,6 +36,11 @@
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
 
+
+  <!-- ***JS file for url ****-->
+  <script type="text/javascript"  src="../config/urlToFrontend.js"></script>
+  <script type="text/javascript"  src="../config/urlToBackend.js"></script>
+  <!-- ***JS file for url ****-->
   <style>
     .table_course tr
     {
@@ -54,21 +59,7 @@
 
       font-family:Verdana, Geneva, Tahoma, sans-serif;
     }
-    .table_course td input[type="submit"]{
-  background-color:greenyellow;
-  color:blue;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
 
-
-}
-.table_course td input[type="submit"]:hover{
-
-  font-size: x-large;
-
-}
   </style>
 
   <script>
@@ -78,6 +69,8 @@
       $("#header").load("header.html");
       $("#table_course").hide();
       $("input").hide();
+      document.getElementsByTagName("form")[0].action=ToInsertCoursePHP;
+      document.getElementsByTagName("form")[1].action=ToViewTopCourseHTML;
 
     })
 
@@ -92,7 +85,7 @@
       $("input").show();
           }
           ,
-          url:'http://localhost/project/Web-Tech-Project-frontend/admin/kong/getAllCategory.php',
+          url:ToGetAllCategoryPHP,
           success:function(result,status,xhr)
           {
             var responseText=result.split("\n")[1];
@@ -110,23 +103,6 @@
 
     )
 
-  //     var xhr=new XMLHttpRequest();
-
-  //   xhr.open("get",'http://localhost/project/Web-Tech-Project-frontend/admin/kong/getAllCategory.php');
-  //   xhr.send();
-
-
-  //   xhr.onloadend=function()
-  //   {
-  //     $("#loader").hide();
-  //     $("#table_course").show();
-
-  //   }
-  //   xhr.onload=function()
-  // {
-
-
-  // }
 
 
 
@@ -141,7 +117,7 @@
 
 
   <div id="header"></div>
-<body>
+
 
     <!-- ======= Portfolio Section ======= -->
     <section id="portfolio" class="portfolio">
@@ -157,7 +133,7 @@
 
 
 
-  <form action="kong/insertCourse.php" method="POST" enctype="multipart/form-data">
+  <form  method="POST" enctype="multipart/form-data">
     <table class="table_course" id="table_course">
         <tr>
   <th width="300px"><label for="courseid">Course ID:</label></th>
@@ -198,7 +174,7 @@
     <tr>
         <td></td>
         <td>
-            <input type="submit" value="Save" id="save">
+          <input class="btn btn-outline-success" type="submit" value="Save" id="save"  >
         </td>
     </tr>
   </table>
@@ -207,9 +183,9 @@
 
 
       <div >
-      <form action="viewTopCourse.php">
+      <form method="post">
+        <input class="btn btn-outline-secondary rounded-pill" type="submit" value="Return To Previous Page"  >
 
-        <input type="submit" value="Return To Previous Page"  style="border-radius:25px;background-color:lightgrey;color:green;padding:10px;">
       </form>
       </div>
 

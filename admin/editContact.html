@@ -24,8 +24,7 @@ input[type="submit"].save:hover{
 
 }
   </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <meta charset="utf-8">
+     <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
   <title>Edit Contact</title>
@@ -62,7 +61,8 @@ input[type="submit"].save:hover{
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
-
+  <script type="text/javascript"  src="../config/urlToFrontend.js"></script>
+  <script type="text/javascript"  src="../config/urlToBackend.js"></script>
 </head>
 
 <!-- ======= Header ======= -->
@@ -89,6 +89,9 @@ input[type="submit"].save:hover{
       $("input").hide();
       $("table").hide();
 
+      document.getElementById("editForm").action=ToUpdateContactPHP;
+      document.getElementById("backForm").action=ToAdminIndexHTML;
+
 
     })
     $.when (
@@ -104,7 +107,7 @@ input[type="submit"].save:hover{
           },
 
 
-          url:'http://localhost/project/Web-Tech-Project-frontend/admin/kong/getContact.php',
+          url:ToGetContactPHP,
           success:function(result,status,xhr)
           {
             var responseText=xhr.responseText.split("\n")[1];
@@ -171,7 +174,7 @@ map.panTo([lat,lng]);
 
     </script>
 
-    <form action="kong/updateContact.php" method="POST">
+    <form   id="editForm" method="POST">
       <input id="latitude" type="hidden" name="latitude" >
     <input id="longitude" type="hidden"  name="longitude" >
     <table >
@@ -198,14 +201,16 @@ map.panTo([lat,lng]);
     <tr>
       <td></td>
       <td></td>
-      <td> <input type="submit" value="Save" id="save" class="save" ></td>
+      <td>
+        <input class="btn btn-outline-success" type="submit" value="Save" id="save"  >
+
     </tr>
     </form>
     <tr>
       <td>
-      <form action="adminIndex.php">
+      <form  id="backForm" method="post">
+        <input class="btn btn-outline-secondary rounded-pill" type="submit" value="Return To Previous Page"  >
 
-<input type="submit" value="Return To Previous Page" style="border-radius:25px;background-color:lightgrey;color:green;padding:10px;">
 </form>
       </td>
       <td></td>

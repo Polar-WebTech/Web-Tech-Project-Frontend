@@ -36,7 +36,10 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
-
+      <!-- ***JS file for url ****-->
+  <script type="text/javascript"  src="../config/urlToFrontend.js"></script>
+  <script type="text/javascript"  src="../config/urlToBackend.js"></script>
+  <!-- ***JS file for url ****-->
   <style>
     .table_course tr
     {
@@ -53,21 +56,7 @@
       color: blue;
     }
 
-    .table_course td input[type="submit"]{
-  background-color:greenyellow;
-  color:blue;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
 
-
-}
-.table_course td input[type="submit"]:hover{
-
-  font-size: x-large;
-
-}
   </style>
   <script>
     getParameter = (key) => {
@@ -87,6 +76,8 @@ window.addEventListener("load",function()
       $("#header").load("header.html");
       $("table").hide();
       $("input").hide();
+      document.getElementsByTagName("form")[0].action=ToUpdateCoursePHP;
+      document.getElementsByTagName("form")[1].action=ToViewTopCourseHTML;
 
     })
     var id=getParameter('id');
@@ -95,13 +86,14 @@ window.addEventListener("load",function()
     $.ajax({
 
       type:"GET",
-      url:'http://localhost/project/Web-Tech-Project-frontend/admin/kong/getSingleCourse.php?id='+id,
+      url:ToGetSingleCoursePHP+'?id='+id,
 
       success: function(result,status,xhr)
       {
 
         var temp=result.split("\n")[1];
     var course=JSON.parse(temp);
+    console.log(course.image);
 
     document.getElementById("courseid").value=course.courseid;
     document.getElementById("hiddencourseid").value=course.courseid;
@@ -116,7 +108,7 @@ window.addEventListener("load",function()
     }),
     $.ajax({
       type:"GET",
-      url:'http://localhost/project/Web-Tech-Project-frontend/admin/kong/getAllCategory.php',
+      url:ToGetAllCategoryPHP,
 
       success: function(result,status,xhr)
       {
@@ -163,7 +155,7 @@ window.addEventListener("load",function()
 
         <div id="loader"></div>
 
-<form action="kong/updateCourse.php" method="POST" enctype="multipart/form-data">
+<form  method="POST" enctype="multipart/form-data">
   <input type="hidden"  id="hiddencourseid" name="hiddencourseid"  >
     <table class="table_course">
         <tr>
@@ -214,16 +206,18 @@ window.addEventListener("load",function()
     <tr>
         <td></td>
         <td>
-            <input type="submit" value="Save">
+
+          <input class="btn btn-outline-success" type="submit" value="Save" id="save"  >
+
         </td>
     </tr>
   </table>
 </form>
 
 <div >
-      <form action="viewTopCourse.php">
+      <form method="post">
+        <input class="btn btn-outline-secondary rounded-pill" type="submit" value="Return To Previous Page"  >
 
-        <input type="submit" value="Return To Previous Page" style="border-radius:25px;background-color:lightgrey;color:green;padding:10px;">
       </form>
       </div>
 
