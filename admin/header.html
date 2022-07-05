@@ -1,0 +1,30 @@
+  <!DOCTYPE html>
+  <html>
+    <script>
+        var xhr=new XMLHttpRequest();
+        xhr.open("get",'http://localhost/project/Web-Tech-Project-frontend/admin/kong/getProfile.php');
+        xhr.send();
+        xhr.onload=function()
+        {
+
+            var responseText=xhr.responseText.split("\n")[1];
+            var profile=JSON.parse(responseText);
+
+            document.getElementsByTagName("a")[0].innerHTML=profile[0].name;
+        }
+
+    </script>
+   <!-- ======= Header ======= -->
+   <header id="header" class="fixed-top header-inner-pages">
+    <div class="container-fluid">
+
+      <div class="row justify-content-center" style="padding-top:20px;padding-bottom:20px">
+        <div class="col-xl-9 d-flex align-items-center justify-content-lg-between" >
+          <h1 class="logo me-auto me-lg-0"><a href="adminIndex.php"></a></h1>
+
+        </div>
+      </div>
+
+    </div>
+  </header><!-- End Header -->
+  </html>
