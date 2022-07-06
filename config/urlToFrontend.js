@@ -15,3 +15,5 @@
  var ToAdminIndexHTML="adminIndex.html";
  var ToViewTopCourseHTML="viewTopCourse.html";
  var ToViewCourseCategoryHTML="viewCourseCategory.html";
+
+// Function for frontend

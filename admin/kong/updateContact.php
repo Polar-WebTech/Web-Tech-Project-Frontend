@@ -10,9 +10,19 @@
     $sql="UPDATE tbl_contact SET latitude=$latitude,longitude=$longitude,location='".$location."', email='".$email."',phone='".$phone."' WHERE id=1";
 
     $result=pg_query($db,$sql);
+    if ($result)
+    {
+        echo "<script>alert('Update successfully')</script>";
 
-    header("Location: $ToEditContactHTML");
-exit();
+    }
+    else
+    {
+        echo "<script>alert('Failed to update')</script>";
+
+    }
+
+    redirectHeader ( $ToEditContactHTML);
+
 
 
 ?>

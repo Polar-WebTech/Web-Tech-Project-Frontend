@@ -59,17 +59,17 @@
 
   </style>
   <script>
-    getParameter = (key) => {
+getParameter = (key) => {
 
-  // Address of the current window
-  address = window.location.search
+// Address of the current window
+address = window.location.search
 
-  // Returns a URLSearchParams object instance
-  parameterList = new URLSearchParams(address)
+// Returns a URLSearchParams object instance
+parameterList = new URLSearchParams(address)
 
-  // Returning the respected value associated
-  // with the provided key
-  return parameterList.get(key)
+// Returning the respected value associated
+// with the provided key
+return parameterList.get(key)
 }
 window.addEventListener("load",function()
     {
@@ -91,9 +91,10 @@ window.addEventListener("load",function()
       success: function(result,status,xhr)
       {
 
+
         var temp=result.split("\n")[1];
     var course=JSON.parse(temp);
-    console.log(course.image);
+
 
     document.getElementById("courseid").value=course.courseid;
     document.getElementById("hiddencourseid").value=course.courseid;
@@ -112,7 +113,7 @@ window.addEventListener("load",function()
 
       success: function(result,status,xhr)
       {
-        console.log(result);
+
         var responseText=result.split("\n")[1];
       var categorylist=JSON.parse(responseText);
 

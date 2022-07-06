@@ -10,7 +10,7 @@ $ToInsertCourseHTML= "http://localhost/project/Web-Tech-Project-frontend/admin/i
 // Update
 $ToUpdateCourseHTML="http://localhost/project/Web-Tech-Project-frontend/admin/updateCourse.html";
 $ToEditContactHTML= "http://localhost/project/Web-Tech-Project-frontend/admin/editContact.html";
-
+$ToUpdateCategoryHTML="http://localhost/project/Web-Tech-Project-frontend/admin/updateCategory.html";
 
 // Delete
 
@@ -18,5 +18,5 @@ $ToEditContactHTML= "http://localhost/project/Web-Tech-Project-frontend/admin/ed
 //Other
 $ToAdminIndexHTML;
 $ToViewCourseCategoryHTML="http://localhost/project/Web-Tech-Project-frontend/admin/viewCourseCategory.html";
-
+$ToViewTopCourseHTML="http://localhost/project/Web-Tech-Project-frontend/admin/viewTopCourse.html";
 ?>

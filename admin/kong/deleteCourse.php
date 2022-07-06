@@ -7,8 +7,9 @@
 
     $result=pg_query($db,$sql);
 
-    header("Location: $ToAdminIndexHTML");
-exit();
+
+    redirectHeader ($ToViewTopCourseHTML);
+
 
 
 ?>

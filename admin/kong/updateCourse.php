@@ -32,11 +32,8 @@
 
 
 
+    redirectHeader ( $ToUpdateCourseHTML."?id=".$courseid);
 
-
-
-    header("Location: $ToUpdateCourseHTML?id=$courseid");
-exit();
 
 
 ?>

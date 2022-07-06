@@ -31,12 +31,10 @@
     }
     else
     {
-        echo "<script>alert('The course id entered already exits. Please try with other course id')<script>";
+        echo "<script>alert('The course id entered already existed. Please try with other unique course id')</script>";
     }
 
-
-    header("Location: $ToInsertCourseHTML");
-exit();
+    redirectHeader ($ToViewTopCourseHTML);
 
 
 ?>

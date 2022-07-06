@@ -6,9 +6,8 @@
     $sql="DELETE FROM tbl_category WHERE id='".$id."'";
 
     $result=pg_query($db,$sql);
+    redirectHeader ($ToViewCourseCategoryHTML);
 
-//     header("Location:$ToViewCourseCategoryHTML");
-// exit();
 
 
 ?>

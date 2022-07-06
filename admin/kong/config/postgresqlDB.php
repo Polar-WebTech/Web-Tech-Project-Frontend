@@ -1,8 +1,8 @@
 <?php
-  $host        = "host=ec2-44-198-82-71.compute-1.amazonaws.com";
+  $host        = "host=ec2-3-219-229-143.compute-1.amazonaws.com";
   $port        = "port=5432";
-  $dbname      = "dbname = dfn5e2pnagp8vk";
-  $credentials = "user = bnimcmqinuvakl password=eb4682865060905e60305e4cc6ca307995902b1330b3ae2996009758d5765805";
+  $dbname      = "dbname = d8gik6dof142l6";
+  $credentials = "user = cjqnqmlixpgjhm password=19257d5213ddea5031e620afb32c0ed5b61d07a09f8c455ade361995f3243c44";
 
 
 
