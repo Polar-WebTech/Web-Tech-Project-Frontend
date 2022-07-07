@@ -81,46 +81,48 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
         </div>
 
         <div class="row">
-          <?php $sql= "select * from tbl_price order by price";
-          mysqli_select_db($conn,$database);
-          $result=mysqli_query($conn,$sql);
+          <?php
+          // $sql= "select * from tbl_price order by price";
+          // mysqli_select_db($conn,$database);
+          // $result=mysqli_query($conn,$sql);
 
 
-          while($row=mysqli_fetch_assoc($result)){
+          // while($row=mysqli_fetch_assoc($result)){
           ?>
 
 
-          <div class="col-lg-4 col-md-6">
-            <div class="box">
-              <h3><?php echo $row['Type']?></h3>
+          <!-- <div class="col-lg-4 col-md-6">                                          //This is firstDiv
+            <div class="box">                                                           // This is boxDiv
+              <h3><?php //echo $row['Type']?></h3>
 
-              <h4><sup>$</sup><?php echo $row['price']?><span> / month</span></h4>
+              <h4><sup>$</sup><?php //echo $row['price']?><span> / month</span></h4>
               <ul>
-                <li><?php echo $row['basic_courses']?></li>
-                <li><?php echo $row['members_content']?></li>
-                <li><?php echo $row['practices']?></li>
-                <li ><?php echo $row['support']?></li>
-                <li ><?php echo $row['certification']?></li>
-                <li ><?php echo $row['hours']?></li>
-                <li ><?php echo $row['additional']?></li>
-                <li ><?php echo $row['additional2']?></li>
+                <li><?php //echo $row['basic_courses']?></li>
+                <li><?php //echo $row['members_content']?></li>
+                <li><?php //echo $row['practices']?></li>
+                <li ><?php //echo $row['support']?></li>
+                <li ><?php //echo $row['certification']?></li>
+                <li ><?php //echo $row['hours']?></li>
+                <li ><?php //echo $row['additional']?></li>
+                <li ><?php //echo $row['additional2']?></li>
               </ul>
               <div class="btn-wrap">
                 <a href="#" class="btn-buy">Buy Now</a>
                 <br>
                 <br>
 
-                <a href="updateprice.php?id=<?php echo $row['Type'];?> ">Update Price</a>
+                <a href="updateprice.php?id=<?php //echo $row['Type'];?> ">Update Price</a>
 
                 <br>
                 <br>
-                <p><a href="deleteprice.php?id=<?php echo $row['Type'] ;?>" onclick="return confirm ('Are you sure to delete this price package?')">Delete</a></p>
+                <p><a href="deleteprice.php?id=<?php //echo $row['Type'] ;?>" onclick="return confirm ('Are you sure to delete this price package?')">Delete</a></p>
 
 
               </div>
             </div>
-          </div>
-        <?php } ?>
+          </div> -->
+        <?php //} ?>
+        <br>
         <a href="InsertPrice.php">
           <button type="button" class="editbtn" style="border-radius:25px;background-color:lightgrey;color:green;padding:10px;">Insert New Package</button></a>
 
@@ -131,5 +133,58 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
 
 
     </body>
+
+
+    <script>
+
+      var xhr = new XMLHttpRequest();
+      xhr.open('get','https://itsensei.herokuapp.com/api/pricing');
+      xhr.send();
+
+      xhr.onload = function(){
+
+        var pricingArray = JSON.parse(xhr.responseText);
+        var rowDiv = document.querySelector("#pricing .container .row");
+          
+
+        for(var i=0; i<pricingArray.length; i++){
+
+          var firstDiv = document.createElement("div");
+          firstDiv.classList.add("col-lg-4");
+          firstDiv.classList.add("col-md-6");
+
+          var boxDiv = document.createElement("div");
+          boxDiv.classList.add("box");
+
+
+
+          var boxDivh3 = document.createElement("h3");
+          boxDivh3.innerHTML = pricingArray[i].type;
+
+          var boxDivh4 = document.createElement("h4");
+          var sup = document.createElement("sup");
+          sup.innerHTML = '$';
+          
+          var span = document.createElement("span");
+          span.innerHTML = " / per month";
+
+          var h4content = document.createElement("h4");
+          h4content.innerHTML = pricingArray[i].price;
+
+          boxDivh4.appendChild(sup);
+          boxDivh4.appendChild(h4content);
+          boxDivh4.appendChild(span);
+
+
+          boxDiv.appendChild(boxDivh3);
+          boxDiv.appendChild(boxDivh4);
+          firstDiv.appendChild(boxDiv);
+          rowDiv.insertBefore(firstDiv,rowDiv.childNodes[i]);
+
+        }
+
+      };
+
+    </script>
 
 </html>
