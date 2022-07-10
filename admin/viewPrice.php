@@ -36,6 +36,8 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
   <!-- Template Main CSS File -->
   <link href="../assets/css/style.css" rel="stylesheet">
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
   <!-- =======================================================
   * Template Name: KnightOne - v4.3.0
   * Template URL: https://bootstrapmade.com/knight-simple-one-page-bootstrap-template/
@@ -136,6 +138,7 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
     </body>
 
 
+    <!-- Javascript to read pricing data -->
     <script>
 
       var xhr = new XMLHttpRequest();
@@ -212,7 +215,7 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
           boxDivul.appendChild(additional2li);
 
 
-          // create node for div after ul with .btn-wrap class
+          // create node for div after ul with .btn-wrap class, and set id = btnWrapDiv
           var btnWrapDiv = document.createElement("div");
           btnWrapDiv.classList.add("btn-wrap");
 
@@ -246,9 +249,13 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
 
 
           // create third <a> node in the btn-wrap div, add href, and append to btnWrapDiv
-          var a3 = document.createElement("a");
-          a3.setAttribute("href","deleteprice.php?id="+pricingArray[i].type);
-          a3.setAttribute("onclick","return confirm ('Are you sure to delete this price package?')");
+          var a3 = document.createElement("button");
+          // a3.setAttribute("href","deleteprice.php?id="+pricingArray[i].type);
+          // a3.setAttribute("href","#");
+          // a3.setAttribute("onclick","return confirm ('Are you sure to delete this price package?')");
+          a3.setAttribute("style","background-color:transparent; border: 0px; color:#009961");
+          // a3.setAttribute("onclick","return deletePricing('" + pricingArray[i].type + "', '" + pricingArray[i].price + "', '" + pricingArray[i].basic_courses + "', '" + pricingArray[i].members_content + "', '" + pricingArray[i].practices + "', '" + pricingArray[i].support + "', '" + pricingArray[i].certification + "', '" + pricingArray[i].hours + "', '" + pricingArray[i].additional + "', '" + pricingArray[i].additional2 +"');");
+          a3.setAttribute("onclick","return deletePricing('" + pricingArray[i].type +"');");
           a3.innerHTML = "Delete";
           btnWrapDiv.appendChild(a3);
 
@@ -268,6 +275,124 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
         }
 
       };
+
+    </script>
+
+    <!-- Javascript to delete pricing data (MUST ENABLE MOESIF CORS) -->
+    <script>
+
+      function deletePricing(type){
+        var dltXML = new XMLHttpRequest();
+
+        dltXML.open("DELETE","https://itsensei.herokuapp.com/api/pricing/" + type);
+
+        dltXML.send();
+
+        dltXML.onload = function(){
+            alert("Deleted successfully.");
+
+            window.location.replace("viewPrice.php");
+        };
+      }
+    </script>
+
+    <script>
+
+      // function to delete a pricing
+      // function deletePricing(type, price, basic_courses, members_content, practices, support, certification, hours, additional, additional2){
+
+      //   var form = document.createElement("form");
+      //   form.setAttribute("action","https://itsensei.herokuapp.com/api/pricing/" + type);
+      //   form.setAttribute("method","DELETE");
+      //   form.setAttribute("id","hiddenForm");
+        
+      //   var inputType = document.createElement("input");
+      //   inputType.setAttribute("type","hidden");
+      //   inputType.setAttribute("name","type");
+      //   inputType.setAttribute("value",type);
+      //   form.appendChild(inputType);
+
+      //   var inputPrice = document.createElement("input");
+      //   inputPrice.setAttribute("type","hidden");
+      //   inputPrice.setAttribute("name","price");
+      //   inputPrice.setAttribute("value",price);
+      //   form.appendChild(inputPrice);
+
+      //   var inputBasicCourses = document.createElement("input");
+      //   inputBasicCourses.setAttribute("type","hidden");
+      //   inputBasicCourses.setAttribute("name","basic_courses");
+      //   inputBasicCourses.setAttribute("value",basic_courses);
+      //   form.appendChild(inputBasicCourses);
+
+      //   var inputMembersContent = document.createElement("input");
+      //   inputMembersContent.setAttribute("type","hidden");
+      //   inputMembersContent.setAttribute("name","members_content");
+      //   inputMembersContent.setAttribute("value",members_content);
+      //   form.appendChild(inputMembersContent);
+
+      //   var inputPractices = document.createElement("input");
+      //   inputPractices.setAttribute("type","hidden");
+      //   inputPractices.setAttribute("name","practices");
+      //   inputPractices.setAttribute("value",practices);
+      //   form.appendChild(inputPractices);
+
+      //   var inputSupport = document.createElement("input");
+      //   inputSupport.setAttribute("type","hidden");
+      //   inputSupport.setAttribute("name","support");
+      //   inputSupport.setAttribute("value",support);
+      //   form.appendChild(inputSupport);
+
+      //   var inputCertification = document.createElement("input");
+      //   inputCertification.setAttribute("type","hidden");
+      //   inputCertification.setAttribute("name","certification");
+      //   inputCertification.setAttribute("value",certification);
+      //   form.appendChild(inputCertification);
+
+      //   var inputHours = document.createElement("input");
+      //   inputHours.setAttribute("type","hidden");
+      //   inputHours.setAttribute("name","hours");
+      //   inputHours.setAttribute("value",hours);
+      //   form.appendChild(inputHours);
+
+      //   var inputAdditional = document.createElement("input");
+      //   inputAdditional.setAttribute("type","hidden");
+      //   inputAdditional.setAttribute("name","additional");
+      //   inputAdditional.setAttribute("value",additional);
+      //   form.appendChild(inputAdditional);
+
+      //   var inputAdditional2 = document.createElement("input");
+      //   inputAdditional2.setAttribute("type","hidden");
+      //   inputAdditional2.setAttribute("name","additional2");
+      //   inputAdditional2.setAttribute("value",additional2);
+      //   form.appendChild(inputAdditional2);
+
+      //   document.body.appendChild(form);
+
+      //   // var frm = $('#hiddenForm');
+
+      //   // form.submit();
+      //   form.submit(function (e) {
+
+      //       e.preventDefault();
+
+      //       $.ajax({
+      //           type: 'DELETE',
+      //           url: 'https://itsensei.herokuapp.com/api/pricing/' + type,
+      //           // data: form.serialize(),
+      //           success: function (data) {
+      //               alert('Pricing Deleted Successfully.');
+      //               window.location.replace("viewPrice.php");
+      //           },
+      //           error: function (data) {
+      //               alert('An error occurred.');
+      //               console.log(data);
+      //           },
+      //       });
+
+      //   });
+
+      // }
+
 
     </script>
 
