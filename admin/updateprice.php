@@ -267,26 +267,26 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
 
 <!-- Javascript to update data (MUST ENABLE MOESIF CORS) -->
 <script>
-var frm = $('#pricingForm');
+  var frm = $('#pricingForm');
 
-frm.submit(function (e) {
+  frm.submit(function (e) {
 
-    e.preventDefault();
+      e.preventDefault();
 
-    $.ajax({
-        type: frm.attr('method'),
-        url: frm.attr('action'),
-        data: frm.serialize(),
-        success: function (data) {
-            alert('Submission was successful.');
-            window.location.replace("viewPrice.php");
-        },
-        error: function (data) {
-            console.log('An error occurred.');
-            console.log(data);
-        },
-    });
-});
+      $.ajax({
+          type: frm.attr('method'),
+          url: frm.attr('action'),
+          data: frm.serialize(),
+          success: function (data) {
+              alert('Submission was successful.');
+              window.location.replace("viewPrice.php");
+          },
+          error: function (data) {
+              console.log('An error occurred.');
+              console.log(data);
+          },
+      });
+  });
 
 </script>
 
