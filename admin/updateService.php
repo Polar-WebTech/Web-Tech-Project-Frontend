@@ -52,20 +52,26 @@ input[type="submit"].save:hover{
   <!-- Vendor CSS Files -->
   <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <!-- <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet"> -->
+  <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet">
   <link href="../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
   <!-- Template Main CSS File -->
   <link href="../assets/css/style.css" rel="stylesheet">
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <!-- =======================================================
   * Template Name: KnightOne - v4.3.0
   * Template URL: https://bootstrapmade.com/knight-simple-one-page-bootstrap-template/
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+  <script>
+    function iconChange(value) {
+    document.getElementById("previewIcon").className = "bx "+value; 
+  } 
+  </script>
 </head>
 
 <!-- ======= Header ======= -->
@@ -81,7 +87,7 @@ input[type="submit"].save:hover{
     </div>
 </header>
 <!-- End Header -->
-
+<body>
 <main id="main">
 
 <!-- ======= Services Section ======= -->
@@ -96,60 +102,81 @@ input[type="submit"].save:hover{
 
 
   <?php
-  if (isset($_POST['Description']))
-  {
-    $u = $_GET['ServiceName'];
-    $n = $_POST['Description'];
-    $x=$_POST['boxicon'];
-    $sql = "UPDATE `tbl_service` SET `Description` = '".$n."',  `Boxicon_description` = '".$x."'
-    WHERE (`ServiceName` = '".$u."') LIMIT 1";
+  // if (isset($_POST['Description']))
+  // {
+  //   $u = $_GET['ServiceName'];
+  //   $n = $_POST['Description'];
+  //   $x=$_POST['boxicon'];
+  //   $sql = "UPDATE `tbl_service` SET `Description` = '".$n."',  `Boxicon_description` = '".$x."'
+  //   WHERE (`ServiceName` = '".$u."') LIMIT 1";
 
-    mysqli_select_db($conn, $database);
-    $result = mysqli_query($conn,$sql);
+  //   mysqli_select_db($conn, $database);
+  //   $result = mysqli_query($conn,$sql);
 
-   goto2("viewService.php","The service is successfully updated");
-  }
-  else
-  {
-    $u = $_GET['ServiceName'];
+  //  goto2("viewService.php","The service is successfully updated");
+  // }
+  // else
+  // {
+  //   $u = $_GET['ServiceName'];
 
-    $sql="select * from tbl_service where ServiceName='".$u."'";
-    mysqli_select_db($conn, $database);
-    $result = mysqli_query($conn, $sql);
+  //   $sql="select * from tbl_service where ServiceName='".$u."'";
+  //   mysqli_select_db($conn, $database);
+  //   $result = mysqli_query($conn, $sql);
 
-    $row = mysqli_fetch_assoc($result);
+  //   $row = mysqli_fetch_assoc($result);
     ?>
 
-    <form action="updateService.php?ServiceName=<?php echo $u; ?>" method="POST">
+    <form method="PUT" id="serviceForm">
     <table >
     <tr>
       <th><label for="Service Name">Service Name</label></th>
       <th>:</th>
-      <td><input type="text" id="servicename" name="servicename"  disabled value = "<?php echo $u; ?>"></td>
+      <td><input type="text" id="servicename" name="servicename"  disabled value = "<?php //echo $u; ?>"></td>
     </tr>
     <tr>
       <th><label for="Description"> Description</label></th>
       <th>:</th>
-      <td><textarea id="Description" rows="5px" cols="50px" name="Description" required><?php echo $row['Description']; ?></textarea></td>
+      <td><textarea id="description" rows="5px" cols="50px" name="description" required><?php //echo $row['Description']; ?></textarea></td>
     </tr>
     <tr>
-    <th colspan="3" style="color:red"><br>For BoxIcons description, please refer to this website-<a href="https://pixinvent.com/demo/frest-clean-bootstrap-admin-dashboard-template/html/ltr/vertical-menu-template/icons-boxicons.html">
-    BoxIcons Website</a>. </th>
-    </tr>
+    
     <tr>
-      <th colspan="3" style="color:red">For instance, the laptop icon in the above link is bx-laptop, then you should enter  <i style="color:blue">bx-laptop</i> for the BoxIcons Description.<br><br></th>
-    </tr>
     <tr>
     <th><label for="Boxicon"> BoxIcons</label></th>
     <th>:</th>
     <td>
-    <div class="icon"><i class="bx <?php echo $row['Boxicon_description'] ?>" style="font-size:xxx-large"></i></div>
+    <div class="icon"><i class="bx <?php //echo $row['Boxicon_description'] ?>" id="previewIcon" style="font-size:xxx-large"></i></div>
     </td>
     </tr>
     <tr>
     <th><label for="Boxicon Description"> BoxIcons&nbsp;Description</label></th>
     <th>:</th>
-    <td><input type="text" id="boxicon" name="boxicon" required value = "<?php echo $row['Boxicon_description']; ?>"></td>
+    <td>
+      <select id=“boxicon_description” name="boxicon_description" onchange="iconChange(this.value)" required>
+          <option value="bx-color"><i class='bx bx-color'></i> Color</option>
+          <option value="bx-money"><i class='bx bx-money'></i> Money</option>
+          <option value="bx-certification"><i class='bx bx-certification'></i> Certification</option>
+          <option value="bxl-facebook"><i class='bx bxl-facebook'></i> Facebook</option>
+          <option value="bx-video"><i class='bx bx-video'></i> Video</option>
+          <option value="bxs-videos"><i class='bx bxs-videos'></i> Videos</option>
+          <option value="bx-signal-5"><i class='bx bx-signal-5'></i> Signal</option>
+          <option value="bx-cheese"><i class='bx bx-cheese'></i> Cheese</option>
+          <option value="bx-home-alt-2"><i class='bx bx-home-alt-2'></i> Home</option>
+          <option value="bx-cable-car"><i class='bx bx-cable-car'></i> Cable Car</option>
+          <option value="bx-bowl-hot"><i class='bx bx-bowl-hot'></i> Hot Bowl</option>
+          <option value="bxs-injection"><i class='bx bxs-injection'></i> Injection</option>
+          <option value="bx-qr-scan"><i class='bx bx-qr-scan'></i> Qr-Scan</option>
+          <option value="bx-speaker"><i class='bx bx-speaker'></i> Speaker</option>
+          <option value="bx-bar-chart-alt-2"><i class='bx bx-bar-chart-alt-2'></i> Bar Chart</option>
+          <option value="bx-buildings"><i class='bx bx-buildings'></i> Buildings</option>
+          <option value="bx-message-rounded-dots"><i class='bx bx-message-rounded-dots'></i> Message</option>
+          <option value="bx-user-pin"><i class='bx bx-user-pin'></i> User Pin</option>
+          <option value="bxs-analyse"><i class='bx bxs-analyse'></i> Analysis</option>
+          <option value="bx-plus-medical"><i class='bx bx-plus-medical' ></i> Medical</option>
+          <option value="bx-accessibility"><i class='bx bx-accessibility'></i> Accessibility</option>
+          <option value="bx-check-shield"><i class='bx bx-check-shield'></i> Network</option>
+      </select>
+    </td>
     </tr>
     <tr>
       <td></td>
@@ -171,7 +198,7 @@ input[type="submit"].save:hover{
 
 
 
-  <?php } ?>
+  <?php //} ?>
   </div>
   </div>
 
@@ -194,5 +221,54 @@ input[type="submit"].save:hover{
   <script src="../assets/js/main.js"></script>
 
 
+  </body>
+<!-- Javascript to read service data -->
+<script>
 
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const servicename = urlParams.get('servicename');
+
+document.getElementById("serviceForm").setAttribute("action","https://itsensei.herokuapp.com/api/service/"+servicename);
+
+var xml = new XMLHttpRequest();
+xml.open('get','https://itsensei.herokuapp.com/api/service/' + servicename);
+
+xml.send();
+
+xml.onload = function(){
+
+  var serviceData = JSON.parse(xml.responseText);
+
+  document.getElementById("servicename").value = serviceData[0].servicename;
+  document.getElementById("description").value = serviceData[0].description;
+  document.getElementById("previewIcon").className = "bx "+serviceData[0].boxicon_description;
+}
+
+
+</script>
+<!-- Javascript to update service data (MUST ENABLE MOESIF CORS) -->
+<script>
+  var frm = $('#serviceForm');
+
+  frm.submit(function (e) {
+
+      e.preventDefault();
+
+      $.ajax({
+          type: frm.attr('method'),
+          url: frm.attr('action'),
+          data: frm.serialize(),
+          success: function (data) {
+              alert('The service is successfully updated.');
+              window.location.replace("viewService.php");
+          },
+          error: function (data) {
+              console.log('An error occurred.');
+              console.log(data);
+          },
+      });
+  });
+
+</script>
 </html>
