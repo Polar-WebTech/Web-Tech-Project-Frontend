@@ -59,7 +59,7 @@ input[type="submit"].save:hover{
 
   <!-- Template Main CSS File -->
   <link href="../assets/css/style.css" rel="stylesheet">
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <!-- =======================================================
   * Template Name: KnightOne - v4.3.0
   * Template URL: https://bootstrapmade.com/knight-simple-one-page-bootstrap-template/
@@ -81,11 +81,11 @@ input[type="submit"].save:hover{
     </div>
 </header>
 <!-- End Header -->
-
+<body>
 <main id="main">
 
-<!-- ======= Services Section ======= -->
-<section id="services" class="services">
+<!-- ======= profiles Section ======= -->
+<section id="profiles" class="profiles">
   <div class="container">
   <div class="section-title">
     <h2>Edit Profile</h2>
@@ -96,84 +96,85 @@ input[type="submit"].save:hover{
 
 
   <?php
-  if (isset($_POST['websitename']))
-  {
-    $u = $_GET['id'];
-    $a = $_POST['websitename'];
-    $b = $_POST['slogan'];
-    $c = $_POST['about'];
-    $d = $_POST['user'];
-    $e = $_POST['instructor'];
-    $f = $_POST['hour'];
-    $g = $_POST['course'];
+//   if (isset($_POST['websitename']))
+//   {
+//     $u = $_GET['id'];
+//     $a = $_POST['websitename'];
+//     $b = $_POST['slogan'];
+//     $c = $_POST['about'];
+//     $d = $_POST['user'];
+//     $e = $_POST['instructor'];
+//     $f = $_POST['hour'];
+//     $g = $_POST['course'];
 
-    $sql = "UPDATE `tbl_profile` SET `Website_name` = '".$a."',  `Slogan` = '".$b."',`About_us` = '".$c."',`Active_users` = '".$d."',`Experience_instructors` = '".$e."',
-    `Total_hours` = '".$f."',`Number_courses` = '".$g."'
-    WHERE (`id` = '".$u."') LIMIT 1";
+//     $sql = "UPDATE `tbl_profile` SET `Website_name` = '".$a."',  `Slogan` = '".$b."',`About_us` = '".$c."',`Active_users` = '".$d."',`Experience_instructors` = '".$e."',
+//     `Total_hours` = '".$f."',`Number_courses` = '".$g."'
+//     WHERE (`id` = '".$u."') LIMIT 1";
 
-    mysqli_select_db($conn, $database);
-    $result = mysqli_query($conn,$sql);
+//     mysqli_select_db($conn, $database);
+//     $result = mysqli_query($conn,$sql);
 
-   goto2("adminIndex.php","The profile is successfully edited");
-  }
-  else
-{
+//    goto2("adminIndex.php","The profile is successfully edited");
+//   }
+//   else
+// {
 
 
-    $sql="select * from tbl_profile";
-    mysqli_select_db($conn, $database);
-    $result = mysqli_query($conn, $sql);
+//     $sql="select * from tbl_profile";
+//     mysqli_select_db($conn, $database);
+//     $result = mysqli_query($conn, $sql);
 
-    $row = mysqli_fetch_assoc($result);
-    $u=$row['id'];
+//     $row = mysqli_fetch_assoc($result);
+//     $u=$row['id'];
     ?>
 
-    <form action="editProfile.php?id=<?php echo $u; ?>" method="POST">
+    <form method="PUT" id="profileForm">
+    
     <table >
     <tr>
       <th><label for="Website Name">Website Name</label></th>
       <th>:</th>
-      <td><input type="text" id="websitename" name="websitename" required value = "<?php echo $row['Website_name'] ?>"></td>
+      <td><input type="text" id="name" name="name" required value = "<?php //echo $row['Website_name'] ?>"></td>
     </tr>
     <tr>
       <th><label for="Slogan"> Slogan</label></th>
       <th>:</th>
-      <td><textarea id="slogan" rows="5px" cols="50px" name="slogan" required><?php echo $row['Slogan']; ?></textarea></td>
+      <td><textarea id="slogan" rows="5px" cols="50px" name="slogan" required><?php //echo $row['Slogan']; ?></textarea></td>
     </tr>
 
     <tr>
       <th><label for="about"> About Us</label></th>
       <th>:</th>
-      <td><textarea id="about" rows="8px" cols="100px" name="about" required><?php echo $row['About_us']; ?></textarea></td>
+      <td><textarea id="about_us" rows="8px" cols="100px" name="about_us" required><?php //echo $row['About_us']; ?></textarea></td>
     </tr>
 
     <tr>
       <th><label for="user"> Active Users</label></th>
       <th>:</th>
-      <td><input type="number" id="user" name="user"  value = "<?php echo $row['Active_users'] ?>"> </td>
+      <td><input type="number" id="active_users" name="active_users"  value = "<?php //echo $row['Active_users'] ?>"> </td>
     </tr>
 
     <tr>
       <th><label for="instructor"> Experience Instructors</label></th>
       <th>:</th>
-      <td><input type="number" id="instructor" name="instructor"  value = "<?php echo $row['Experience_instructors'] ?>"> </td>
+      <td><input type="number" id="experience_instructors" name="experience_instructors"  value = "<?php //echo $row['Experience_instructors'] ?>"> </td>
     </tr>
 
     <tr>
       <th><label for="hour">Total Hours of Teaching Video</label></th>
       <th>:</th>
-      <td><input type="number" id="hour" name="hour"  value = "<?php echo $row['Total_hours'] ?>"> </td>
+      <td><input type="number" id="total_hours" name="total_hours"  value = "<?php //echo $row['Total_hours'] ?>"> </td>
     </tr>
 
     <tr>
       <th><label for="course">Number of Courses</label></th>
       <th>:</th>
-      <td><input type="number" id="course" name="course"  value = "<?php echo $row['Number_courses'] ?>"> </td>
+      <td><input type="number" id="no_courses" name="no_courses"  value = "<?php //echo $row['Number_courses'] ?>"> </td>
     </tr>
 
     <tr>
       <td></td>
-      <td></td>
+      <td><input type="hidden" id="id" name="id" disabled value = ""></td>
       <td> <input type="submit" value="Save" class="save"></td>
     </tr>
     </form>
@@ -191,7 +192,7 @@ input[type="submit"].save:hover{
 
 
 
-  <?php } ?>
+  <?php // } ?>
   </div>
   </div>
 
@@ -212,7 +213,56 @@ input[type="submit"].save:hover{
 
   <!-- Template Main JS File -->
   <script src="../assets/js/main.js"></script>
+</body>
+<!-- Javascript to read profile data -->
+<script>
+
+document.getElementById("profileForm").setAttribute("action","https://itsensei.herokuapp.com/api/profile/1");
+
+var xml = new XMLHttpRequest();
+xml.open('get','https://itsensei.herokuapp.com/api/profile');
+
+xml.send();
+
+xml.onload = function(){
+
+  var profileData = JSON.parse(xml.responseText);
+
+  document.getElementById("id").value = profileData[0].id;
+  document.getElementById("name").value = profileData[0].name;
+  document.getElementById("slogan").value = profileData[0].slogan;
+  document.getElementById("about_us").value = profileData[0].about_us;
+  document.getElementById("active_users").value = profileData[0].active_users;
+  document.getElementById("experience_instructors").value = profileData[0].experience_instructors;
+  document.getElementById("total_hours").value = profileData[0].total_hours;
+  document.getElementById("no_courses").value = profileData[0].no_courses;
+}
 
 
+</script>
+<!-- Javascript to update profile data -->
+<script>
+  var frm = $('#profileForm');
+
+  frm.submit(function (e) {
+
+      e.preventDefault();
+
+      $.ajax({
+          type: frm.attr('method'),
+          url: frm.attr('action'),
+          data: frm.serialize(),
+          success: function (data) {
+              alert('The profile is successfully edited.');
+              window.location.replace("adminIndex.php");
+          },
+          error: function (data) {
+              console.log('An error occurred.');
+              console.log(data);
+          },
+      });
+  });
+
+</script>
 
 </html>

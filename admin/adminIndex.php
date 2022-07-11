@@ -24,10 +24,6 @@ include ('../config/checkSessionOther.php');
   $resultContact=mysqli_query($conn,$sqlContact);
   $rowContact=mysqli_fetch_assoc($resultContact);
 
-  $sqlSocial="select * from tbl_socialmedia";
-  $resultSocial=mysqli_query($conn,$sqlSocial);
-
-
   ?>
   <title><?php echo $rowProfile['Website_name'] ?></title>
   <meta content="" name="description">
@@ -43,7 +39,8 @@ include ('../config/checkSessionOther.php');
   <!-- Vendor CSS Files -->
   <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <!-- <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet"> -->
+  <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet">
   <link href="../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">

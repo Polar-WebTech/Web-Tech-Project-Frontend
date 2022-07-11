@@ -38,6 +38,8 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
   <!-- Template Main CSS File -->
   <link href="../assets/css/style.css" rel="stylesheet">
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
   <!-- =======================================================
   * Template Name: KnightOne - v4.3.0
   * Template URL: https://bootstrapmade.com/knight-simple-one-page-bootstrap-template/
@@ -101,54 +103,54 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
 
 <?php
 
-if (isset($_POST['Type'])){
+// if (isset($_POST['Type'])){
 
-        mysqli_select_db($conn,$database);
-        $pricetype=$_POST['Type'];
+//         mysqli_select_db($conn,$database);
+//         $pricetype=$_POST['Type'];
 
-        $price=$_POST['price'];
-        $basic_c=$_POST['basic_courses'];
-        $memberC=$_POST['members_content'];
-        $practices=$_POST['practices'];
-        $support=$_POST['support'];
-        $certification=$_POST['certification'];
-        $hours=$_POST['hours'];
-        $additional=$_POST['additional'];
-        $additional2=$_POST['additional2'];
-
-
+//         $price=$_POST['price'];
+//         $basic_c=$_POST['basic_courses'];
+//         $memberC=$_POST['members_content'];
+//         $practices=$_POST['practices'];
+//         $support=$_POST['support'];
+//         $certification=$_POST['certification'];
+//         $hours=$_POST['hours'];
+//         $additional=$_POST['additional'];
+//         $additional2=$_POST['additional2'];
 
 
-        $sql ="INSERT INTO `tbl_price` (`Type`, `price`,`basic_courses`, `members_content`,
-        `practices`,`support`,`certification`,`hours`,`additional`,`additional2`)
-        VALUES ('".$pricetype."', '".$price."', '".$basic_c."','".$memberC."','".$practices."','".$support."','".$certification."'
-        ,'".$hours."','".$additional."','".$additional2."')";
-
-        $result=mysqli_query($conn,$sql);
-
-        goto2("viewPrice.php","Price package is successfully Created");
 
 
-} else {
+//         $sql ="INSERT INTO `tbl_price` (`Type`, `price`,`basic_courses`, `members_content`,
+//         `practices`,`support`,`certification`,`hours`,`additional`,`additional2`)
+//         VALUES ('".$pricetype."', '".$price."', '".$basic_c."','".$memberC."','".$practices."','".$support."','".$certification."'
+//         ,'".$hours."','".$additional."','".$additional2."')";
+
+//         $result=mysqli_query($conn,$sql);
+
+//         goto2("viewPrice.php","Price package is successfully Created");
+
+
+// } else {
 
 
 
 
 
 ?>
-<form action="InsertPrice.php" method="POST" enctype="multipart/form-data">
+<form action="https://itsensei.herokuapp.com/api/pricing" method="POST" id="pricingForm">
     <table class="table_price">
 
 
         <tr>
   <th width="300px"><label for="Type">Price Type</label></th>
   <th>:</th>
-  <td><input type="text"  id="Type" name="Type" required placeholder="Package name..."></td>
+  <td><input type="text"  id="type" name="type" required placeholder="Package name..."></td>
 </tr>
   <tr>
   <th><label for="Price"> Price</label></th>
   <th>:</th>
-  <td><input type="number" id="price" name="price" rows="6" cols="50" step=".01" required></td>
+  <td><input type="text" id="price" name="price" rows="6" cols="50" required></td>
   </tr>
   <tr>
   <th><label for="basic_courses"> basic courses</label></th>
@@ -192,25 +194,20 @@ if (isset($_POST['Type'])){
   </tr>
 
 
-
-
-
-
-
     <tr>
         <td></td>
         <td></td>
         <td>
-            <input type="submit" value="Save">
+            <input type="submit" value="Save" id="submitBtn">
         </td>
     </tr>
   </table>
 </form>
-<?php } ?>
+<?php //} ?>
 <div >
       <form action="viewPrice.php">
 
-        <input type="submit" value="Return To Previous Page" style="border-radius:25px;background-color:lightgrey;color:green;padding:10px;">
+        <input type="submit" value="Return To Previous Page" style="border-radius:25px;background-color:white;color:green;padding:10px;">
       </form>
       </div>
 
@@ -222,5 +219,86 @@ if (isset($_POST['Type'])){
 
 
 </body>
+
+
+<script>
+
+  // document.getElementById("submitBtn").addEventListener('click', function(event){
+
+  // event.preventDefault();
+
+  //   var type = document.getElementById("type").value;
+  //   var price = document.getElementById("price").value;
+  //   var basic_courses = document.getElementById("basic_courses").value;
+  //   var members_content = document.getElementById("members_content").value;
+  //   var practices = document.getElementById("practices").value;
+  //   var support = document.getElementById("support").value;
+  //   var certification = document.getElementById("certification").value;
+  //   var hours = document.getElementById("hours").value;
+  //   var additional = document.getElementById("additional").value;
+  //   var additional2 = document.getElementById("additional2").value;
+
+
+  //   var url = "https://itsensei.herokuapp.com/api/pricing";
+
+  //   var xhr = new XMLHttpRequest();
+  //   xhr.open("POST", url);
+
+  //   // xhr.setRequestHeader("Accept", "application/json");
+  //   // xhr.setRequestHeader("Content-Type", "application/json");
+
+  //   xhr.onreadystatechange = function () {
+  //     if (xhr.readyState === 4) {
+  //         console.log(xhr.status);
+  //         console.log(xhr.responseText);
+  //     }
+  //   };
+
+  //   var data = `{
+  //     "type": "` + type +  `",
+  //     "price": "` + price +  `",
+  //     "basic_courses": "` + basic_courses +  `",
+  //     "members_content": "` + members_content +  `",
+  //     "practices": "` + practices +  `",
+  //     "support": "` + support +  `",
+  //     "certification": "` + certification +  `",
+  //     "hours": "` + hours +  `",
+  //     "additional": "` + additional +  `",
+  //     "additional2": "` + additional2 +  `"
+  //   }`;
+
+  //   console.log(data);
+
+  //   xhr.send(data);
+
+  // });
+
+
+</script>
+
+
+<script>
+var frm = $('#pricingForm');
+
+frm.submit(function (e) {
+
+    e.preventDefault();
+
+    $.ajax({
+        type: frm.attr('method'),
+        url: frm.attr('action'),
+        data: frm.serialize(),
+        success: function (data) {
+            alert('Submission was successful.');
+            window.location.replace("viewPrice.php");
+        },
+        error: function (data) {
+            console.log('An error occurred.');
+            console.log(data);
+        },
+    });
+});
+
+</script>
 
 </html>
