@@ -1,15 +1,7 @@
+
 <?php
-
-include ("../config/setting.php");
-include ("../config/function.php");
-require_once('../config/db.php');
-include ('../config/checkSessionOther.php');
-$sqlProfile="select * from tbl_profile";
-mysqli_select_db($conn, $database);
-$resultProfile = mysqli_query($conn, $sqlProfile);
-$rowProfile=mysqli_fetch_assoc($resultProfile);
+  require './config/url.php';
 ?>
-
 <html lang="en">
 
 <head>
@@ -19,7 +11,7 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
   <title>Insert Course</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <!-- Favicons -->
   <link href="../assets/img/favicon.png" rel="icon">
   <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -38,13 +30,14 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
 
   <!-- Template Main CSS File -->
   <link href="../assets/css/style.css" rel="stylesheet">
-
+  <link href="../assets/css/otherStyle.css" rel="stylesheet">
   <!-- =======================================================
   * Template Name: KnightOne - v4.3.0
   * Template URL: https://bootstrapmade.com/knight-simple-one-page-bootstrap-template/
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+
 
   <style>
     .table_course tr
@@ -64,22 +57,54 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
 
       font-family:Verdana, Geneva, Tahoma, sans-serif;
     }
-    .table_course td input[type="submit"]{
-  background-color:greenyellow;
-  color:blue;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
 
-
-}
-.table_course td input[type="submit"]:hover{
-
-  font-size: x-large;
-
-}
   </style>
+
+  <script>
+
+    window.addEventListener("load",function()
+    {
+      // $("#header").load("header.html");
+      $("#table_course").hide();
+      $("input").hide();
+
+      document.getElementsByTagName("form")[1].action="<?php echo $ToViewTopCourseHTML?>";
+
+    })
+
+    $.when (
+
+        $.ajax({
+          type:"GET",
+          complete:function()
+          {
+            $("#loader").hide();
+      $("#table_course").show();
+      $("input").show();
+          }
+          ,
+          url:"<?php echo $ToCategory?>",
+          success:function(result,status,xhr)
+          {
+
+      var categorylist=JSON.parse(result);
+      var content="";
+      for (var i=0;i<categorylist.length;i++)
+      {
+        content=content+"<option value='"+categorylist[i].id+"'>"+categorylist[i].description+"</option>";
+      }
+     document.getElementById("categoryid").innerHTML=content;
+          }
+        })
+
+
+    )
+
+
+
+
+
+  </script>
 </head>
 
 <body>
@@ -88,19 +113,8 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
   <main id="main">
 
 
-  <!-- ======= Header ======= -->
-  <header id="header" class="fixed-top header-inner-pages">
-    <div class="container-fluid">
+  <div id="header"></div>
 
-      <div class="row justify-content-center" style="padding-top:20px;padding-bottom:20px">
-        <div class="col-xl-9 d-flex align-items-center justify-content-lg-between" >
-          <h1 class="logo me-auto me-lg-0"><a href="adminIndex.php"><?php echo $rowProfile['Website_name'] ?></a></h1>
-
-        </div>
-      </div>
-
-    </div>
-  </header><!-- End Header -->
 
     <!-- ======= Portfolio Section ======= -->
     <section id="portfolio" class="portfolio">
@@ -109,62 +123,15 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
           <h2>Insert Course</h2>
 
         </div>
-
-<?php
-
-if (isset($_POST['courseid'])){
-  mysqli_select_db($conn,$database);
-  $sqlcheckUnique ="select * from tbl_course";
-  $resultcheck=mysqli_query($conn,$sqlcheckUnique);
-
-  while ($row=mysqli_fetch_assoc($resultcheck))
-  {
-    if ($_POST['courseid']==$row['tbl_course_courseid'])
-    {
-      goto2("insertcourse.php"," Insertion failed due to duplicated course ID");
-
-
-    }
-  }
-
-        $courseid=$_POST['courseid'];
-
-        $title=$_POST['title'];
-        $language=$_POST['language'];
-        $duration=$_POST['duration'];
-        $description=$_POST['description'];
-
-        $categoryid=$_POST['categoryid'];
-
-        $image = $_FILES['imagefile']['tmp_name'];
-        $name = $_FILES['imagefile']['name'];
-        $image = base64_encode(file_get_contents(addslashes($image)));
-
-          $sql ="INSERT INTO `tbl_course` (`tbl_course_courseid`, `tbl_course_title`,`tbl_course_language`, `tbl_course_duration`,
-            `tbl_course_description`,`tbl_course_image`,`tbl_course_categoryid`)
-            VALUES ('".$courseid."', '".$title."', '".$language."','".$duration."','".$description."','".$image."','".$categoryid."')";
-
-
-
-
-                $result=mysqli_query($conn,$sql);
-
-
-             goto2("viewTopCourse.php"," Course is successfully Inserted");
+        <div id="loader"></div>
 
 
 
 
 
 
-
-
-
-} else {
-
-?>
-<form action="insertcourse.php" method="POST" enctype="multipart/form-data">
-    <table class="table_course">
+  <form  method="POST" enctype="multipart/form-data" id="form">
+    <table class="table_course" id="table_course">
         <tr>
   <th width="300px"><label for="courseid">Course ID:</label></th>
   <td><input type="text"  id="courseid" name="courseid" required></td>
@@ -195,18 +162,8 @@ if (isset($_POST['courseid'])){
   <select name="categoryid" id="categoryid" required>
 
 
-   <?php
-  $sql2 ="select * from tbl_category";  // sql command
-  mysqli_select_db($conn,$database); ///select database as default
-  $result2=mysqli_query($conn,$sql2);  // command allow sql cmd to be sent to mysql
 
-   while( $row=mysqli_fetch_assoc($result2)) {   ?>
-    <option
 
-    value="<?php echo $row['tbl_category_id'];?>"><?php echo $row['tbl_category_description'];?></option>
-
-   <?php }
-    ?>
     </select>
         </td>
     </tr>
@@ -214,16 +171,54 @@ if (isset($_POST['courseid'])){
     <tr>
         <td></td>
         <td>
-            <input type="submit" value="Save">
+          <input class="btn btn-outline-success" type="submit" value="Save" id="save"  >
         </td>
     </tr>
   </table>
 </form>
-<?php } ?>
-      <div >
-      <form action="viewTopCourse.php">
+<script>
 
-        <input type="submit" value="Return To Previous Page" style="border-radius:25px;background-color:lightgrey;color:green;padding:10px;">
+var form=$("#form");
+
+    form.submit(function(e)
+    {
+      e.preventDefault();
+
+      var formData = new FormData($("#form")[0]);
+    $.ajax({
+      type:"POST",
+      url:"<?php echo $ToCourse?>",
+
+      data:formData,
+      // enctype: 'multipart/form-data',
+      processData: false,
+    contentType: false,
+    cache: false,
+
+      success:function(data)
+      {
+
+
+
+        alert("Insert successfully");
+        window.location.replace("<?php echo $ToViewTopCourseHTML?>");
+
+      },
+      error:function(data)
+      {
+        alert("Insert failure");
+      }
+    })
+
+    })
+</script>
+
+
+
+      <div >
+      <form method="post">
+        <input class="btn btn-outline-secondary rounded-pill" type="submit" value="Return To Previous Page"  >
+
       </form>
       </div>
 

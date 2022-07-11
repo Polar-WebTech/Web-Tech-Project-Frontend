@@ -1,20 +1,12 @@
 <?php
-
-include ("../config/setting.php");
-include ("../config/function.php");
-require_once('../config/db.php');
-include ('../config/checkSessionOther.php');
-$sqlProfile="select * from tbl_profile";
-mysqli_select_db($conn, $database);
-$resultProfile = mysqli_query($conn, $sqlProfile);
-$rowProfile=mysqli_fetch_assoc($resultProfile);
+  require './config/url.php';
 ?>
-
 <html lang="en">
 
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
   <title>Insert Course Category</title>
   <meta content="" name="description">
@@ -37,6 +29,7 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
 
   <!-- Template Main CSS File -->
   <link href="../assets/css/style.css" rel="stylesheet">
+  <link href="../assets/css/otherStyle.css" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: KnightOne - v4.3.0
@@ -56,21 +49,8 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
       height: 50px;
     }
 
-    .table_course td input[type="submit"]{
-  background-color:greenyellow;
-  color:blue;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
 
 
-}
-.table_course td input[type="submit"]:hover{
-
-  font-size: x-large;
-
-}
     .table_course td input[type=text],.table_course td textarea
     {
 
@@ -78,6 +58,20 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
       font-family:Verdana, Geneva, Tahoma, sans-serif;
     }
   </style>
+  <script>
+
+window.addEventListener("load",function()
+    {
+      // $("#header").load("header.html");
+
+
+      document.getElementsByTagName("form")[1].action="<?php echo $ToViewCourseCategoryHTML?>";
+
+    })
+
+
+
+  </script>
 </head>
 
 <body>
@@ -85,20 +79,8 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
 
   <main id="main">
 
+    <div id="header"></div>
 
-  <!-- ======= Header ======= -->
-  <header id="header" class="fixed-top header-inner-pages">
-    <div class="container-fluid">
-
-      <div class="row justify-content-center" style="padding-top:20px;padding-bottom:20px">
-        <div class="col-xl-9 d-flex align-items-center justify-content-lg-between" >
-          <h1 class="logo me-auto me-lg-0"><a href="adminIndex.php"><?php echo $rowProfile['Website_name'] ?></a></h1>
-
-        </div>
-      </div>
-
-    </div>
-  </header><!-- End Header -->
 
     <!-- ======= Portfolio Section ======= -->
     <section id="portfolio" class="portfolio">
@@ -108,51 +90,7 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
 
         </div>
 
-<?php
-
-if (isset($_POST['categoryid'])){
-  mysqli_select_db($conn,$database);
-
-
-  $sqlcheckUnique ="select * from tbl_category";
-  $resultcheck=mysqli_query($conn,$sqlcheckUnique);
-
-  while ($row=mysqli_fetch_assoc($resultcheck))
-  {
-    if ($_POST['categoryid']==$row['tbl_category_id'])
-    {
-      goto2("insertcategory.php"," Insertion failed due to duplicated category ID");
-
-
-    }
-  }
-
-        $categoryid=$_POST['categoryid'];
-        $description=$_POST['description'];
-
-          $sql ="INSERT INTO `tbl_category` (`tbl_category_id`,`tbl_category_description` )
-            VALUES ('".$categoryid."', '".$description."')";
-
-
-
-
-                $result=mysqli_query($conn,$sql);
-
-
-            goto2("viewcoursecategory.php","Course category is successfully Inserted");
-
-
-
-
-
-
-
-
-
-} else {
-
-?>
-<form action="insertcategory.php" method="POST" >
+<form  method="POST" id="form">
     <table class="table_course">
         <tr>
   <th ><label for="categoryid">Category ID</label></th>
@@ -168,25 +106,49 @@ if (isset($_POST['categoryid'])){
         <td></td>
         <td></td>
         <td>
-            <input type="submit" value="Save">
+          <input class="btn btn-outline-success" type="submit" value="Save" id="save"  >
+
         </td>
     </tr>
   </table>
 </form>
 
       <div >
-      <form action="viewcoursecategory.php">
+      <form method="post">
+        <input class="btn btn-outline-secondary rounded-pill" type="submit" value="Return To Previous Page"  >
 
-        <input type="submit" value="Return To Previous Page" style="border-radius:25px;background-color:lightgrey;color:green;padding:10px;">
-      </form>
+          </form>
       </div>
 
       </div>
 
     </section><!-- End Portfolio Section -->
 
+<script>
+    var form=$("#form");
+    form.submit(function(e)
+    {
+      e.preventDefault();
 
+    $.ajax({
+      type:"POST",
+      url:"<?php echo $ToCategory?>",
+      data:form.serialize(),
+      success:function(data)
+      {
+        console.log(data);
+        alert("Insert successfully");
+        window.location.replace("<?php echo $ToViewCourseCategoryHTML ?>");
+      },
+      error:function(data)
+      {
+        alert("Insert failure");
+      }
+    })
+
+    })
+
+</script>
 </body>
 
 </html>
-<?php } ?>

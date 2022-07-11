@@ -1,19 +1,12 @@
 <?php
-
-include ("../config/setting.php");
-require_once('../config/db.php');
-include ('../config/checkSessionOther.php');
-$sqlProfile="select * from tbl_profile";
-mysqli_select_db($conn, $database);
-$resultProfile = mysqli_query($conn, $sqlProfile);
-$rowProfile=mysqli_fetch_assoc($resultProfile);
+  require './config/url.php';
 ?>
-
 <html lang="en">
 
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
   <title>View Course Category</title>
   <meta content="" name="description">
@@ -37,6 +30,7 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
 
   <!-- Template Main CSS File -->
   <link href="../assets/css/style.css" rel="stylesheet">
+ <link href="../assets/css/otherStyle.css" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: KnightOne - v4.3.0
@@ -53,27 +47,110 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
 
       }
     </style>
+    <script>
+      window.addEventListener("load",function()
+    {
+      // $("#header").load("header.html");
+      $("a").hide();
+      document.getElementsByTagName("form")[0].action="<?php echo $ToViewTopCourseHTML?>";
+      document.getElementById("linkInsertCategory").href="<?php echo $ToInsertCategoryHTML?>";
+    })
+
+    function deleteCategory(id)
+    {
+      if (confirm("Are you sure to delete this category")==true)
+      {
+        $.ajax({
+        type:"delete",
+        url:"<?php echo $ToCategory ?>"+"/"+id,
+        success: function(data)
+        {
+          alert ("Delete successfully");
+          window.location.replace("<?php echo $ToViewCourseCategoryHTML ?>");
+        },
+        error: function(data)
+        {
+          alert ("Delete failure");
+          window.location.replace("<?php echo $ToViewCourseCategoryHTML ?>");
+        }
+      });
+      }
+      else
+      {
+
+      }
+
+    }
+    $.when(
+        $.ajax({
+      type:"GET",
+      url:"<?php echo $ToCategory?>",
+
+      success: function(result,status,xhr)
+      {
+
+      var categorylist=JSON.parse(result);
+      var table=document.getElementById("category").getElementsByTagName('tbody')[0];
+      console.log(table);
+      var insertrow=document.getElementById("insertrow");
+
+      for (var i=0;i<categorylist.length;i++)
+      {
+        var row=table.insertRow();
+        var cell1=row.insertCell();
+        var cell1textnode=document.createTextNode(categorylist[i].id);
+        cell1.appendChild(cell1textnode);
+        var cell2=row.insertCell();
+        var cell2textnode=document.createTextNode(categorylist[i].description);
+        cell2.appendChild(cell2textnode);
+        var cell3=row.insertCell();
+
+        var ulink=document.createElement("a");
+        ulink.href="<?php echo $ToUpdateCategoryHTML?>"+"?id="+categorylist[i].id;
+        var updatelink=document.createElement("button");
+
+
+        updatelink.className="btn btn-outline-primary";
+        var updateTextnode=document.createTextNode("Update");
+        updatelink.append(updateTextnode);
+        ulink.append(updatelink);
+        cell3.appendChild(ulink);
+        var cell4=row.insertCell();
+
+        var deletelink=document.createElement("button");
+
+        deletelink.type="submit";
+
+        deletelink.setAttribute("onclick", 'return deleteCategory("'+categorylist[i].id+'")');
+        deletelink.className="btn btn-outline-danger";
+        var deleteTextnode=document.createTextNode("Delete");
+        deletelink.append(deleteTextnode);
+        cell4.appendChild(deletelink);
+
+
+
+      }
+
+
+      }
+    }),
+
+      ).done(function()
+      {
+        $("#loader").hide();
+        $("a").show();
+      })
+
+    </script>
 </head>
 
 <body>
 
-
+  <div id="header"></div>
   <main id="main">
 
 
-  <!-- ======= Header ======= -->
-  <header id="header" class="fixed-top header-inner-pages">
-    <div class="container-fluid">
 
-      <div class="row justify-content-center" style="padding-top:20px;padding-bottom:20px">
-        <div class="col-xl-9 d-flex align-items-center justify-content-lg-between" >
-          <h1 class="logo me-auto me-lg-0"><a href="adminIndex.php"><?php echo $rowProfile['Website_name'] ?></a></h1>
-
-        </div>
-      </div>
-
-    </div>
-  </header><!-- End Header -->
 
 
     <!-- ======= Portfolio Section ======= -->
@@ -84,32 +161,27 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
           <h2>Edit Course Category</h2>
 
         </div>
-
-
-      <?php
-        $sql ="select * from tbl_category ORDER BY tbl_category_id ASC";
-      mysqli_select_db($conn,$database);
-          $result=mysqli_query($conn,$sql);
-    ?>
+        <div id="loader"></div>
         <table id="category">
+          <thead>
             <tr>
-                <th>Category ID</th>
-                <th>Description</th>
+              <th>Category ID</th>
+              <th>Description</th>
 
-            </tr>
-            <?php while($row=mysqli_fetch_assoc($result))
-            { ?>
-            <tr>
-                <td><?php echo $row['tbl_category_id']?></td>
-                <td><?php echo $row['tbl_category_description']?></td>
-                <td><a href="updatecategory.php?categoryid=<?php echo  $row['tbl_category_id'] ; ?>">Update Category</a></td>
-                <td><a href="deletecategory.php?categoryid=<?php echo  $row['tbl_category_id'] ; ?>" onclick="return confirm ('Are you sure to delete this category?')">Delete Category</a></td>
-            </tr>
-            <?php } ?>
-            <tr >
+          </tr>
+          </thead>
+
+            <tbody>
+
+            </tbody>
+            <tfoot>
+              <tr id="insertrow">
                 <td></td>
-                <td ><a href="insertcategory.php" style="padding:10px; color:green; background-color:powderblue;border-radius:25px;border:1px solid grey">Insert Category </a></td>
+                <td ><a id="linkInsertCategory" href="" class="btn btn-outline-success">Insert Category </a></td>
             </tr>
+            </tfoot>
+
+
 
 
         </table>
@@ -118,12 +190,16 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
         <br>
 
         <div >
-      <form action="viewTopCourse.php">
+      <form method="post">
+        <input class="btn btn-outline-secondary rounded-pill" type="submit" value="Return To Previous Page"  >
 
-        <input type="submit" value="Return To Previous Page" style="border-radius:25px;background-color:lightgrey;color:green;padding:10px;">
       </form>
       </div>
 
+<script>
+
+
+</script>
 
 
 

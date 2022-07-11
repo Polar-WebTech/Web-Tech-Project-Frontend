@@ -1,14 +1,6 @@
+
 <?php
-
-include ("../config/setting.php");
-include ("../config/function.php");
-include ("../config/db.php");
-include ('../config/checkSessionOther.php');
-$sqlProfile="select * from tbl_profile";
-mysqli_select_db($conn, $database);
-$resultProfile = mysqli_query($conn, $sqlProfile);
-$rowProfile=mysqli_fetch_assoc($resultProfile);
-
+  require './config/url.php';
 ?>
 
 <html lang="en">
@@ -38,6 +30,10 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
 
   <!-- Template Main CSS File -->
   <link href="../assets/css/style.css" rel="stylesheet">
+  <link href="../assets/css/otherStyle.css" rel="stylesheet">
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
   <!-- =======================================================
   * Template Name: KnightOne - v4.3.0
@@ -66,6 +62,152 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
 
     }
     </style>
+    <script>
+      var allcourse;
+      var categorylist;
+      window.addEventListener("load",function()
+    {
+      // $("#header").load("header.html");
+      // $("ul").hide();
+      // $(".row portfolio-container").hide();
+      // $("#add").hide();
+
+
+      document.getElementById("back").href="<?php echo $ToAdminIndexHTML?>";
+
+
+    })
+    function deleteCourse(id)
+    {
+      if (confirm("Are you sure to delete this course")==true)
+      {
+        $.ajax({
+        type:"delete",
+        url:"<?php echo $ToCourse ?>"+"/"+id,
+        success: function(data)
+        {
+          alert ("Delete successfully");
+          window.location.replace("<?php echo $ToViewTopCourseHTML ?>");
+        },
+        error: function(data)
+        {
+          alert ("Delete failure");
+
+        }
+      });
+      }
+      else
+      {
+
+      }
+
+    }
+$(document).ready(function(){
+  $.when(
+
+$.ajax({
+
+  type:"GET",
+  url:"<?php echo $ToCourse?>",
+  async:false,
+  success: function(result,status,xhr)
+  {
+
+
+//     console.log(result);
+ allcourse=JSON.parse(result);
+    var filterlist="";
+ for (var i=0;i<allcourse.length;i++)
+    {
+      filterlist+=("filter-"+allcourse[i].categoryid+" ");
+      var content="";
+
+      content=content+"<div class='col-lg-4 col-md-6 portfolio-item filter-"+allcourse[i].categoryid+"'>";
+      content+=("<a href='../coursedetail.php?id="+allcourse[i].courseid
+      +"'>"+'<img src="data:image;base64,'+allcourse[i].image+
+      '" style="width:max-content" class="img-fluid" alt=""></a> ');
+      content+='<div class="portfolio-info" >';
+          content+=('<h4>'+allcourse[i].title+"</h4>");
+      content+=(' <p><a href="<?php echo $ToUpdateCourse?>?id='+allcourse[i].courseid+'" style="font-size:medium;color:white;">Update</a></p>');
+      content+=('<p><a href="#" class="delete" id="'
+        +allcourse[i].courseid+'"'
+        +' style="font-size:medium;color:white;">Delete</a></p></div></div>');
+
+      $("#item").append(content);
+
+
+    }
+    var deletelink=document.getElementsByClassName("delete");
+    for (var b=0;b<deletelink.length;b++)
+    {
+      deletelink[b].setAttribute("onclick",'return deleteCourse("'+deletelink[b].id+'")');
+    };
+
+
+    content="";
+    content+=('<div id="add" class="col-lg-4 col-md-6 portfolio-item '+filterlist+'" style="display: flex; justify-content:center;">');
+    content+=('<a id="linkInsert" href="<?php echo $ToInsertCourseHTML?>"><img src="../assets/img/plus icon.png" style="height: 150px; width: 120px;"class="img-fluid" alt=""></a>');
+    content+=('<div class="portfolio-info"><h4>Add course</h4> </div></div>');
+    $("#item").append(content);
+
+
+
+  }
+}),
+$.ajax({
+  type:"GET",
+  url:"<?php echo $ToCategory?>",
+  async:false,
+  success: function(result,status,xhr)
+  {
+
+
+  categorylist=JSON.parse(result);
+   var filter= document.getElementById("portfolio-flters");
+  var category=document.getElementById("viewcategory");
+
+  var tempcontent="";
+  tempcontent+=("<li data-filter="*" class='filter-active'>All</li>");
+
+  for (var i=0;i<categorylist.length;i++)
+  {
+
+
+
+    if (i==0)
+    {
+      $("#portfolio-flters").append("<li data-filter='.filter-"+categorylist[i].id+"' class=''>"+categorylist[i].description+"</li>");
+
+    }
+    else
+    {
+      $("#portfolio-flters").append("<li data-filter='.filter-"+categorylist[i].id+"'>"+categorylist[i].description+"</li>");
+
+    }
+  }
+  $("#portfolio-flters").append('<div class="category"><a  href="<?php echo $ToViewCourseCategoryHTML?>"  >Edit Course Category</a></div>');
+
+
+
+
+
+  }
+}),
+
+).done(function(){
+  $("#loader").hide();
+
+
+
+
+
+
+})
+})
+
+
+
+    </script>
 </head>
 
 <body>
@@ -73,20 +215,8 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
 
   <main id="main">
 
+    <div id="header"></div>
 
-  <!-- ======= Header ======= -->
-  <header id="header" class="fixed-top header-inner-pages">
-    <div class="container-fluid">
-
-      <div class="row justify-content-center" style="padding-top:20px;padding-bottom:20px">
-        <div class="col-xl-9 d-flex align-items-center justify-content-lg-between" >
-          <h1 class="logo me-auto me-lg-0"><a href="adminIndex.html"><?php echo $rowProfile['Website_name'] ?></a></h1>
-
-        </div>
-      </div>
-
-    </div>
-  </header><!-- End Header -->
 
 
     <!-- ======= Portfolio Section ======= -->
@@ -97,73 +227,37 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
           <h2>Most Popular Courses</h2>
           <p>Explore most popular courses to enhance your programming skills.</p>
           <br>
-          <h3><a href="adminIndex.php" id="back"><u>Back</u></a><br></h3>
+          <h3><a href=""  id="back"><u>Back</u></a><br></h3>
         </div>
 
-
+        <div id="loader"></div>
         <div class="row">
           <div class="col-lg-12 d-flex justify-content-center">
             <ul id="portfolio-flters">
               <li data-filter="*" class="filter-active">All</li>
-              <?php $sql ="select * from tbl_category";
-
-          mysqli_select_db($conn,$database);
-          $result=mysqli_query($conn,$sql);
-
-                 while($row=mysqli_fetch_assoc($result)) {?>
-                 <li data-filter=".filter-<?php echo $row['tbl_category_id']?>"><?php echo $row['tbl_category_description']?></li>
 
 
-              <?php } ?>
-              <div class="category">
-              <a href="viewcoursecategory.php"  >
-               Edit Course Category</a>
-              </div>
+
+
+
+
+
+
             </ul>
 
           </div>
         </div>
 
-        <div class="row portfolio-container" style="display: block;">
-        <?php
-         $sql ="select * from tbl_course";
-         $result=mysqli_query($conn,$sql);
-        while ($row=mysqli_fetch_assoc($result)){ ?>
+        <div id="item" class="row portfolio-container" style="display: block;">
 
 
-          <div class="col-lg-4 col-md-6 portfolio-item filter-<?php echo $row['tbl_course_categoryid']?> ">
 
 
-            <a href="../coursedetail.php?id=<?php echo $row['tbl_course_courseid'] ;?>">
-            <img src="data:image;base64,<?php echo $row['tbl_course_image']; ?>" style="width:max-content"class="img-fluid" alt="">
-          </a>
-
-            <div class="portfolio-info" >
-              <h4><?php echo $row['tbl_course_title']?></h4>
-
-              <p><a href="updatecourse.php?id=<?php echo $row['tbl_course_courseid'] ;?>"   style="font-size:medium;color:white;">Update</a></p>
-              <p><a href="deletecourse.php?id=<?php echo $row['tbl_course_courseid'] ;?>" onclick="return confirm ('Are you sure to delete this course?')" style="font-size:medium;color:white;">Delete</a></p>
-            </div>
 
 
-          </div>
-
-          <?php } ?>
 
 
-          <div class="col-lg-4 col-md-6 portfolio-item <?php
-           $sqltemp="select * from tbl_category";
-           $result=mysqli_query($conn,$sqltemp);
-           while ($row=mysqli_fetch_assoc($result)){
-            echo "filter-".$row['tbl_category_id']." ";
-          }
-           ?>"style="display: flex; justify-content:center;">
-            <a href="insertcourse.php"><img src="../assets/img/plus icon.png" style="height: 150px; width: 120px;"class="img-fluid" alt=""></a>
-            <div class="portfolio-info">
-              <h4>Add course</h4>
 
-            </div>
-          </div>
         </div>
 
       </div>
@@ -171,6 +265,7 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
     </section><!-- End Portfolio Section -->
 
 
+</script>
   </main><!-- End #main -->
 
 

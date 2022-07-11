@@ -1,14 +1,6 @@
 <?php
-require_once('../config/setting.php');
-require_once('../config/function.php');
-require_once('../config/db.php');
-include ('../config/checkSessionOther.php');
-$sqlProfile="select * from tbl_profile";
-mysqli_select_db($conn, $database);
-$resultProfile = mysqli_query($conn, $sqlProfile);
-$rowProfile=mysqli_fetch_assoc($resultProfile);
+  require './config/url.php';
 ?>
-
 
 <html lang="en">
 
@@ -19,7 +11,7 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
   <title>Update Course</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <!-- Favicons -->
   <link href="../assets/img/favicon.png" rel="icon">
   <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -38,6 +30,7 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
 
   <!-- Template Main CSS File -->
   <link href="../assets/css/style.css" rel="stylesheet">
+  <link href="../assets/css/otherStyle.css" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: KnightOne - v4.3.0
@@ -62,42 +55,94 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
       color: blue;
     }
 
-    .table_course td input[type="submit"]{
-  background-color:greenyellow;
-  color:blue;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
 
-
-}
-.table_course td input[type="submit"]:hover{
-
-  font-size: x-large;
-
-}
   </style>
+  <script>
+getParameter = (key) => {
+
+// Address of the current window
+address = window.location.search
+
+// Returns a URLSearchParams object instance
+parameterList = new URLSearchParams(address)
+
+// Returning the respected value associated
+// with the provided key
+return parameterList.get(key)
+}
+window.addEventListener("load",function()
+    {
+      // $("#header").load("header.html");
+      $("table").hide();
+      $("input").hide();
+      // document.getElementsByTagName("form")[0].action=ToUpdateCoursePHP;
+      document.getElementsByTagName("form")[1].action="<?php echo $ToViewTopCourseHTML?>";
+
+    })
+    var id=getParameter('id');
+    $.when(
+      console.log("<?php echo $ToCourse?>/"+id),
+    $.ajax({
+
+      type:"GET",
+      url:"<?php echo $ToCourse?>/"+id,
+
+      success: function(result,status,xhr)
+      {
+
+
+
+    var course=JSON.parse(result);
+
+
+    document.getElementById("courseid").value=course.courseid;
+    document.getElementById("hiddencourseid").value=course.courseid;
+    document.getElementById("title").innerHTML=course.title;
+    document.getElementById("language").value=course.language;
+    document.getElementById("duration").value=course.duration;
+    document.getElementById("description").value=course.description;
+    document.getElementById("image").src='data:image;base64,'+course.image;
+    document.getElementById("categoryid").value=course.categoryid;
+
+      }
+    }),
+    $.ajax({
+      type:"GET",
+      url:"<?php echo $ToCategory?>",
+
+      success: function(result,status,xhr)
+      {
+
+
+      var categorylist=JSON.parse(result);
+
+      var content="";
+      for (var i=0;i<categorylist.length;i++)
+      {
+        content=content+"<option value='"+categorylist[i].id+"'>"+categorylist[i].description+"</option>";
+      }
+     document.getElementById("categoryid").innerHTML=content;
+
+      }
+    }),
+
+  ).done(function(){
+      $("#loader").hide();
+      $("table").show();
+      $("input").show();
+    })
+
+
+
+  </script>
 </head>
 
 <body>
 
-
+  <div id="header"></div>
   <main id="main">
 
-  <!-- ======= Header ======= -->
-  <header id="header" class="fixed-top header-inner-pages">
-    <div class="container-fluid">
 
-      <div class="row justify-content-center" style="padding-top:20px;padding-bottom:20px">
-        <div class="col-xl-9 d-flex align-items-center justify-content-lg-between" >
-          <h1 class="logo me-auto me-lg-0"><a href="adminIndex.php"><?php echo $rowProfile['Website_name'] ?></a></h1>
-
-        </div>
-      </div>
-
-    </div>
-  </header><!-- End Header -->
 
 
     <!-- ======= Portfolio Section ======= -->
@@ -108,79 +153,37 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
 
         </div>
 
-<?php
+        <div id="loader"></div>
 
-if (isset($_POST['title'])){
-  mysqli_select_db($conn,$database);
-        $courseid=$_GET['id'];
-
-        $title=$_POST['title'];
-        $language=$_POST['language'];
-        $duration=$_POST['duration'];
-        $description=$_POST['description'];
-
-        $categoryid=$_POST['categoryid'];
-
-        if (!empty($_FILES['imagefile']['tmp_name'])){
-
-        $image = $_FILES['imagefile']['tmp_name'];
-        $name = $_FILES['imagefile']['name'];
-        $image = base64_encode(file_get_contents(addslashes($image)));
-        $sql ="UPDATE `tbl_course` SET `tbl_course_title`='".$title."' ,`tbl_course_language`='".$language."'
-        ,`tbl_course_duration`='".$duration."',`tbl_course_description`='".$description."',`tbl_course_image`='".$image."'
-        , `tbl_course_categoryid`='".$categoryid."'
-        WHERE (`tbl_course_courseid`='".$courseid."') LIMIT 1";
-
-        }
-
-        else
-        {
-            $sql ="UPDATE `tbl_course` SET `tbl_course_title`='".$title."' ,`tbl_course_language`='".$language."'
-            ,`tbl_course_duration`='".$duration."',`tbl_course_description`='".$description."'
-            , `tbl_course_categoryid`='".$categoryid."'
-            WHERE (`tbl_course_courseid`='".$courseid."') LIMIT 1";
-
-        }
-
-
-            $result=mysqli_query($conn,$sql);
-
-            goto2("viewTopCourse.php","The course is successfully updated");
-
-} else {
-    $id=$_GET['id'];
-    $sql="select * from tbl_course where tbl_course_courseid='".$id."'";
-    mysqli_select_db($conn,$database);
-    $result=mysqli_query($conn,$sql);
-    $row=mysqli_fetch_assoc($result);
-?>
-<form action="updatecourse.php?id=<?php echo $id ;?>" method="POST" enctype="multipart/form-data">
+<form  method="POST" enctype="multipart/form-data" id="form">
+  <input type="hidden"  id="hiddencourseid" name="hiddencourseid"  >
     <table class="table_course">
         <tr>
   <th width="300px"><label for="courseid">Course ID:</label></th>
-  <td><input type="text"  id="courseid" name="courseid" disabled value="<?php echo $id; ?>"></td>
+  <td><input type="text"  id="courseid" name="courseid" disabled ></td>
 </tr>
+
   <tr>
   <th><label for="title"> Course Title:</label></th>
-  <td><textarea id="title" name="title" rows="6" cols="50"><?php echo $row['tbl_course_title'];?></textarea></td>
+  <td><textarea id="title" name="title" rows="6" cols="50"></textarea></td>
   </tr>
     <tr>
   <th><label for="language"> Programming language used:</label></th>
-  <td><input type="text" id="language" name="language" value="<?php echo $row['tbl_course_language'];?>"></td>
+  <td><input type="text" id="language" name="language" ></td>
     </tr>
     <tr>
   <th><label for="duration"> Course Duration:</label></th>
-  <td><input type="number" id="duration" name="duration" step="0.01" value="<?php echo $row['tbl_course_duration'];?>"></td>
+  <td><input type="number" id="duration" name="duration" step="0.01" ></td>
     </tr>
     <tr>
   <th><label for="description"> Course Description:</label></th>
-  <td><textarea id="description" name="description" rows="6" cols="50" ><?php echo $row['tbl_course_description'];?></textarea></td>
+  <td><textarea id="description" name="description" rows="6" cols="50" ></textarea></td>
     </tr>
     <tr>
-        <?php $temp=$row['tbl_course_image'];?>
+
  <th rowspan="2"> <label for="image"> Course Image:</label></th>
   <td><div style="border:1px solid black;display:flex;justify-content:center;">
-  <?php echo "<img src='data:image;base64,$temp' style='width:auto;height:auto;' class='img-fluid' alt='' >" ?>
+<img id="image" style='width:auto;height:auto;' class='img-fluid' alt='' >
 
 </div></td>
     </tr>
@@ -190,50 +193,31 @@ if (isset($_POST['title'])){
     </tr>
     <tr>
         <th rows="2"><label for="category"> Course Category:</label></th>
-        <td><b><?php
-        $temp=$row['tbl_course_categoryid'];
-        $sql2 ="select * from tbl_category where tbl_category_id='".$temp."'";
-        mysqli_select_db($conn,$database);
-        $result2=mysqli_query($conn,$sql2);
-        $row=mysqli_fetch_assoc($result2);
-        echo $row['tbl_category_description'];
-        ?></b></td>
-    </tr>
-    <tr>
-    <td></td>
         <td>
-  <select name="categoryid" id="categoryid" required value="<?php echo $row['tbl_course_categoryid'];?>">
+          <select name="categoryid" id="categoryid" required >
 
 
-   <?php
-  $sql2 ="select * from tbl_category";  // sql command
-  mysqli_select_db($conn,$database); ///select database as default
-  $result2=mysqli_query($conn,$sql2);  // command allow sql cmd to be sent to mysql
 
-   while( $row=mysqli_fetch_assoc($result2)) {   ?>
-    <option
-
-    value="<?php echo $row['tbl_category_id'];?>"><?php echo $row['tbl_category_description'];?></option>
-
-   <?php }
-    ?>
-    </select>
-        </td>
+            </select>
+                </td>
     </tr>
+
 
     <tr>
         <td></td>
         <td>
-            <input type="submit" value="Save">
+
+          <input class="btn btn-outline-success" type="submit" value="Save" id="save"  >
+
         </td>
     </tr>
   </table>
 </form>
-<?php } ?>
-<div >
-      <form action="viewTopCourse.php">
 
-        <input type="submit" value="Return To Previous Page" style="border-radius:25px;background-color:lightgrey;color:green;padding:10px;">
+<div >
+      <form method="post">
+        <input class="btn btn-outline-secondary rounded-pill" type="submit" value="Return To Previous Page"  >
+
       </form>
       </div>
 
@@ -243,7 +227,43 @@ if (isset($_POST['title'])){
 
     </section><!-- End Portfolio Section -->
 
+<script>
 
+  var form=$("#form");
+       form.submit(function(e)
+        {
+          e.preventDefault();
+          var formData = new FormData($("#form")[0]);
+          $.ajax({
+
+            type:"POST",
+      // url:"<?php echo $ToCourse?>/"+id,
+      url:"<?php echo $ToCourse?>/"+id,
+
+      data:formData,
+      // enctype: 'multipart/form-data',
+      processData: false,
+    contentType: false,
+    cache: false,
+
+      success:function(data)
+      {
+
+        console.log(data);
+
+        alert("Update successfully");
+        window.location.replace("<?php echo $ToUpdateCourse?>?id="+id);
+
+      },
+      error:function(data)
+      {
+        console.log(data);
+        alert("Update failure");
+      }
+          })
+
+        })
+</script>
 </body>
 
 </html>
