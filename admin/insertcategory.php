@@ -65,7 +65,7 @@ window.addEventListener("load",function()
       // $("#header").load("header.html");
 
 
-      document.getElementsByTagName("form")[1].action="<?php echo $ToViewCourseCategoryHTML?>";
+      document.getElementsByTagName("form")[1].action="<?php echo $ToViewCourseCategoryPHP?>";
 
     })
 
@@ -138,7 +138,7 @@ window.addEventListener("load",function()
       {
         console.log(data);
         alert("Insert successfully");
-        window.location.replace("<?php echo $ToViewCourseCategoryHTML ?>");
+        window.location.replace("<?php echo $ToViewCourseCategoryPHP ?>");
       },
       error:function(data)
       {

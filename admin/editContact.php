@@ -36,7 +36,7 @@ input[type="submit"].save:hover{
   <!-- Favicons -->
   <link href="../assets/img/favicon.png" rel="icon">
   <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
@@ -69,7 +69,7 @@ input[type="submit"].save:hover{
 <!-- ======= Header ======= -->
 <!-- <div id="header"></div> -->
 <!-- End Header -->
-
+<body>
 <main id="main">
 
 <!-- ======= Services Section ======= -->
@@ -91,7 +91,7 @@ input[type="submit"].save:hover{
       // $("table").hide();
 
 
-      document.getElementById("backForm").action="<?php echo $ToAdminIndexHTML?>";
+      document.getElementById("backForm").action="<?php echo $ToAdminIndexPHP?>";
 
 
     })
@@ -111,7 +111,7 @@ input[type="submit"].save:hover{
           url:"<?php echo $ToContact?>",
           success:function(result,status,xhr)
           {
-            console.log(result);
+
 
             var contact=JSON.parse(result);
 
@@ -229,20 +229,21 @@ map.panTo([lat,lng]);
 
   </div>
 </section>
-
+</body>
 <script>
-   var form= $("#editform");
+   var form= $("#editForm");
     form.submit(function(e)
     {
       e.preventDefault();
+
       $.ajax({
         type:"POST",
-        url: "<?php echo $ToContact?>",
-        data: form.serialize(),
+        url:"<?php echo $ToContact?>",
+         data: form.serialize(),
           success: function (data) {
             console.log(data);
-              // alert('Submission was successful.');
-              // window.location.replace("");
+              alert('Submission was successful.');
+              window.location.replace("");
           },
           error: function (data) {
               console.log('An error occurred.');

@@ -68,7 +68,7 @@
       $("#table_course").hide();
       $("input").hide();
 
-      document.getElementsByTagName("form")[1].action="<?php echo $ToViewTopCourseHTML?>";
+      document.getElementsByTagName("form")[1].action="<?php echo $ToViewTopCoursePHP?>";
 
     })
 
@@ -201,7 +201,7 @@ var form=$("#form");
 
 
         alert("Insert successfully");
-        window.location.replace("<?php echo $ToViewTopCourseHTML?>");
+        window.location.replace("<?php echo $ToViewTopCoursePHP?>");
 
       },
       error:function(data)

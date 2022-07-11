@@ -39,10 +39,7 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
-      <!-- ***JS file for url ****-->
-  <script type="text/javascript"  src="../config/urlToFrontend.js"></script>
-  <script type="text/javascript"  src="../config/urlToBackend.js"></script>
-  <!-- ***JS file for url ****-->
+
   <style>
     .table_course tr
     {
@@ -73,7 +70,7 @@ return parameterList.get(key)
 
       $("table").hide();
 
-      document.getElementsByTagName("form")[1].action="<?php echo $ToViewCourseCategoryHTML?>";
+      document.getElementsByTagName("form")[1].action="<?php echo $ToViewCourseCategoryPHP?>";
 
     })
     var id=getParameter('id');
@@ -164,13 +161,13 @@ return parameterList.get(key)
             success:function(data)
             {
               alert("Update successfully");
-              window.location.replace("<?php echo $ToUpdateCategoryHTML?>"+"?id="+id);
+              window.location.replace("<?php echo $ToUpdateCategoryPHP?>"+"?id="+id);
 
             },
             error:function(data)
             {
               alert("Update failure");
-              window.location.replace("<?php echo $ToUpdateCategoryHTML?>"+"?id="+id);
+              window.location.replace("<?php echo $ToUpdateCategoryPHP?>"+"?id="+id);
             }
           })
 

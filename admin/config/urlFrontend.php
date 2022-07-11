@@ -4,20 +4,20 @@
 
 
  // Insert
-$ToInsertCourseHTML="insertCourse.php";
-$ToInsertCategoryHTML='insertCategory.php';
+$ToInsertCoursePHP="insertCourse.php";
+$ToInsertCategoryPHP='insertCategory.php';
  // Update
-$ToEditContactHTML;
-$ToUpdateCategoryHTML="updateCategory.php";
-$ToUpdateCourse="updateCourse.php";
+$ToEditContactPHP="editContact.php";
+$ToUpdateCategoryPHP="updateCategory.php";
+$ToUpdateCoursePHP="updateCourse.php";
  // Delete
 
 
  // Other
-$ToAdminIndexHTML="adminIndex.php";
-$ToViewTopCourseHTML="viewTopCourse.php";
-$ToViewCourseCategoryHTML="viewCourseCategory.php";
-
+$ToAdminIndexPHP="adminIndex.php";
+$ToViewTopCoursePHP="viewTopCourse.php";
+$ToViewCourseCategoryPHP="viewCourseCategory.php";
+$ToCourseDetailAdminPHP="coursedetailAdmin.php";
 // Function for frontend
 
 ?>

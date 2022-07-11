@@ -1,13 +1,6 @@
+
 <?php
-include ('../config/function.php');
-include ('../config/setting.php');
-include ('../config/db.php');
-
-$sqlProfile="select * from tbl_profile";
-mysqli_select_db($conn, $database);
-$resultProfile = mysqli_query($conn, $sqlProfile);
-$rowProfile=mysqli_fetch_assoc($resultProfile);
-
+  require './config/url.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,9 +9,10 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title><?php echo $rowProfile['Website_name'] ?></title>
+  <!-- <title></title> -->
   <meta content="" name="description">
   <meta content="" name="keywords">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
   <!-- Favicons -->
   <link href="../assets/img/favicon.png" rel="icon">
@@ -38,7 +32,7 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
 
   <!-- Template Main CSS File -->
   <link href="../assets/css/style.css" rel="stylesheet">
-
+  <link href="../assets/css/otherStyle.css" rel="stylesheet">
   <!-- =======================================================
   * Template Name: KnightOne - v4.3.0
   * Template URL: https://bootstrapmade.com/knight-simple-one-page-bootstrap-template/
@@ -46,52 +40,85 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
 </head>
+<script>
+   getParameter = (key) => {
 
+// Address of the current window
+address = window.location.search
+
+// Returns a URLSearchParams object instance
+parameterList = new URLSearchParams(address)
+
+// Returning the respected value associated
+// with the provided key
+return parameterList.get(key)
+}
+var id=getParameter('id');
+window.addEventListener("load",function()
+    {
+
+      $("#portfolio-details").hide();
+
+    })
+    $.when(
+      $.ajax({
+    type:"GET",
+      url:"<?php echo $ToCourse?>/"+id,
+      success: function(result,status,xhr)
+      {
+
+        var course=JSON.parse(result);
+        var img=document.createElement("img");
+        img.src="data:image;base64,"+course.image;
+        img.setAttribute("style","width:max-content;max-width: 100%;max-height:100%;");
+        img.setAttribute("class","img-fluid");
+        img.setAttribute("alt","");
+        var imgContainer=document.getElementsByClassName("s")[0];
+        imgContainer.appendChild(img);
+
+
+
+
+
+
+
+        $.ajax({
+    type:"GET",
+      url:"<?php echo $ToCategory?>/"+course.categoryid,
+      success: function(resultx,status,xhr)
+      {
+
+        var category=JSON.parse(resultx);
+
+        var ul=document.getElementsByTagName("ul")[1];
+        var content="";
+        content+=(' <li><strong>Course ID</strong>: '+course.courseid+'</li>');
+        content+=(' <li><strong>Course Title</strong>: '+course.title+'</li>')
+        content+=('<li><strong>Programming Languages Used</strong>: '+course.language+'</li>');
+        content+=('<li><strong>Course Duration</strong>: '+course.duration+' Hours</li>');
+        content+=(' <li><strong>Course Category</strong>: '+category[0].description+'</li>');
+        ul.innerHTML=content;
+
+        var description=document.getElementById("description");
+        description.innerHTML=course.description;
+
+      }
+  });
+      }
+  })
+    )
+ .done(function(){
+    $("#portfolio-details").show();
+    $("#loader").hide();
+  })
+
+
+
+
+</script>
 <body>
-<?php
 
-
-     $path='adminIndex.php';
-
-
-  ?>
-  <!-- ======= Header ======= -->
-
-  <header id="header" class="fixed-top header-inner-pages">
-
-
-    <div class="container-fluid">
-
-<div class="row justify-content-center">
-  <div class="col-xl-9 d-flex align-items-center justify-content-lg-between">
-    <h1 class="logo me-auto me-lg-0"><a href="<?php echo $path; ?>"><?php echo $rowProfile['Website_name'] ?></a></h1>
-    <!-- Uncomment below if you prefer to use an image logo -->
-    <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
-
-    <nav id="navbar" class="navbar order-last order-lg-0">
-      <ul>
-        <li><a class="nav-link scrollto " href="<?php echo $path;?>">Home</a></li>
-        <li><a class="nav-link scrollto" href="<?php echo $path.'#services' ?>" >Services</a></li>
-
-              <li><a class="nav-link scrollto " href="<?php echo $path.'#features'; ?>">Our Mission</a></li>
-              <li><a class="nav-link scrollto " href="<?php echo $path.'#company'; ?>">Cooperated Companies</a></li>
-              <li><a class="nav-link scrollto " href="<?php echo $path.'#portfolio'; ?>">Most Popular Courses</a></li>
-              <li><a class="nav-link scrollto" href="<?php echo $path.'#pricing'; ?>">Pricing</a></li>
-              <li><a class="nav-link scrollto" href="<?php echo $path.'#faq'; ?>">FAQ</a></li>
-              <li><a class="nav-link scrollto" href="<?php echo $path.'#contact'; ?>">Contact</a></li>
-
-      </ul>
-      <i class="bi bi-list mobile-nav-toggle"></i>
-    </nav><!-- .navbar -->
-
-  </div>
-</div>
-
-</div>
-
-
-  </header><!-- End Header -->
-
+  <?php include 'headerWithNavigation.php' ?>
   <main id="main">
 
     <!-- ======= Breadcrumbs ======= -->
@@ -99,14 +126,14 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
       <div class="container">
 
         <ol>
-          <li><a href="<?php echo $path ?>">Home</a></li>
+          <li><a href="<?php echo $ToAdminIndexPHP?>">Home</a></li>
           <li>Course Details</li>
         </ol>
         <h2>Course Details</h2>
 
       </div>
     </section><!-- End Breadcrumbs -->
-
+    <div id="loader"></div>
     <!-- ======= Portfolio Details Section ======= -->
     <section id="portfolio-details" class="portfolio-details">
       <div class="container">
@@ -116,16 +143,10 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
           <div class="col-lg-8">
             <div class="portfolio-details-slider swiper-container">
               <div class="swiper-wrapper align-items-center">
-                <?php
-                $id=$_GET['id'];
-                $sql ="select * from tbl_course where tbl_course_courseid='".$id."'";
-                mysqli_select_db($conn,$database);
-                $result=mysqli_query($conn,$sql);
-                $row=mysqli_fetch_assoc($result);
-                ?>
-                <div class="swiper-slide" style="display: flex; justify-content:center;">
-                <img src="data:image;base64,<?php echo $row['tbl_course_image']; ?>" style="width:max-content"class="img-fluid" alt="" style="max-width: 100%;max-height:100%;">
-                </div>
+
+                <div class="s" style="display: flex; justify-content:center;">
+
+              </div>
 
 
               </div>
@@ -137,23 +158,13 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
             <div class="portfolio-info">
               <h3>Course information</h3>
               <ul>
-                <li><strong>Course ID</strong>: <?php echo $row['tbl_course_courseid'];?></li>
-                <li><strong>Course Title</strong>: <?php echo $row['tbl_course_title'];?></li>
-                <li><strong>Programming Languages Used</strong>: <?php echo $row['tbl_course_language'];?></li>
-                <li><strong>Course Duration</strong>: <?php echo $row['tbl_course_duration'];?> Hours</li>
-                <?php
-                  $categoryid=$row['tbl_course_categoryid'];
-                  $sql2 ="select * from tbl_category where tbl_category_id='".$categoryid."'";
-                  $result2=mysqli_query($conn,$sql2);
-                  $row2=mysqli_fetch_assoc($result2);
-                ?>
-                 <li><strong>Course Category</strong>: <?php echo $row2['tbl_category_description'];?></li>
+
               </ul>
             </div>
             <div class="portfolio-description">
               <h2>This is the detail of the course</h2>
-              <p>
-              <?php echo $row['tbl_course_description'] ?>
+              <p id="description">
+
             </p>
             </div>
           </div>
@@ -166,25 +177,8 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
   </main><!-- End #main -->
 
 
-  <!-- ======= Footer ======= -->
-  <footer id="footer">
-    <div class="container">
-      <h3><?php echo $rowProfile['Website_name'] ?></h3>
-
-      <div class="social-links">
-        <a href="" class="twitter"><i class="bx bxl-twitter"></i></a>
-        <a href="" class="facebook"><i class="bx bxl-facebook"></i></a>
-        <a href="" class="instagram"><i class="bx bxl-instagram"></i></a>
-        <a href="" class="google-plus"><i class="bx bxl-skype"></i></a>
-        <a href="" class="linkedin"><i class="bx bxl-linkedin"></i></a>
-      </div>
-      <div class="copyright">
-        &copy; Copyright <strong><span><?php echo $rowProfile['Website_name'] ?></span></strong>. All Rights Reserved
-      </div>
-
-    </div>
-  </footer><!-- End Footer -->
-
+<?php  include 'footer.php';
+?>
   <div id="preloader"></div>
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

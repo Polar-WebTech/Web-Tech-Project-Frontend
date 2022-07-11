@@ -52,8 +52,8 @@
     {
       // $("#header").load("header.html");
       $("a").hide();
-      document.getElementsByTagName("form")[0].action="<?php echo $ToViewTopCourseHTML?>";
-      document.getElementById("linkInsertCategory").href="<?php echo $ToInsertCategoryHTML?>";
+      document.getElementsByTagName("form")[0].action="<?php echo $ToViewTopCoursePHP?>";
+      document.getElementById("linkInsertCategory").href="<?php echo $ToInsertCategoryPHP?>";
     })
 
     function deleteCategory(id)
@@ -66,12 +66,12 @@
         success: function(data)
         {
           alert ("Delete successfully");
-          window.location.replace("<?php echo $ToViewCourseCategoryHTML ?>");
+          window.location.replace("<?php echo $ToViewCourseCategoryPHP ?>");
         },
         error: function(data)
         {
           alert ("Delete failure");
-          window.location.replace("<?php echo $ToViewCourseCategoryHTML ?>");
+          window.location.replace("<?php echo $ToViewCourseCategoryPHP ?>");
         }
       });
       }
@@ -106,7 +106,7 @@
         var cell3=row.insertCell();
 
         var ulink=document.createElement("a");
-        ulink.href="<?php echo $ToUpdateCategoryHTML?>"+"?id="+categorylist[i].id;
+        ulink.href="<?php echo $ToUpdateCategoryPHP?>"+"?id="+categorylist[i].id;
         var updatelink=document.createElement("button");
 
 

@@ -76,7 +76,7 @@ window.addEventListener("load",function()
       $("table").hide();
       $("input").hide();
       // document.getElementsByTagName("form")[0].action=ToUpdateCoursePHP;
-      document.getElementsByTagName("form")[1].action="<?php echo $ToViewTopCourseHTML?>";
+      document.getElementsByTagName("form")[1].action="<?php echo $ToViewTopCoursePHP?>";
 
     })
     var id=getParameter('id');
@@ -252,7 +252,7 @@ window.addEventListener("load",function()
         console.log(data);
 
         alert("Update successfully");
-        window.location.replace("<?php echo $ToUpdateCourse?>?id="+id);
+        window.location.replace("<?php echo $ToUpdateCoursePHP?>?id="+id);
 
       },
       error:function(data)

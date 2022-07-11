@@ -73,7 +73,7 @@
       // $("#add").hide();
 
 
-      document.getElementById("back").href="<?php echo $ToAdminIndexHTML?>";
+      document.getElementById("back").href="<?php echo $ToAdminIndexPHP?>";
 
 
     })
@@ -87,7 +87,7 @@
         success: function(data)
         {
           alert ("Delete successfully");
-          window.location.replace("<?php echo $ToViewTopCourseHTML ?>");
+          window.location.replace("<?php echo $ToViewTopCoursePHP ?>");
         },
         error: function(data)
         {
@@ -123,12 +123,12 @@ $.ajax({
       var content="";
 
       content=content+"<div class='col-lg-4 col-md-6 portfolio-item filter-"+allcourse[i].categoryid+"'>";
-      content+=("<a href='../coursedetail.php?id="+allcourse[i].courseid
+      content+=("<a href='coursedetailAdmin.php?id="+allcourse[i].courseid
       +"'>"+'<img src="data:image;base64,'+allcourse[i].image+
       '" style="width:max-content" class="img-fluid" alt=""></a> ');
       content+='<div class="portfolio-info" >';
           content+=('<h4>'+allcourse[i].title+"</h4>");
-      content+=(' <p><a href="<?php echo $ToUpdateCourse?>?id='+allcourse[i].courseid+'" style="font-size:medium;color:white;">Update</a></p>');
+      content+=(' <p><a href="<?php echo $ToUpdateCoursePHP?>?id='+allcourse[i].courseid+'" style="font-size:medium;color:white;">Update</a></p>');
       content+=('<p><a href="#" class="delete" id="'
         +allcourse[i].courseid+'"'
         +' style="font-size:medium;color:white;">Delete</a></p></div></div>');
@@ -146,7 +146,7 @@ $.ajax({
 
     content="";
     content+=('<div id="add" class="col-lg-4 col-md-6 portfolio-item '+filterlist+'" style="display: flex; justify-content:center;">');
-    content+=('<a id="linkInsert" href="<?php echo $ToInsertCourseHTML?>"><img src="../assets/img/plus icon.png" style="height: 150px; width: 120px;"class="img-fluid" alt=""></a>');
+    content+=('<a id="linkInsert" href="<?php echo $ToInsertCoursePHP?>"><img src="../assets/img/plus icon.png" style="height: 150px; width: 120px;"class="img-fluid" alt=""></a>');
     content+=('<div class="portfolio-info"><h4>Add course</h4> </div></div>');
     $("#item").append(content);
 
@@ -185,7 +185,7 @@ $.ajax({
 
     }
   }
-  $("#portfolio-flters").append('<div class="category"><a  href="<?php echo $ToViewCourseCategoryHTML?>"  >Edit Course Category</a></div>');
+  $("#portfolio-flters").append('<div class="category"><a  href="<?php echo $ToViewCourseCategoryPHP?>"  >Edit Course Category</a></div>');
 
 
 
