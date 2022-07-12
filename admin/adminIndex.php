@@ -58,6 +58,29 @@ $.ajax({
   }
 }),
 
+$.ajax({
+  type:"GET",
+  url:"<?php echo $ToMission?>",
+  success: function(result,status,xhr)
+  {
+    servicelist=JSON.parse(result);
+    for (var i=0;i<servicelist.length;i++){
+      var content="";
+      content+=("<table style='width:100%; margin-left: 20px'>")
+      // content+=("<div class='col-lg-6 order-2 order-lg-1'>");
+      content+=("<tr>")
+      content+=("<th style='width:20%'><p>" + (i+1) + "</p></th>");
+
+      content+=("<th style='width:20%'><p>"+servicelist[i].goal+"</p></th>");
+      content+=("<th style='width:70%'><p>"+servicelist[i].description+"</p></th>");
+      content+=("</tr>")
+      // content+=("</div>");
+      content+=("</table>");
+      $("#missionrow").append(content);
+  }
+  }
+}),
+
 )
   })
 
@@ -138,13 +161,12 @@ $.ajax({
 
       <div class="container">
       <div class="section-title">
-          <h2>Our Mission - To Let You Learn &nbsp;&nbsp;&nbsp;<a href="<?php $ToViewMissionPHP?>">[Edit]</a></h2>
+          <h2>Our Mission - To Let You Learn &nbsp;&nbsp;&nbsp;<a href="<?php echo $ToViewMissionPHP?>">[Edit]</a></h2>
 
         </div>
-        <div class="row">
-          <table style="width:100%">
+        <div class="row" id="missionrow">
+          <!-- <table style="width:100%">
           <div class="col-lg-6 order-2 order-lg-1">
-            <div class="icon-box mt-5 mt-lg-0">
 
               <?php
               //  $no=1;
@@ -165,10 +187,9 @@ $.ajax({
               <?php //$no++;
               // } ?>
               </div>
-            </div>
-            </table>
+            </table> -->
           </div>
-        </div>
+        </div> 
     </section>
 
     <!-- ======= Company Section ======= -->

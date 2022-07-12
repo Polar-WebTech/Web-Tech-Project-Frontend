@@ -1,13 +1,7 @@
 <?php
-include ("../config/setting.php");
-include ("../config/db.php");
-require_once ("../config/function.php");
-include ('../config/checkSessionOther.php');
-$sqlProfile="select * from tbl_profile";
-mysqli_select_db($conn, $database);
-$resultProfile = mysqli_query($conn, $sqlProfile);
-$rowProfile=mysqli_fetch_assoc($resultProfile);
+  require './config/url.php';
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,7 +32,7 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>INsert Mission</title>
+  <title>Insert Mission</title>
   <meta content="" name="tbl_list_Description">
   <meta content="" name="keywords">
 
@@ -68,10 +62,12 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
   ======================================================== -->
 </head>
 
+<?php include 'headerWithNavigation.php' ?>
+
 <body>
 
   <!-- ======= Header ======= -->
-  <header id="header" class="fixed-top header-inner-pages ">
+  <!-- <header id="header" class="fixed-top header-inner-pages ">
     <div class="container-fluid">
 
       <div class="row justify-content-center" style="padding-top:20px;padding-bottom:20px">
@@ -80,8 +76,8 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
         </div>
       </div>
 
-    </div>
-  </header><!-- End Header -->
+    </div> -->
+  <!-- </header>End Header -->
 
   <main id="main">
 
@@ -101,30 +97,30 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
 
 <?php
 
-if (isset($_POST['desc'])){
-        $u=$_POST['tbl_list_Goal'];
-        $n=$_POST['desc'];
-        $sql ="INSERT INTO `tbl_list` (`tbl_list_Goal`, `tbl_list_Description`)
-        VALUES ('".$u."', '".$n."')";  // sql insert command
-        mysqli_select_db($conn,$database); ///select database as default
-        $result=mysqli_query($conn,$sql);  // command allow sql cmd to be sent to mysql
-       // mysqli_fetch_assoc($result);
-      goto2("viewlist.php"," New mission is successfully Inserted");
+// if (isset($_POST['desc'])){
+//         $u=$_POST['tbl_list_Goal'];
+//         $n=$_POST['desc'];
+//         $sql ="INSERT INTO `tbl_list` (`tbl_list_Goal`, `tbl_list_Description`)
+//         VALUES ('".$u."', '".$n."')";  // sql insert command
+//         mysqli_select_db($conn,$database); ///select database as default
+//         $result=mysqli_query($conn,$sql);  // command allow sql cmd to be sent to mysql
+//        // mysqli_fetch_assoc($result);
+//       goto2("viewlist.php"," New mission is successfully Inserted");
 
-} else {
+// } else {
 
 ?>
-<form action="insertlist.php" method="POST">
+<form action="<?php echo $ToMission?>" method="POST" id="missionForm">
  <table style="width:100%"class="table_style">
  <tr>
   <th style="width:40%"><label for="Goal">Goal*</label></th>
   <th>:</th>
-  <th><textarea id="tbl_list_Goal" rows="1px" cols="40px" name="tbl_list_Goal" required></textarea></th>
+  <th><textarea id="tbl_list_Goal" rows="1px" cols="40px" name="goal" required></textarea></th>
  </tr>
  <tr >
   <th style="width:40%"><label for="Description">Description*</label></th>
   <th>:</th>
-  <th ><textarea id="desc" rows="3px" cols="70px" name="desc" required></textarea></th>
+  <th ><textarea id="desc" rows="3px" cols="70px" name="description" required></textarea></th>
  </tr>
  <tr>
    <td></td>
@@ -142,7 +138,7 @@ if (isset($_POST['desc'])){
   <input type="submit" value="Return to previous page." style="border-radius:25px;background-color:lightgrey;color:green;padding:10px;">
 </form>
 
-<?php } ?>
+<?php //} ?>
 
 </div>
 </div>
@@ -168,5 +164,26 @@ if (isset($_POST['desc'])){
   <script src="../assets/js/main.js"></script>
 
 </body>
+<script>
+var frm = $('#missionForm');
 
+frm.submit(function (e) {
+
+    e.preventDefault();
+
+    $.ajax({
+        type: frm.attr('method'),
+        url: frm.attr('action'),
+        data: frm.serialize(),
+        success: function (data) {
+            alert('Mission is successfully inserted.');
+            window.location.replace("viewlist.php");
+        },
+        error: function (data) {
+            console.log('An error occurred.');
+            console.log(data);
+        },
+    });
+});
+</script>
 </html>
