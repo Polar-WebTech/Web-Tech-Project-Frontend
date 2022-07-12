@@ -31,8 +31,8 @@ input[type="submit"].save:hover{
 <?php include 'head.php'?>
   <script>
     function iconChange(value) {
-    document.getElementById("previewIcon").className = "bx "+value; 
-  } 
+    document.getElementById("previewIcon").className = "bx "+value;
+  }
   </script>
 </head>
 
@@ -93,7 +93,7 @@ input[type="submit"].save:hover{
       <td><textarea id="description" rows="5px" cols="50px" name="description" required><?php //echo $row['Description']; ?></textarea></td>
     </tr>
     <tr>
-    
+
     <tr>
     <tr>
     <th><label for="Boxicon"> BoxIcons</label></th>
@@ -135,14 +135,14 @@ input[type="submit"].save:hover{
     <tr>
       <td></td>
       <td></td>
-      <td> <input type="submit" value="Save" class="save"></td>
+      <td> <input class="btn btn-outline-success" type="submit" value="Save" id="save"  ></td>
     </tr>
     </form>
     <tr>
       <td>
       <form action="viewService.php">
 
-<input type="submit" value="Return To Previous Page" style="border-radius:25px;background-color:lightgrey;color:green;padding:10px;">
+      <input class="btn btn-outline-secondary rounded-pill" type="submit" value="Return To Previous Page">
 </form>
       </td>
       <td></td>

@@ -93,7 +93,7 @@ input[type="submit"].save:hover{
     ?>
 
     <form method="PUT" id="profileForm">
-    
+
     <table >
     <tr>
       <th><label for="Website Name">Website Name</label></th>
@@ -139,14 +139,14 @@ input[type="submit"].save:hover{
     <tr>
       <td></td>
       <td><input type="hidden" id="id" name="id" value = ""></td>
-      <td> <input type="submit" value="Save" class="save"></td>
+      <td> <input class="btn btn-outline-success" type="submit" value="Save" id="save"></td>
     </tr>
     </form>
     <tr>
       <td>
       <form action="<?php echo $ToAdminIndexPHP ?>">
 
-<input type="submit" value="Return To Previous Page" style="border-radius:25px;background-color:lightgrey;color:green;padding:10px;">
+      <input class="btn btn-outline-secondary rounded-pill" type="submit" value="Return To Previous Page">
 </form>
       </td>
       <td></td>

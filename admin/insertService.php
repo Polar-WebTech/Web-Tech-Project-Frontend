@@ -1,12 +1,5 @@
 <?php
-include ("../config/setting.php");
-include ("../config/function.php");
-include ("../config/db.php");
-include ('../config/checkSessionOther.php');
-$sqlProfile="select * from tbl_profile";
-mysqli_select_db($conn, $database);
-$resultProfile = mysqli_query($conn, $sqlProfile);
-$rowProfile=mysqli_fetch_assoc($resultProfile);
+  require './config/url.php';
 ?>
 
 <!DOCTYPE html>
@@ -18,21 +11,7 @@ td,th
 {
   padding: 10px;
 }
-input[type="submit"].add{
-  background-color:greenyellow;
-  color:blue;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
 
-
-}
-input[type="submit"].add:hover{
-
-  font-size: x-large;
-
-}
 
 </style>
 
@@ -70,24 +49,12 @@ input[type="submit"].add:hover{
   ======================================================== -->
   <script>
     function iconChange(value) {
-    document.getElementById("previewIcon").className = "bx "+value; 
-  } 
+    document.getElementById("previewIcon").className = "bx "+value;
+  }
   </script>
 </head>
 
-<!-- ======= Header ======= -->
-<header id="header" class="fixed-top header-inner-pages ">
-    <div class="container-fluid">
-
-    <div class="row justify-content-center" style="padding-top:20px;padding-bottom:20px">
-    <div class="col-xl-9 d-flex align-items-center justify-content-lg-between">
-      <h1 class="logo me-auto me-lg-0"><a href="adminIndex.php"><?php echo $rowProfile['Website_name'] ?></a></h1>
-    </div>
-    </div>
-
-    </div>
-</header>
-<!-- End Header -->
+<?php include 'headerWithNavigation.php' ?>
 
 <main id="main">
 
@@ -137,7 +104,7 @@ input[type="submit"].add:hover{
       </td>
     </tr>
 
-    
+
     <tr>
     <tr>
     <th><label for="Boxicon"> BoxIcons</label></th>
@@ -178,14 +145,14 @@ input[type="submit"].add:hover{
     <tr>
       <td></td>
       <td></td>
-      <td> <input type="submit" value="Add" class="add"></td>
+      <td> <input class="btn btn-outline-success" type="submit" value="Add" id="save"></td>
     </tr>
     </form>
     <tr>
       <td>
       <form action="viewService.php">
 
-<input type="submit" value="Return To Previous Page" style="border-radius:25px;background-color:lightgrey;color:green;padding:10px;">
+      <input class="btn btn-outline-secondary rounded-pill" type="submit" value="Return To Previous Page">
 </form>
       </td>
       <td>

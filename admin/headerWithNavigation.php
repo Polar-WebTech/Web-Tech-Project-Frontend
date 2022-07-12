@@ -23,13 +23,12 @@
             var list=document.getElementsByTagName("ul")[0];
             var content="";
             content+=(' <li><a class="nav-link scrollto " href="'+'<?php echo $ToAdminIndexPHP?>'+'">Home</a></li>');
-            content+=(' <li><a class="nav-link scrollto" href="'+'" >Services</a></li>');
-            content+=('<li><a class="nav-link scrollto " href="'+'">Our Mission</a></li>');
-            content+=('<li><a class="nav-link scrollto " href="'+'">Cooperated Companies</a></li>');
-            content+=(' <li><a class="nav-link scrollto " href="'+'">Most Popular Courses</a></li>');
-            content+=('<li><a class="nav-link scrollto" href="'+'">Pricing</a></li>');
-            content+=(' <li><a class="nav-link scrollto" href="'+'">FAQ</a></li>');
-            content+=(' <li><a class="nav-link scrollto" href="'+'>Contact</a></li>');
+            content+=(' <li><a class="nav-link scrollto" href="'+'<?php echo $ToAdminIndexPHP?>'+'#services" >Services</a></li>');
+            content+=('<li><a class="nav-link scrollto " href="'+'<?php echo $ToAdminIndexPHP?>'+'#mission">Our Mission</a></li>');
+            content+=('<li><a class="nav-link scrollto " href="'+'<?php echo $ToAdminIndexPHP?>'+'#company">Cooperated Companies</a></li>');
+            content+=(' <li><a class="nav-link scrollto " href="'+'<?php echo $ToAdminIndexPHP?>'+'#course">Most Popular Courses</a></li>');
+            content+=('<li><a class="nav-link scrollto" href="'+'<?php echo $ToAdminIndexPHP?>'+'#pricing">Pricing</a></li>');
+            content+=(' <li><a class="nav-link scrollto" href="'+'<?php echo $ToAdminIndexPHP?>'+'#contact">Contact</a></li>');
 
             list.innerHTML=content;
 

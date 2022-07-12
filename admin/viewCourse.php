@@ -7,7 +7,7 @@
 
 <head>
 
-  <title>View Most Popular Courses</title>
+
   <?php include 'head.php'?>
   <style>
     .category a
@@ -34,14 +34,6 @@
       var categorylist;
       window.addEventListener("load",function()
     {
-      // $("#header").load("header.html");
-      // $("ul").hide();
-      // $(".row portfolio-container").hide();
-      // $("#add").hide();
-
-
-      document.getElementById("back").href="<?php echo $ToAdminIndexPHP?>";
-
 
     })
     function deleteCourse(id)
@@ -92,27 +84,11 @@ $.ajax({
       '" style="width:max-content" class="img-fluid" alt=""></a> ');
       content+='<div class="portfolio-info" >';
           content+=('<h4>'+allcourse[i].title+"</h4>");
-      content+=(' <p><a href="<?php echo $ToUpdateCoursePHP?>?id='+allcourse[i].courseid+'" style="font-size:medium;color:white;">Update</a></p>');
-      content+=('<p><a href="#" class="delete" id="'
-        +allcourse[i].courseid+'"'
-        +' style="font-size:medium;color:white;">Delete</a></p></div></div>');
 
       $("#item").append(content);
 
 
     }
-    var deletelink=document.getElementsByClassName("delete");
-    for (var b=0;b<deletelink.length;b++)
-    {
-      deletelink[b].setAttribute("onclick",'return deleteCourse("'+deletelink[b].id+'")');
-    };
-
-
-    content="";
-    content+=('<div id="add" class="col-lg-4 col-md-6 portfolio-item '+filterlist+'" style="display: flex; justify-content:center;">');
-    content+=('<a id="linkInsert" href="<?php echo $ToInsertCoursePHP?>"><img src="../assets/img/plus icon.png" style="height: 150px; width: 120px;"class="img-fluid" alt=""></a>');
-    content+=('<div class="portfolio-info"><h4>Add course</h4> </div></div>');
-    $("#item").append(content);
 
 
 
@@ -127,6 +103,11 @@ $.ajax({
 
 
   categorylist=JSON.parse(result);
+   var filter= document.getElementById("portfolio-flters");
+  var category=document.getElementById("viewcategory");
+
+  var tempcontent="";
+  tempcontent+=("<li data-filter="*" class='filter-active'>All</li>");
 
   for (var i=0;i<categorylist.length;i++)
   {
@@ -144,8 +125,6 @@ $.ajax({
 
     }
   }
-  $("#portfolio-flters").append('<div class="category"><a  href="<?php echo $ToViewCourseCategoryPHP?>"  >Edit Course Category</a></div>');
-
 
 
 
@@ -153,15 +132,7 @@ $.ajax({
   }
 }),
 
-).done(function(){
-  $("#loader").hide();
-
-
-
-
-
-
-})
+)
 })
 
 
@@ -171,35 +142,12 @@ $.ajax({
 
 <body>
 
-<?php include 'headerWithNavigation.php' ?>
-  <main id="main">
 
 
-
-
-
-    <!-- ======= Portfolio Section ======= -->
-    <section id="portfolio" class="portfolio">
-      <div class="container">
-
-        <div class="section-title">
-          <h2>Most Popular Courses</h2>
-          <p>Explore most popular courses to enhance your programming skills.</p>
-          <br>
-          <h3><a href=""  id="back"><u>Back</u></a><br></h3>
-        </div>
-
-        <div id="loader"></div>
         <div class="row">
           <div class="col-lg-12 d-flex justify-content-center">
             <ul id="portfolio-flters">
               <li data-filter="*" class="filter-active">All</li>
-
-
-
-
-
-
 
 
             </ul>
@@ -211,25 +159,12 @@ $.ajax({
 
 
 
-
-
-
-
-
-
         </div>
 
-      </div>
-
-    </section><!-- End Portfolio Section -->
 
 
-</script>
-  </main><!-- End #main -->
 
 
-  <div id="preloader"></div>
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center">xxx<i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
   <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

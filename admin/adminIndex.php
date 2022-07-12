@@ -1,101 +1,72 @@
+
 <?php
-include ("../config/setting.php");
-include ("../config/function.php");
-include ('../config/db.php');
-include ('../config/checkSessionOther.php');
-
-
-
+  require './config/url.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <?php
+<?php include 'head.php'?>
 
-  $sqlProfile="select * from tbl_profile";
-  mysqli_select_db($conn, $database);
-  $resultProfile = mysqli_query($conn, $sqlProfile);
-  $rowProfile=mysqli_fetch_assoc($resultProfile);
-
-  $sqlContact="select * from tbl_contact";
-  $resultContact=mysqli_query($conn,$sqlContact);
-  $rowContact=mysqli_fetch_assoc($resultContact);
-
-  ?>
   <title><?php echo $rowProfile['Website_name'] ?></title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
 
-   <!-- Favicons -->
-   <link href="../assets/img/favicon.png" rel="icon">
-  <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <!-- <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet"> -->
-  <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet">
-  <link href="../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
-  <!-- Template Main CSS File -->
-  <link href="../assets/css/style.css" rel="stylesheet">
-
-  <!-- =======================================================
-  * Template Name: KnightOne - v4.3.0
-  * Template URL: https://bootstrapmade.com/knight-simple-one-page-bootstrap-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
+
+<script>
+
+  $(document).ready(function()
+  {
+    $.when(
+      $.ajax({
+  type:"GET",
+  url:"<?php echo $ToProfile?>",
+  success: function(result,status,xhr)
+  {
+    profilelist=JSON.parse(result);
+    document.getElementById("slogan").innerHTML="<h1>"+profilelist[0].slogan+"</h1>";
+    // $('#slogan').append();
+    $('#about_us').append("<p>"+profilelist[0].about_us+"</p>");
+    // document.getElementById("about_us").innerHTML="<p>"+profilelist[0].about_us+"</p>";
+    $('#serviceTitle').append("<h4>We - <b>"+profilelist[0].name+"</b> offer services as below.</h4>");
+  }
+
+}),
+
+
+$.ajax({
+  type:"GET",
+  url:"<?php echo $ToService?>",
+  success: function(result,status,xhr)
+  {
+    servicelist=JSON.parse(result);
+    for (var i=0;i<servicelist.length;i++){
+      var content="";
+      content+=("<div class='col-lg-4 col-md-6 d-flex align-items-stretch'>");
+      content+=("<div class='icon-box'>");
+      content+=("<div class='icon'><i class='bx "+servicelist[i].boxicon_description+"'></i></div>");
+
+      content+=("<h4>"+servicelist[i].servicename+"</h4>");
+      content+=("<p>"+servicelist[i].description+"</p>");
+      content+=("</div>");
+      $("#servicerow").append(content);
+  }
+  }
+}),
+
+)
+  })
+
+</script>
 
 <body>
 
-  <!-- ======= Header ======= -->
-  <header id="header" class="fixed-top ">
-    <div class="container-fluid">
-
-      <div class="row justify-content-center">
-        <div class="col-xl-9 d-flex align-items-center justify-content-lg-between">
-          <h1 class="logo me-auto me-lg-0"><a href="adminIndex.php"><?php echo $rowProfile['Website_name'] ?></a></h1>
-          <!-- Uncomment below if you prefer to use an image logo -->
-          <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
-
-          <nav id="navbar" class="navbar order-last order-lg-0">
-            <ul>
-              <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
-              <li><a class="nav-link scrollto" href="#about">About</a></li>
-              <li><a class="nav-link scrollto" href="#services">Services</a></li>
-              <li><a class="nav-link scrollto " href="#features">Mission</a></li>
-              <li><a class="nav-link scrollto " href="#company">Cooperated Companies</a></li>
-              <li><a class="nav-link scrollto " href="#portfolio">Most Popular Courses</a></li>
-              <li><a class="nav-link scrollto" href="#pricing">Pricing</a></li>
-              <li><a class="nav-link scrollto" href="#faq">FAQ</a></li>
-              <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-            </ul>
-            <i class="bi bi-list mobile-nav-toggle"></i>
-          </nav><!-- .navbar -->
-
-          <a href="../logout.php" class="get-started-btn scrollto">Log Out</a>
-        </div>
-      </div>
-
-    </div>
-  </header><!-- End Header -->
-
+<?php include 'headerWithNavigation.php' ?>
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="d-flex flex-column justify-content-center">
     <div class="container">
       <div class="row justify-content-center">
-        <div class="col-xl-8">
-          <h1><?php echo $rowProfile['Slogan']?></h1>
+        <div class="col-xl-8" id="slogan">
+          <!-- <h1><?php //echo $rowProfile['Slogan']?></h1> -->
 
         </div>
       </div>
@@ -107,7 +78,7 @@ include ('../config/checkSessionOther.php');
     <br>
   <div class="container">
   <div class="section-title">
-        <h2><a href="editProfile.php">[Edit Website Profile]</a></h2>
+        <h2><a href="<?php echo $ToEditProfilePHP?>">[Edit Website Profile]</a></h2>
 
         </div>
 
@@ -116,14 +87,9 @@ include ('../config/checkSessionOther.php');
     <section id="about" class="about">
       <div class="container">
 
-        <div class="section-title">
+        <div class="section-title" id="about_us">
           <h2>About Us</h2>
-          <p>
-            <?php
-
-              echo $rowProfile['About_us'];
-            ?>
-          </p>
+          <!-- <p><?php // echo $rowProfile['About_us'];?></p> -->
         </div>
 
       </div>
@@ -133,28 +99,28 @@ include ('../config/checkSessionOther.php');
     <section id="services" class="services">
       <div class="container">
 
-        <div class="section-title">
-        <h2>Services &nbsp;&nbsp;&nbsp;<a href="viewService.php">[Edit]</a></h2>
-          <h4>We - <b><?php echo $rowProfile['Website_name'] ?></b> offer services as below.</h4>
+        <div class="section-title" id="serviceTitle">
+        <h2>Services &nbsp;&nbsp;&nbsp;<a href="<?php echo $ToViewServicePHP?>">[Edit]</a></h2>
+          <!-- <h4>We - <b></b> offer services as below.</h4> -->
         </div>
 
-        <div class="row">
+        <div class="row" id="servicerow">
         <?php
-                $sql="select * from tbl_service";
-                mysqli_select_db($conn, $database);
-                $result = mysqli_query($conn, $sql);
-                while($row = mysqli_fetch_assoc($result)) {
+                // $sql="select * from tbl_service";
+                // mysqli_select_db($conn, $database);
+                // $result = mysqli_query($conn, $sql);
+                // while($row = mysqli_fetch_assoc($result)) {
             ?>
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+        <!--  <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
 
             <div class="icon-box">
-              <div class="icon"><i class="bx <?php echo $row['Boxicon_description']; ?>"></i></div>
-              <h4><?php echo $row['ServiceName'];?></h4>
-              <p><?php echo $row['Description'];?></p>
+              <div class="icon"><i class="bx <?php //echo $row['Boxicon_description']; ?>"></i></div>
+              <h4><?php //echo $row['ServiceName'];?></h4>
+              <p><?php //echo $row['Description'];?></p>
             </div>
 
           </div>
-          <?php } ?>
+          <?php //} ?> -->
 
         </div>
 
@@ -163,11 +129,11 @@ include ('../config/checkSessionOther.php');
 
 
     <!-- list section -->
-    <section id="features" class="features">
+    <section id="mission" class="features">
 
       <div class="container">
       <div class="section-title">
-          <h2>Our Mission - To Let You Learn &nbsp;&nbsp;&nbsp;<a href="viewlist.php">[Edit]</a></h2>
+          <h2>Our Mission - To Let You Learn &nbsp;&nbsp;&nbsp;<a href="<?php $ToViewMissionPHP?>">[Edit]</a></h2>
 
         </div>
         <div class="row">
@@ -176,20 +142,23 @@ include ('../config/checkSessionOther.php');
             <div class="icon-box mt-5 mt-lg-0">
 
               <?php
-               $no=1;
-              $sql ="select * from tbl_list";
-              mysqli_select_db($conn,$database);
-              $result=mysqli_query($conn,$sql);
-              while ($row=mysqli_fetch_assoc($result)){
+              //  $no=1;
+              // $sql ="select * from tbl_list";
+              // mysqli_select_db($conn,$database);
+              // $result=mysqli_query($conn,$sql);
+              // while ($row=mysqli_fetch_assoc($result)){
               ?>
               <tr>
               <th ><i class="bx bx-receipt"></i></th>
-              <th><h4><?php echo $no; ?></h4></th>
-              <th style="width:20%"><p><?php echo $row['tbl_list_Goal'];?></p></th>
-              <th style="width:70%"><p><?php echo $row['tbl_list_Description'];?></p></th>
+              <th><h4>
+                <?php //echo $no; ?>
+
+              </h4></th>
+              <th style="width:20%"><p><?php //echo $row['tbl_list_Goal'];?></p></th>
+              <th style="width:70%"><p><?php //echo $row['tbl_list_Description'];?></p></th>
               </tr>
               <?php $no++;
-              } ?>
+              // } ?>
               </div>
             </div>
             </table>
@@ -202,7 +171,7 @@ include ('../config/checkSessionOther.php');
       <div class="container">
 
         <div class="section-title">
-        <h2>Cooperated Companies &nbsp;&nbsp;&nbsp;<a href="viewcompany.php">[Edit]</a></h2>
+        <h2>Cooperated Companies &nbsp;&nbsp;&nbsp;<a href="<?php echo $ToViewCompanyPHP?>">[Edit]</a></h2>
 
 
         </div>
@@ -211,18 +180,18 @@ include ('../config/checkSessionOther.php');
         <div  style="display: flex;flex-wrap:wrap ">
         <?php
 
-         $sqlx ="SELECT * FROM tbl_company ";
-         mysqli_select_db($conn,$database);
-         $resultx=mysqli_query($conn,$sqlx);
-        while ($rowx=mysqli_fetch_assoc($resultx)){ ?>
+        //  $sqlx ="SELECT * FROM tbl_company ";
+        //  mysqli_select_db($conn,$database);
+        //  $resultx=mysqli_query($conn,$sqlx);
+        // while ($rowx=mysqli_fetch_assoc($resultx)){ ?>
 
 
           <div class="col-lg-4 col-md-6 portfolio-item">
-          <a href ="<?php echo $rowx['tbl_company_Link'];?>"><img src = "data:image;base64,<?php echo $rowx['tbl_company_Picture'];?>" style="width:max-content"class="img-fluid" alt="" ></a>
+          <a href ="<?php //echo $rowx['tbl_company_Link'];?>"><img src = "data:image;base64,<?php //echo $rowx['tbl_company_Picture'];?>" style="width:max-content"class="img-fluid" alt="" ></a>
 
           </div>
 
-          <?php }  ?>
+          <?php //}  ?>
 
         </div>
 
@@ -231,7 +200,7 @@ include ('../config/checkSessionOther.php');
     </section><!-- End Company Section -->
 
     <!-- ======= Counts Section ======= -->
-    <section id="counts" class="counts">
+    <!-- <section id="counts" class="counts">
       <div class="container">
 
         <div class="text-center title">
@@ -242,91 +211,50 @@ include ('../config/checkSessionOther.php');
         <div class="row counters position-relative">
 
           <div class="col-lg-3 col-6 text-center">
-            <span data-purecounter-start="0" data-purecounter-end=<?php echo $rowProfile['Active_users'] ?> data-purecounter-duration="1" class="purecounter"></span>
+            <span data-purecounter-start="0" data-purecounter-end=<?php //echo $rowProfile['Active_users'] ?> data-purecounter-duration="1" class="purecounter"></span>
             <p>Active users</p>
           </div>
 
           <div class="col-lg-3 col-6 text-center">
-            <span data-purecounter-start="0" data-purecounter-end=<?php echo $rowProfile['Experience_instructors'] ?> data-purecounter-duration="1" class="purecounter"></span>
+            <span data-purecounter-start="0" data-purecounter-end=<?php //echo $rowProfile['Experience_instructors'] ?> data-purecounter-duration="1" class="purecounter"></span>
             <p>Experience instructors</p>
           </div>
 
           <div class="col-lg-3 col-6 text-center">
-            <span data-purecounter-start="0" data-purecounter-end=<?php echo $rowProfile['Total_hours'] ?> data-purecounter-duration="1" class="purecounter"></span>
+            <span data-purecounter-start="0" data-purecounter-end=<?php //echo $rowProfile['Total_hours'] ?> data-purecounter-duration="1" class="purecounter"></span>
             <p>Total hours of teaching video</p>
           </div>
 
           <div class="col-lg-3 col-6 text-center">
-            <span data-purecounter-start="0" data-purecounter-end=<?php echo $rowProfile['Number_courses'] ?> data-purecounter-duration="1" class="purecounter"></span>
+            <span data-purecounter-start="0" data-purecounter-end=<?php // echo $rowProfile['Number_courses'] ?> data-purecounter-duration="1" class="purecounter"></span>
             <p>Number of courses</p>
           </div>
         </div>
 
       </div>
-    </section><!-- End Counts Section -->
+    </section> -->
+    <!-- End Counts Section -->
 
 
     <!-- ======= Most popular courses Section ======= -->
-<section id="portfolio" class="portfolio">
+    <section id="course" class="portfolio">
       <div class="container">
 
         <div class="section-title">
-          <h2>Most Popular Courses&nbsp;&nbsp;&nbsp;<a href="viewTopCourse.php">[Edit]</a></h2>
+          <h2>Most Popular Courses&nbsp;&nbsp;&nbsp;<a href="<?php echo $ToViewTopCoursePHP?>">[Edit]</a></h2>
           <p>Explore most popular courses to enhance your programming skills.</p>
           <br>
 
         </div>
 
 
-        <div class="row">
-          <div class="col-lg-12 d-flex justify-content-center">
-            <ul id="portfolio-flters">
-              <li data-filter="*" class="filter-active">All</li>
-              <?php $sql ="select * from tbl_category";
-          mysqli_select_db($conn,$database);
-          $result=mysqli_query($conn,$sql);
-
-                 while($row=mysqli_fetch_assoc($result)) {?>
-                 <li data-filter=".filter-<?php echo $row['tbl_category_id']?>"><?php echo $row['tbl_category_description']?></li>
-
-
-              <?php } ?>
-
-            </ul>
-
-          </div>
-        </div>
-
-        <div class="row portfolio-container" style="display: block;">
-        <?php
-         $sql ="select * from tbl_course";
-         $result=mysqli_query($conn,$sql);
-        while ($row=mysqli_fetch_assoc($result)){ ?>
-
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-<?php echo $row['tbl_course_categoryid']?> ">
-
-
-            <img src="data:image;base64,<?php echo $row['tbl_course_image']; ?>" style="width:max-content"class="img-fluid" alt="">
-
-            <div class="portfolio-info" >
-              <h4><?php echo $row['tbl_course_title']?></h4>
-
-              <p><a href="coursedetailAdmin.php?id=<?php echo $row['tbl_course_courseid'] ;?>"  class="details-link" title="More Details"><i class="bx bx-link"></i></a></p>
-            </div>
-
-
-          </div>
-
-          <?php } ?>
-
-
+      <?php include 'viewCourse.php'?>
 
         </div>
 
       </div>
 
-    </section><!-- End Popular Courses Section -->
+    </section>
 
 
 
@@ -335,18 +263,19 @@ include ('../config/checkSessionOther.php');
       <div class="container">
 
         <div class="section-title">
-        <h2>Pricing &nbsp;&nbsp;&nbsp;<a href="viewPrice.php">[Edit]</a></h2>
+        <h2>Pricing &nbsp;&nbsp;&nbsp;<a href="<?php echo $ToViewPricePHP?>">[Edit]</a></h2>
 
 
         </div>
 
         <div class="row">
-          <?php $sql= "select * from tbl_price order by price";
-          mysqli_select_db($conn,$database);
-          $result=mysqli_query($conn,$sql);
+          <?php
+          // $sql= "select * from tbl_price order by price";
+          // mysqli_select_db($conn,$database);
+          // $result=mysqli_query($conn,$sql);
 
 
-          while($row=mysqli_fetch_assoc($result)){
+          // while($row=mysqli_fetch_assoc($result)){
           ?>
 
 
@@ -356,14 +285,14 @@ include ('../config/checkSessionOther.php');
 
               <h4><sup>$</sup><?php echo $row['price']?><span> / month</span></h4>
               <ul>
-                <li><?php echo $row['basic_courses']?></li>
-                <li><?php echo $row['members_content']?></li>
-                <li><?php echo $row['practices']?></li>
-                <li ><?php echo $row['support']?></li>
-                <li ><?php echo $row['certification']?></li>
-                <li ><?php echo $row['hours']?></li>
-                <li ><?php echo $row['additional']?></li>
-                <li ><?php echo $row['additional2']?></li>
+                <li><?php //echo $row['basic_courses']?></li>
+                <li><?php //echo $row['members_content']?></li>
+                <li><?php //echo $row['practices']?></li>
+                <li ><?php //echo $row['support']?></li>
+                <li ><?php //echo $row['certification']?></li>
+                <li ><?php //echo $row['hours']?></li>
+                <li ><?php //echo $row['additional']?></li>
+                <li ><?php //echo $row['additional2']?></li>
               </ul>
               <div class="btn-wrap">
                 <a href="#" class="btn-buy">Buy Now</a>
@@ -373,71 +302,29 @@ include ('../config/checkSessionOther.php');
               </div>
             </div>
           </div>
-        <?php } ?>
+        <?php // } ?>
 
 
         </div>
 
       </div>
-    </section><!-- End Pricing Section -->
+    </section>
 
-    <!-- ======= Faq Section ======= -->
-    <section id="faq" class="faq">
-      <div class="container-fluid">
-
-        <div class="row">
-
-          <div class="col-lg-7 d-flex flex-column justify-content-center align-items-stretch  order-2 order-lg-1">
-
-            <div class="content">
-              <h3>Frequently Asked <strong>Questions</strong>&nbsp;&nbsp;&nbsp;<b><a href="viewFAQ.php">[Edit]</a></b></h3>
-              <p>
-                Below you'll find answers to the questions we get asked the most about applying for IT courses at this website.
-              </p>
-            </div>
-
-            <div class="accordion-list">
-              <ul>
-                <?php
-                    $sql="SELECT * FROM `wpproject`.`tbl_question` LIMIT 0,1000";
-                    mysqli_select_db($conn,$database);
-                    $result=mysqli_query($conn,$sql);
-                    while($row=mysqli_fetch_assoc($result)){
-                ?>
-                <li>
-                  <a data-bs-toggle="collapse" class="collapse" data-bs-target="#accordion-list-1"><?php echo $row['Question']?> <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-                  <div id="accordion-list-1" class="collapse show" data-bs-parent=".accordion-list">
-                    <p>
-                      <?php echo $row['Answer'] ?>
-                    </p>
-                  </div>
-                </li>
-                <?php } ?>
-              </ul>
-            </div>
-
-          </div>
-
-          <div class="col-lg-5 align-items-stretch order-1 order-lg-2 img" style='background-image: url("../assets/img/faq.jpg");'>&nbsp;</div>
-        </div>
-
-      </div>
-    </section><!-- End Faq Section -->
 
     <!-- ======= Contact Section ======= -->
     <section id="contact" class="contact">
       <div class="container">
 
         <div class="section-title">
-          <h2>Contact&nbsp;&nbsp;&nbsp;<b><a href="editContact.php">[Edit]</a></b></h2>
+          <h2>Contact&nbsp;&nbsp;&nbsp;<b><a href="<?php echo $ToEditContactPHP?>">[Edit]</a></b></h2>
           <p>If you have any problems, please feel to free to contact us via the approaches provided at below.</p>
         </div>
       </div>
 
-      <div>
-        <iframe style="border:0; width: 100%; height: 350px;" src="<?php echo $rowContact['GoogleMap_link'] ?>"
-          frameborder="0" allowfullscreen></iframe>
-      </div>
+
+      <div id ="map" style = "height: 350px; width: 100%;"></div>
+
+
 
       <div class="container">
 
@@ -447,20 +334,20 @@ include ('../config/checkSessionOther.php');
             <div class="info">
               <div class="address">
                 <i class="ri-map-pin-line"></i>
-                <h4>Location:</h4>
-                <p><?php echo $rowContact['Location'] ?> </p>
+                <h4 >Location:</h4>
+                <p id="location"> </p>
               </div>
 
               <div class="email">
                 <i class="ri-mail-line"></i>
-                <h4>Email:</h4>
-                <p><?php echo $rowContact['Email'] ?></p>
+                <h4 >Email:</h4>
+                <p id="webemail"></p>
               </div>
 
               <div class="phone">
                 <i class="ri-phone-line"></i>
-                <h4>Call:</h4>
-                <p><?php echo $rowContact['Phone'] ?></p>
+                <h4 >Call:</h4>
+                <p id="call"></p>
               </div>
 
             </div>
@@ -482,14 +369,10 @@ include ('../config/checkSessionOther.php');
                 <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
               </div>
               <div class="form-group mt-3">
-                <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
+                <textarea class="form-control" name="message" rows="5" placeholder="Message" id="message" required></textarea>
               </div>
-              <div class="my-3">
-                <div class="loading">Loading</div>
-                <div class="error-message"></div>
-                <div class="sent-message">Your message has been sent. Thank you!</div>
-              </div>
-              <div class="text-center"><button type="submit">Send Message</button></div>
+
+              <div class="text-center"><button type="submit" onclick="return sendMail();">Send Message</button></div>
             </form>
 
           </div>
@@ -497,6 +380,57 @@ include ('../config/checkSessionOther.php');
         </div>
 
       </div>
+      <script>
+      var contact;
+          function sendMail()
+  { if (confirm("Is it ok to launch mail application?")==true)
+    {
+      var emailTo=document.getElementById("email").value;
+    var emailCC=contact[0].email;
+    var emailSub=document.getElementById("subject").value;
+    var emailBody=document.getElementById("message").innerHTML;
+    window.open(`mailto:${emailTo}?cc=${emailCC}&subject=${emailSub}&body=${emailBody}`, '_self');
+
+    };
+
+  }
+         $.ajax({
+          type:"GET",
+
+
+
+          url:"<?php echo $ToContact?>",
+          success:function(result,status,xhr)
+          {
+
+
+           contact=JSON.parse(result);
+
+      var Location;
+
+
+        Location=[parseFloat(contact[0].latitude),parseFloat(contact[0].longitude)];
+
+
+      var map = L.map('map').setView(Location, 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '© OpenStreetMap'
+}).addTo(map);
+map.attributionControl.setPrefix(false);
+var marker = new L.marker(Location, {
+    draggable: 'false',
+
+  }).addTo(map);
+  marker.bindPopup("We are here").openPopup();
+
+        document.getElementById("location").innerHTML=contact[0].location;
+        document.getElementById("webemail").innerHTML=contact[0].email;
+        document.getElementById("call").innerHTML=contact[0].phone;
+          }
+        })
+
+      </script>
     </section><!-- End Contact Section -->
 
   </main><!-- End #main -->

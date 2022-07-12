@@ -85,7 +85,7 @@
 
 
 <a href="<?php echo $ToInsertServicePHP?>">
-          <button type="button" class="editbtn" style="border-radius:25px;background-color:lightgrey;color:green;padding:10px;">Insert Service</button></a>
+          <button type="button" class="btn btn-outline-primary rounded-pill">Insert Service</button></a>
 
           </div>
   <div id="preloader"></div>
@@ -111,7 +111,7 @@
           let tbody = document.createElement('tbody');
           table.appendChild(thead);
           table.appendChild(tbody);
-          
+
           let row_1 = document.createElement('tr');
           let heading_1 = document.createElement('th');
           heading_1.innerHTML = "No";
@@ -127,7 +127,7 @@
           row_1.appendChild(heading_3);
           row_1.appendChild(heading_4);
           thead.appendChild(row_1);
-          
+
       var xhr = new XMLHttpRequest();
       xhr.open('get','<?php echo $ToService ?>');
       xhr.send();
@@ -137,9 +137,9 @@
         var serviceArray = JSON.parse(xhr.responseText);
         var rowDiv = document.querySelector("#services .container .row");
 
-          
+
         for(var i=0; i<serviceArray.length; i++){
-          
+
           let row = document.createElement('tr');
           let row_data_1 = document.createElement('td');
           row_data_1.innerHTML = i+1;
@@ -167,7 +167,7 @@
           row.appendChild(row_data_6);
           tbody.appendChild(row);
 
-          
+
         }
         document.getElementsByClassName('row')[1].appendChild(table);
       }
