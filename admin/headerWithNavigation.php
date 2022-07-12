@@ -1,7 +1,9 @@
 
 <?php
   require './config/url.php';
+
 ?>
+<?php include 'head.php'?>
   <script>
     $(document).ready(
       function()
@@ -28,9 +30,17 @@
             content+=('<li><a class="nav-link scrollto" href="'+'">Pricing</a></li>');
             content+=(' <li><a class="nav-link scrollto" href="'+'">FAQ</a></li>');
             content+=(' <li><a class="nav-link scrollto" href="'+'>Contact</a></li>');
+
             list.innerHTML=content;
 
-
+            var navbar=document.getElementById("containernav");
+            var linkx=document.createElement("a");
+            linkx.setAttribute("href","../logout.php" );
+            linkx.classList.add("get-started-btn");
+            linkx.classList.add("scrollto");
+            var linktext=document.createTextNode("Log Out");
+            linkx.appendChild(linktext);
+            navbar.appendChild(linkx);
         }
       }
     )
@@ -48,7 +58,7 @@
 <div class="container-fluid">
 
 <div class="row justify-content-center">
-<div class="col-xl-9 d-flex align-items-center justify-content-lg-between">
+<div class="col-xl-9 d-flex align-items-center justify-content-lg-between" id="containernav">
 <h1 class="logo me-auto me-lg-0"><a href="" id="name" ></a></h1>
 <!-- Uncomment below if you prefer to use an image logo -->
 <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
