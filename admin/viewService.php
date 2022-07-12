@@ -41,7 +41,7 @@
   <div class="container">
     <div class="section-title">
       <h2>View Services</h2>
-        <h3><a href="adminIndex.php" id="back"><u>Back</u></a><br></h3>
+        <h3><a href="<?php echo $ToAdminIndexPHP?>" id="back"><u>Back</u></a><br></h3>
     </div>
       <div class="row">
 <!--<table>

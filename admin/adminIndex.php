@@ -8,7 +8,7 @@
 <head>
 <?php include 'head.php'?>
 
-  <title><?php echo $rowProfile['Website_name'] ?></title>
+  <title id="websitetitle"><?php //echo $rowProfile['Website_name'] ?></title>
 
 </head>
 
@@ -23,11 +23,16 @@
   success: function(result,status,xhr)
   {
     profilelist=JSON.parse(result);
+    document.getElementById("websitetitle").innerHTML=profilelist[0].name;
     document.getElementById("slogan").innerHTML="<h1>"+profilelist[0].slogan+"</h1>";
     // $('#slogan').append();
     $('#about_us').append("<p>"+profilelist[0].about_us+"</p>");
     // document.getElementById("about_us").innerHTML="<p>"+profilelist[0].about_us+"</p>";
     $('#serviceTitle').append("<h4>We - <b>"+profilelist[0].name+"</b> offer services as below.</h4>");
+    $('#activeuser').append("<span data-purecounter-start='0' data-purecounter-end="+profilelist[0].active_users+" data-purecounter-duration='1' class='purecounter'>"+profilelist[0].active_users+"</span><p>Active users</p>");
+    $('#ei').append("<span data-purecounter-start='0' data-purecounter-end="+profilelist[0].experience_instructors+" data-purecounter-duration='1' class='purecounter'>"+profilelist[0].experience_instructors+"</span><p>Active users</p>");
+    $('#totalhours').append("<span data-purecounter-start='0' data-purecounter-end="+profilelist[0].total_hours+" data-purecounter-duration='1' class='purecounter'>"+profilelist[0].total_hours+"</span><p>Active users</p>");
+    $('#noofcourses').append("<span data-purecounter-start='0' data-purecounter-end="+profilelist[0].no_courses+" data-purecounter-duration='1' class='purecounter'>"+profilelist[0].no_courses+"</span><p>Active users</p>");
   }
 
 }),
@@ -157,7 +162,7 @@ $.ajax({
               <th style="width:20%"><p><?php //echo $row['tbl_list_Goal'];?></p></th>
               <th style="width:70%"><p><?php //echo $row['tbl_list_Description'];?></p></th>
               </tr>
-              <?php $no++;
+              <?php //$no++;
               // } ?>
               </div>
             </div>
@@ -200,7 +205,7 @@ $.ajax({
     </section><!-- End Company Section -->
 
     <!-- ======= Counts Section ======= -->
-    <!-- <section id="counts" class="counts">
+    <section id="counts" class="counts">
       <div class="container">
 
         <div class="text-center title">
@@ -210,29 +215,25 @@ $.ajax({
 
         <div class="row counters position-relative">
 
-          <div class="col-lg-3 col-6 text-center">
-            <span data-purecounter-start="0" data-purecounter-end=<?php //echo $rowProfile['Active_users'] ?> data-purecounter-duration="1" class="purecounter"></span>
-            <p>Active users</p>
+          <div class="col-lg-3 col-6 text-center" id="activeuser">
+            <!-- <span data-purecounter-start="0" data-purecounter-end=<?php //echo $rowProfile['Active_users'] ?> data-purecounter-duration="1" class="purecounter"></span><p>Active users</p> -->
           </div>
 
-          <div class="col-lg-3 col-6 text-center">
-            <span data-purecounter-start="0" data-purecounter-end=<?php //echo $rowProfile['Experience_instructors'] ?> data-purecounter-duration="1" class="purecounter"></span>
-            <p>Experience instructors</p>
+          <div class="col-lg-3 col-6 text-center" id="ei">
+            <!-- <span data-purecounter-start="0" data-purecounter-end=<?php //echo $rowProfile['Experience_instructors'] ?> data-purecounter-duration="1" class="purecounter"></span><p>Experience instructors</p> -->
           </div>
 
-          <div class="col-lg-3 col-6 text-center">
-            <span data-purecounter-start="0" data-purecounter-end=<?php //echo $rowProfile['Total_hours'] ?> data-purecounter-duration="1" class="purecounter"></span>
-            <p>Total hours of teaching video</p>
+          <div class="col-lg-3 col-6 text-center" id="totalhours">
+            <!-- <span data-purecounter-start="0" data-purecounter-end=<?php //echo $rowProfile['Total_hours'] ?> data-purecounter-duration="1" class="purecounter"></span><p>Total hours of teaching video</p> -->
           </div>
 
-          <div class="col-lg-3 col-6 text-center">
-            <span data-purecounter-start="0" data-purecounter-end=<?php // echo $rowProfile['Number_courses'] ?> data-purecounter-duration="1" class="purecounter"></span>
-            <p>Number of courses</p>
+          <div class="col-lg-3 col-6 text-center" id="noofcourses">
+            <!-- <span data-purecounter-start="0" data-purecounter-end=<?php // echo $rowProfile['Number_courses'] ?> data-purecounter-duration="1" class="purecounter"></span><p>Number of courses</p> -->
           </div>
         </div>
 
       </div>
-    </section> -->
+    </section>
     <!-- End Counts Section -->
 
 
@@ -281,9 +282,9 @@ $.ajax({
 
           <div class="col-lg-4 col-md-6">
             <div class="box">
-              <h3><?php echo $row['Type']?></h3>
+              <h3><?php //echo $row['Type']?></h3>
 
-              <h4><sup>$</sup><?php echo $row['price']?><span> / month</span></h4>
+              <h4><sup>$</sup><?php //echo $row['price']?><span> / month</span></h4>
               <ul>
                 <li><?php //echo $row['basic_courses']?></li>
                 <li><?php //echo $row['members_content']?></li>
