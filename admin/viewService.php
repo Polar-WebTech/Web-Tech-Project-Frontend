@@ -1,13 +1,5 @@
 <?php
-
-include ("../config/setting.php");
-include ("../config/function.php");
-include ("../config/db.php");
-include ('../config/checkSessionOther.php');
-$sqlProfile="select * from tbl_profile";
-mysqli_select_db($conn, $database);
-$resultProfile = mysqli_query($conn, $sqlProfile);
-$rowProfile=mysqli_fetch_assoc($resultProfile);
+  require './config/url.php';
 ?>
 
 <!DOCTYPE html>
@@ -25,43 +17,13 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
   }
   </style>
 
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <title>View Services</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
-
-  <!-- Favicons -->
-  <link href="../assets/img/favicon.png" rel="icon">
-  <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <!-- <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet"> -->
-  <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet">
-  <link href="../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
-  <!-- Template Main CSS File -->
-  <link href="../assets/css/style.css" rel="stylesheet">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <!-- =======================================================
-  * Template Name: KnightOne - v4.3.0
-  * Template URL: https://bootstrapmade.com/knight-simple-one-page-bootstrap-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+<?php include 'head.php'?>
 </head>
 
 <!-- ======= Header ======= -->
 <header id="header" class="fixed-top header-inner-pages ">
-    <div class="container-fluid">
+<?php include 'headerWithNavigation.php' ?>
+    <!-- <div class="container-fluid">
 
     <div class="row justify-content-center" style="padding-top:20px;padding-bottom:20px">
     <div class="col-xl-9 d-flex align-items-center justify-content-lg-between">
@@ -69,7 +31,7 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
     </div>
     </div>
 
-    </div>
+    </div> -->
 </header>
 <!-- End Header -->
 
@@ -122,7 +84,7 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
 </div>
 
 
-<a href="insertService.php">
+<a href="<?php echo $ToInsertServicePHP?>">
           <button type="button" class="editbtn" style="border-radius:25px;background-color:lightgrey;color:green;padding:10px;">Insert Service</button></a>
 
           </div>
@@ -167,7 +129,7 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
           thead.appendChild(row_1);
           
       var xhr = new XMLHttpRequest();
-      xhr.open('get','https://itsensei.herokuapp.com/api/service');
+      xhr.open('get','<?php echo $ToService ?>');
       xhr.send();
 
       xhr.onload = function(){
@@ -188,7 +150,7 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
           let row_data_4 = document.createElement('td');
           row_data_4.innerHTML = " <div class='icon'><i class='bx "+serviceArray[i].boxicon_description+"' style='font-size:xxx-large'></i></div>";
           let row_data_5 = document.createElement('td');
-          row_data_5.innerHTML = "<p><a href='updateService.php?servicename="+serviceArray[i].servicename+"'>Update Service </a></p>";
+          row_data_5.innerHTML = "<p><a href='<?php echo $ToUpdateServicePHP?>?servicename="+serviceArray[i].servicename+"'>Update Service </a></p>";
           let row_data_6 = document.createElement('td');
           let p = document.createElement('p');
           var ad = document.createElement("button");
@@ -214,17 +176,34 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
 <script>
 
       function deleteService(servicename){
-        var dltXML = new XMLHttpRequest();
+        if (confirm("Are you sure to delete this service?")==true)
+      {
+        $.ajax({
+        type:"delete",
+        url:"<?php echo $ToService ?>"+"/"+servicename,
+        success: function(data)
+        {
+          alert ("Delete successfully");
+          window.location.replace("<?php echo $ToViewServicePHP ?>");
+        },
+        error: function(data)
+        {
+          alert ("Delete failure");
 
-        dltXML.open("DELETE","https://itsensei.herokuapp.com/api/service/" + servicename);
+        }
+      });
+      }
+        // var dltXML = new XMLHttpRequest();
 
-        dltXML.send();
+        // dltXML.open("DELETE",""+"/" + servicename);
 
-        dltXML.onload = function(){
-            alert("Deleted successfully.");
+        // dltXML.send();
 
-            window.location.replace("viewService.php");
-        };
+        // dltXML.onload = function(){
+        //     alert("Deleted successfully.");
+
+        //     window.location.replace("viewService.php");
+        // };
       }
     </script>
 </html>

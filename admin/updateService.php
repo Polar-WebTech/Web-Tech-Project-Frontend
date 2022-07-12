@@ -1,12 +1,5 @@
 <?php
-include ("../config/setting.php");
-include ("../config/function.php");
-include ("../config/db.php");
-include ('../config/checkSessionOther.php');
-$sqlProfile="select * from tbl_profile";
-mysqli_select_db($conn, $database);
-$resultProfile = mysqli_query($conn, $sqlProfile);
-$rowProfile=mysqli_fetch_assoc($resultProfile);
+  require './config/url.php';
 ?>
 
 <!DOCTYPE html>
@@ -35,38 +28,7 @@ input[type="submit"].save:hover{
 }
   </style>
 
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <title>Update Services</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
-
-  <!-- Favicons -->
-  <link href="../assets/img/favicon.png" rel="icon">
-  <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <!-- <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet"> -->
-  <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet">
-  <link href="../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
-  <!-- Template Main CSS File -->
-  <link href="../assets/css/style.css" rel="stylesheet">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <!-- =======================================================
-  * Template Name: KnightOne - v4.3.0
-  * Template URL: https://bootstrapmade.com/knight-simple-one-page-bootstrap-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+<?php include 'head.php'?>
   <script>
     function iconChange(value) {
     document.getElementById("previewIcon").className = "bx "+value; 
@@ -76,15 +38,7 @@ input[type="submit"].save:hover{
 
 <!-- ======= Header ======= -->
 <header id="header" class="fixed-top header-inner-pages ">
-    <div class="container-fluid">
-
-    <div class="row justify-content-center" style="padding-top:20px;padding-bottom:20px">
-    <div class="col-xl-9 d-flex align-items-center justify-content-lg-between">
-      <h1 class="logo me-auto me-lg-0"><a href="adminIndex.php"><?php echo $rowProfile['Website_name'] ?></a></h1>
-    </div>
-    </div>
-
-    </div>
+<?php include 'headerWithNavigation.php' ?>
 </header>
 <!-- End Header -->
 <body>
@@ -232,7 +186,7 @@ const servicename = urlParams.get('servicename');
 document.getElementById("serviceForm").setAttribute("action","https://itsensei.herokuapp.com/api/service/"+servicename);
 
 var xml = new XMLHttpRequest();
-xml.open('get','https://itsensei.herokuapp.com/api/service/' + servicename);
+xml.open('get','<?php echo $ToService ?>'+'/' + servicename);
 
 xml.send();
 
@@ -261,7 +215,7 @@ xml.onload = function(){
           data: frm.serialize(),
           success: function (data) {
               alert('The service is successfully updated.');
-              window.location.replace("viewService.php");
+              window.location.replace("<?php echo $ToViewServicePHP ?>");
           },
           error: function (data) {
               console.log('An error occurred.');
