@@ -1,11 +1,5 @@
 <?php
-include("../config/setting.php");
-include("../config/db.php");
-include ('../config/checkSessionOther.php');
-$sqlProfile="select * from tbl_profile";
-mysqli_select_db($conn, $database);
-$resultProfile = mysqli_query($conn, $sqlProfile);
-$rowProfile=mysqli_fetch_assoc($resultProfile);
+  require './config/url.php';
 ?>
 
 <html lang="en">
@@ -47,29 +41,34 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
 
 <style>
 
+  button .deleteBtn:hover{
+    color:#20c997;
+  }
 
   </style>
 </head>
 
 <body>
 
+<?php include 'headerWithNavigation.php' ?>
+
 
   <main id="main">
 
 
-  <!-- ======= Header ======= -->
+  <!-- ======= Header ======= 
   <header id="header" class="fixed-top header-inner-pages">
     <div class="container-fluid">
 
       <div class="row justify-content-center" style="padding-top:20px;padding-bottom:20px">
         <div class="col-xl-9 d-flex align-items-center justify-content-lg-between" >
-          <h1 class="logo me-auto me-lg-0"><a href="adminIndex.php"><?php echo $rowProfile['Website_name'] ?></a></h1>
+          <h1 class="logo me-auto me-lg-0"><a href="adminIndex.php"><?php //echo $rowProfile['Website_name'] ?></a></h1>
 
         </div>
       </div>
 
     </div>
-  </header><!-- End Header -->
+  </header> End Header -->
 
 
   <!-- ======= Pricing Section ======= -->
@@ -221,18 +220,18 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
 
 
           // create first <a> node with .btn-buy class in the btn-wrap div, and append to btnWrapDiv
-          var a1 = document.createElement("a");
-          a1.classList.add("btn-buy");
-          a1.setAttribute("href","#");
-          a1.innerHTML = "Buy Now";
-          btnWrapDiv.appendChild(a1);
+          // var a1 = document.createElement("a");
+          // a1.classList.add("btn-buy");
+          // a1.setAttribute("href","#");
+          // a1.innerHTML = "Buy Now";
+          // btnWrapDiv.appendChild(a1);
 
 
           // add 2 <br> tags to btnWrapDiv after first <a>
-          var br1 = document.createElement("br");
-          var br2 = document.createElement("br");
-          btnWrapDiv.appendChild(br1);
-          btnWrapDiv.appendChild(br2);
+          // var br1 = document.createElement("br");
+          // var br2 = document.createElement("br");
+          // btnWrapDiv.appendChild(br1);
+          // btnWrapDiv.appendChild(br2);
 
 
           // create second <a> node in the btn-wrap div, add href, and append to btnWrapDiv
@@ -253,6 +252,7 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
           // a3.setAttribute("href","deleteprice.php?id="+pricingArray[i].type);
           // a3.setAttribute("href","#");
           // a3.setAttribute("onclick","return confirm ('Are you sure to delete this price package?')");
+          a3.classList.add("deleteBtn");
           a3.setAttribute("style","background-color:transparent; border: 0px; color:#009961");
           // a3.setAttribute("onclick","return deletePricing('" + pricingArray[i].type + "', '" + pricingArray[i].price + "', '" + pricingArray[i].basic_courses + "', '" + pricingArray[i].members_content + "', '" + pricingArray[i].practices + "', '" + pricingArray[i].support + "', '" + pricingArray[i].certification + "', '" + pricingArray[i].hours + "', '" + pricingArray[i].additional + "', '" + pricingArray[i].additional2 +"');");
           a3.setAttribute("onclick","return deletePricing('" + pricingArray[i].type +"');");

@@ -1,12 +1,5 @@
 <?php
-require_once('../config/setting.php');
-require_once('../config/function.php');
-require_once('../config/db.php');
-include ('../config/checkSessionOther.php');
-$sqlProfile="select * from tbl_profile";
-mysqli_select_db($conn, $database);
-$resultProfile = mysqli_query($conn, $sqlProfile);
-$rowProfile=mysqli_fetch_assoc($resultProfile);
+  require './config/url.php';
 ?>
 
 
@@ -77,22 +70,23 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
 
 <body>
 
+<?php include 'headerWithNavigation.php' ?>
 
   <main id="main">
 
-  <!-- ======= Header ======= -->
+  <!-- ======= Header ======= 
   <header id="header" class="fixed-top header-inner-pages">
     <div class="container-fluid">
 
       <div class="row justify-content-center" style="padding-top:20px;padding-bottom:20px">
         <div class="col-xl-9 d-flex align-items-center justify-content-lg-between" >
-          <h1 class="logo me-auto me-lg-0"><a href="adminIndex.php"><?php echo $rowProfile['Website_name'] ?></a></h1>
+          <h1 class="logo me-auto me-lg-0"><a href="adminIndex.php"><?php //echo $rowProfile['Website_name'] ?></a></h1>
 
         </div>
       </div>
 
     </div>
-  </header><!-- End Header -->
+  </header> End Header -->
 
 
     <!-- ======= Pricing Section ======= -->
