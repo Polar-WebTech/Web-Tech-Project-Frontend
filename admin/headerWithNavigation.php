@@ -68,7 +68,7 @@
         dltXML.send();
 
         dltXML.onload = function(){
-            alert("Deleted successfully.");
+            alert("You have logout successfully.");
 
             window.location.replace("../login.php");
         };
