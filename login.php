@@ -1,33 +1,33 @@
 
 <?php
-$useridcookieu="loginuser";
-$useridcookiep="loginpass";
-require_once('config/function.php');
-include ('config/checkSessionLogin.php');
+// $useridcookieu="loginuser";
+// $useridcookiep="loginpass";
+// require_once('config/function.php');
+// include ('config/checkSessionLogin.php');
 
 
 
-if (!empty(isset($_GET['userid']))) {
-    $status=logincheck(trim($_GET['userid']),trim($_GET['password']));
+// if (!empty(isset($_GET['userid']))) {
+//     $status=logincheck(trim($_GET['userid']),trim($_GET['password']));
 
 
-    if ($status==1){
+//     if ($status==1){
 
-        $_SESSION['userID']=$_GET['userid'];
-        $_SESSION['password']=$_GET['password'];
-        $userid=$_GET['userid'];
-        $userpass=$_GET['password'];
-        setcookie($useridcookieu,$userid,time()+(3*86400),"/");
-        setcookie($useridcookiep,$userpass,time()+(3*86400),"/");
+//         $_SESSION['userID']=$_GET['userid'];
+//         $_SESSION['password']=$_GET['password'];
+//         $userid=$_GET['userid'];
+//         $userpass=$_GET['password'];
+//         setcookie($useridcookieu,$userid,time()+(3*86400),"/");
+//         setcookie($useridcookiep,$userpass,time()+(3*86400),"/");
 
-        goto2("admin/adminIndex.php","Login Successful");
-    }
-    else{
-        goto2("login.php","Login Fail");
-    }
+//         goto2("admin/adminIndex.php","Login Successful");
+//     }
+//     else{
+//         goto2("login.php","Login Fail");
+//     }
 
 
-} else{
+// } else{
 
 
     ?>
@@ -53,6 +53,8 @@ if (!empty(isset($_GET['userid']))) {
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="./assets/demo/demo.css" rel="stylesheet" />
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 </head>
 
 <body class="login-page sidebar-collapse">
@@ -62,7 +64,7 @@ if (!empty(isset($_GET['userid']))) {
       <div class="row">
         <div class="col-lg-4 col-md-6 ml-auto mr-auto">
           <div class="card card-login">
-            <form class="form" method="GET" action="login.php">
+            <form class="form" method="POST" action="https://itsensei.herokuapp.com/api/login" id="loginForm">
               <div class="card-header card-header-primary text-center">
                 <h4 class="card-title">Login </h4>
 
@@ -76,7 +78,7 @@ if (!empty(isset($_GET['userid']))) {
                       <i class="material-icons">face</i>
                     </span>
                   </div>
-                  <input type="text" name="userid" class="form-control"  placeholder="User ID.." required >
+                  <input type="text" name="userid" id="userid" class="form-control"  placeholder="User ID.." required >
                 </div>
                 <div class="input-group">
                   <div class="input-group-prepend">
@@ -84,11 +86,12 @@ if (!empty(isset($_GET['userid']))) {
                       <i class="material-icons">lock_outline</i>
                     </span>
                   </div>
-                  <input type="password" name="password"   class="form-control" placeholder="Password.." required >
+                  <input type="password" name="password" id="password"  class="form-control" placeholder="Password.." required >
                 </div>
               </div>
               <div style="display: flex; justify-content:center;">
-                <button type="submit" class="btn btn-primary btn-link btn-wd btn-lg" id="buttonlogin">Login</button>
+                <input type="submit" class="btn btn-primary btn-link btn-wd btn-lg" value="login" id="buttonlogin">
+
                 <input type="button" value="Register" class="btn btn-primary btn-link btn-wd btn-lg" id="btnRegister"  onClick="document.location.href='Registration.php'" />
 
               </div>
@@ -101,7 +104,7 @@ if (!empty(isset($_GET['userid']))) {
               </div>
               </div>
             </form>
-            <?php } ?>
+            <?php //} ?>
           </div>
         </div>
       </div>
@@ -109,5 +112,80 @@ if (!empty(isset($_GET['userid']))) {
 
   </div>
 
+</body>
+
+
+<script>
+
+    var frm = $('#loginForm');
+
+    frm.submit(function (e) {
+
+      e.preventDefault();
+
+      $.ajax({
+          type: frm.attr('method'),
+          url: frm.attr('action'),
+          data: frm.serialize(),
+          success: function (data) {
+              
+            var response = JSON.parse(data);
+
+            if(response.status === "success"){
+
+              setCookie("sessionid",response.sessionid,1/24);
+
+              window.location.replace("admin/adminIndex.php");
+
+            }
+            else{
+              alert('Incorrect Username / Password.');
+            }
+
+          },
+          error: function (data) {
+              console.log('An error occurred.');
+              console.log(data);
+          },
+      });
+    });
+
+</script>
+
+<script>
+  function setCookie(cname, cvalue, exdays) {
+  const d = new Date();
+  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+  let expires = "expires="+d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+  let name = cname + "=";
+  let ca = document.cookie.split(';');
+  for(let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+function checkCookie() {
+  let user = getCookie("username");
+  if (user != "") {
+    alert("Welcome again " + user);
+  } else {
+    user = prompt("Please enter your name:", "");
+    if (user != "" && user != null) {
+      setCookie("username", user, 365);
+    }
+  }
+}
+</script>
 
 </html>
