@@ -184,62 +184,6 @@
 
 
 <script>
-
-  // document.getElementById("submitBtn").addEventListener('click', function(event){
-
-  // event.preventDefault();
-
-  //   var type = document.getElementById("type").value;
-  //   var price = document.getElementById("price").value;
-  //   var basic_courses = document.getElementById("basic_courses").value;
-  //   var members_content = document.getElementById("members_content").value;
-  //   var practices = document.getElementById("practices").value;
-  //   var support = document.getElementById("support").value;
-  //   var certification = document.getElementById("certification").value;
-  //   var hours = document.getElementById("hours").value;
-  //   var additional = document.getElementById("additional").value;
-  //   var additional2 = document.getElementById("additional2").value;
-
-
-  //   var url = "https://itsensei.herokuapp.com/api/pricing";
-
-  //   var xhr = new XMLHttpRequest();
-  //   xhr.open("POST", url);
-
-  //   // xhr.setRequestHeader("Accept", "application/json");
-  //   // xhr.setRequestHeader("Content-Type", "application/json");
-
-  //   xhr.onreadystatechange = function () {
-  //     if (xhr.readyState === 4) {
-  //         console.log(xhr.status);
-  //         console.log(xhr.responseText);
-  //     }
-  //   };
-
-  //   var data = `{
-  //     "type": "` + type +  `",
-  //     "price": "` + price +  `",
-  //     "basic_courses": "` + basic_courses +  `",
-  //     "members_content": "` + members_content +  `",
-  //     "practices": "` + practices +  `",
-  //     "support": "` + support +  `",
-  //     "certification": "` + certification +  `",
-  //     "hours": "` + hours +  `",
-  //     "additional": "` + additional +  `",
-  //     "additional2": "` + additional2 +  `"
-  //   }`;
-
-  //   console.log(data);
-
-  //   xhr.send(data);
-
-  // });
-
-
-</script>
-
-
-<script>
 var frm = $('#pricingForm');
 
 frm.submit(function (e) {

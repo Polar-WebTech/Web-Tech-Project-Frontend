@@ -1,55 +1,3 @@
-<?php
-require_once('config/setting.php');
-require_once('config/db.php');
-require_once('config/function.php');
-?>
-
-<?php
-
-// If the values are posted, insert them into the database.
-if (!empty(isset($_GET['userid']))) {
-    $userid = $_GET['userid'];
-    $email = $_GET['Email'];
-    $name=$_GET['username'];
-    $password = $_GET['password'];
-    $cpassword = $_GET['confirmpassword'];
-
-    mysqli_select_db($conn,"wpproject");
-
-
-    $slquery = "SELECT count(userid) as L FROM tbl_user WHERE userid = '$userid'";
-    $stmt = mysqli_query($conn,$slquery);
-
-    $row=mysqli_fetch_assoc($stmt);
-
-    if ($row['L']>=1){
-       goto2("Registration.php","User existed");
-    }
-    else{
-      $sql="select * from tbl_user where Email='".$email."'";
-      $result=mysqli_query($conn,$sql);
-      if (mysqli_num_rows($result)>0)
-      {
-        alert1("Email address existed");
-      }
-      else if($password != $cpassword) {
-        alert1("Password invalid");
-        }
-        else
-        {
-
-          $sql2 = "INSERT INTO `tbl_user` (`userid`, `password`,`Name`, `Email`) VALUES ('".$userid."', '".$password."', '".$name."','".$email."')";
-          $result = mysqli_query($conn,$sql2);
-
-          if($result){
-             goto2("login.php","User Created Successfully, Please login to continue.");
-
-          }
-        }
-    }
-   }
-?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -69,7 +17,14 @@ if (!empty(isset($_GET['userid']))) {
   <!-- CSS Files -->
   <link href="./assets/css/material-kit.css?v=2.0.7" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
-  <link href="./assets/demo/demo.css" rel="stylesheet" />
+  <!-- <link href="./assets/demo/demo.css" rel="stylesheet" /> -->
+  <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+  integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+  crossorigin=""></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://smtpjs.com/v3/smtp.js"></script>
+
 </head>
 
 <body class="login-page sidebar-collapse">
@@ -79,7 +34,7 @@ if (!empty(isset($_GET['userid']))) {
       <div class="row">
         <div class="col-lg-4 col-md-6 ml-auto mr-auto">
           <div class="card card-login">
-            <form class="form" method="get" action="">
+            <form class="form" method="POST" action="https://itsensei.herokuapp.com/api/user" id="registrationForm">
               <div class="card-header card-header-primary text-center">
                 <h4 class="card-title">Register</h4>
 
@@ -93,7 +48,7 @@ if (!empty(isset($_GET['userid']))) {
                       <i class="material-icons">face</i>
                     </span>
                   </div>
-                  <input type="userid" name="userid" class="form-control" required placeholder="User ID..">
+                  <input type="text" id="userid" name="userid" class="form-control" required placeholder="User ID..">
                 </div>
                 <div class="input-group">
                   <div class="input-group-prepend">
@@ -101,7 +56,7 @@ if (!empty(isset($_GET['userid']))) {
                       <i class="material-icons">face</i>
                     </span>
                   </div>
-                  <input type="username" name="username" class="form-control" required placeholder="Name...">
+                  <input type="text" id="name" name="name" class="form-control" required placeholder="Name...">
                 </div>
                 <div class="input-group">
                   <div class="input-group-prepend">
@@ -109,7 +64,7 @@ if (!empty(isset($_GET['userid']))) {
                       <i class="material-icons">mail</i>
                     </span>
                   </div>
-                  <input type="Email" name="Email" class="form-control" required placeholder="Email..">
+                  <input type="email" id="email" name="email" class="form-control" required placeholder="Email..">
                 </div>
                 <div class="input-group">
                   <div class="input-group-prepend">
@@ -117,7 +72,7 @@ if (!empty(isset($_GET['userid']))) {
                       <i class="material-icons">lock_outline</i>
                     </span>
                   </div>
-                  <input type="password" name="password"    class="form-control" required placeholder="Password.." >
+                  <input type="password" name="password"  id="password"  class="form-control" required placeholder="Password.." >
                 </div>
                 <div class="input-group">
                   <div class="input-group-prepend">
@@ -125,34 +80,116 @@ if (!empty(isset($_GET['userid']))) {
                       <i class="material-icons">lock_outline</i>
                     </span>
                   </div>
-                  <input type="password" name="confirmpassword"    class="form-control" required placeholder="Confirm Password.." >
+
+
+                
+                  <input type="password" name="confirmpassword" id="confirmpassword" class="form-control" required placeholder="Confirm Password.." >
                 </div>
               </div>
               <div class="footer text-center">
               </div>
-              <button type="submit" class="btn btn-primary btn-link btn-wd btn-lg" >Register</button>
-             <a href="login.php"> <button type="button" class="btn btn-primary btn-link btn-wd btn-lg" >back</button></a>
+              <input id="sbmtBtn" type="submit" class="btn btn-primary btn-link btn-wd btn-lg" value="Register" >
+             <a href="login.php" class="btn btn-primary btn-link btn-wd btn-lg">Back</a>
 
               </div>
             </form>
+
+
+            
           </div>
         </div>
       </div>
     </div>
 
   </div>
+
+</body>
+
   <!--   Core JS Files   -->
-  <script src="./assets/js/core/jquery.min.js" type="text/javascript"></script>
-  <script src="./assets/js/core/popper.min.js" type="text/javascript"></script>
-  <script src="./assets/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
-  <script src="./assets/js/plugins/moment.min.js"></script>
+  <script src="./assets/js/jquery-3.3.1.min.js" type="text/javascript"></script>
+
+
+<script>
+
+  document.getElementById("sbmtBtn").addEventListener('click',function(event){
+
+  event.preventDefault();
+
+  var userid = document.getElementById("userid").value.trim();
+  var name = document.getElementById("name").value.trim();
+  var email = document.getElementById("email").value.trim();
+  var password = document.getElementById("password").value.trim();
+  var confirmpassword = document.getElementById("confirmpassword").value.trim();
+
+  var password_matches = (password === confirmpassword);
+
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET","https://itsensei.herokuapp.com/api/user/"+userid);
+  xhr.send();
+
+  xhr.onload = function(){
+    var user = JSON.parse(xhr.responseText);
+
+    var emptyArray = [];
+
+    if(!(xhr.responseText === JSON.stringify(emptyArray))){
+
+
+      alert('User ID already registered!');
+      window.location.replace = "Registration.php";
+
+    }
+    else{
+
+          if(!password_matches){
+
+            alert('Password does not match!');
+            window.location.replace = "Registration.php";
+
+          }
+          else{
+
+                $(document).ready(function(){
+
+                  var frm = $('#registrationForm');
+
+                  $.ajax({
+                      type: frm.attr('method'),
+                      url: frm.attr('action'),
+                      data: frm.serialize(),
+                      success: function (data) {
+                          alert('Account Registered Successfully.');
+                          window.location.replace("login.php");
+                      },
+                      error: function (data) {
+                          alert('An error occurred.');
+                          console.log(data);
+                      },
+                  });
+
+                });
+          }
+        
+    }
+
+  }
+
+});
+
+
+</script>
+
+
+  <!-- <script src="./assets/js/core/popper.min.js" type="text/javascript"></script> -->
+  <!-- <script src="./assets/js/core/bootstrap-material-design.min.js" type="text/javascript"></script> -->
+  <!-- <script src="./assets/js/plugins/moment.min.js"></script> -->
   <!--	Plugin for the Datepicker, full documentation here: https://github.com/Eonasdan/bootstrap-datetimepicker -->
-  <script src="./assets/js/plugins/bootstrap-datetimepicker.js" type="text/javascript"></script>
+  <!-- <script src="./assets/js/plugins/bootstrap-datetimepicker.js" type="text/javascript"></script> -->
   <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
-  <script src="./assets/js/plugins/nouislider.min.js" type="text/javascript"></script>
+  <!-- <script src="./assets/js/plugins/nouislider.min.js" type="text/javascript"></script> -->
   <!--  Google Maps Plugin    -->
   <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc -->
-  <script src="./assets/js/material-kit.js?v=2.0.7" type="text/javascript"></script>
-</body>
+  <!-- <script src="./assets/js/material-kit.js?v=2.0.7" type="text/javascript"></script> -->
+
 
 </html>
