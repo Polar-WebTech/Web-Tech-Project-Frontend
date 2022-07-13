@@ -33,12 +33,14 @@
             list.innerHTML=content;
 
             var navbar=document.getElementById("containernav");
-            var linkx=document.createElement("a");
-            linkx.setAttribute("href","../logout.php" );
+            var linkx=document.createElement("button");
+            // linkx.setAttribute("href","../logout.php" );
+            linkx.innerHTML = "Log Out";
+            linkx.setAttribute("onclick","logout();")
             linkx.classList.add("get-started-btn");
             linkx.classList.add("scrollto");
-            var linktext=document.createTextNode("Log Out");
-            linkx.appendChild(linktext);
+            // var linktext=document.createTextNode("Log Out");
+            // linkx.appendChild(linktext);
             navbar.appendChild(linkx);
         }
       }
@@ -48,6 +50,51 @@
 
 
   </script>
+
+
+<script>
+
+    function logout(){
+
+      let sessionid = getCookie("sessionid");
+
+      document.cookie="sessionid="+sessionid+"; expires=Sun, 20 Aug 2000 12:00:00 UTC";  
+
+
+      var dltXML = new XMLHttpRequest();
+
+        dltXML.open("DELETE","https://itsensei.herokuapp.com/api/session/" + sessionid);
+
+        dltXML.send();
+
+        dltXML.onload = function(){
+            alert("Deleted successfully.");
+
+            window.location.replace("../login.php");
+        };
+
+    }
+
+
+    function getCookie(cname) {
+      let name = cname + "=";
+      let ca = document.cookie.split(';');
+      for(let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    }
+
+
+</script>
+
+
 
  <!-- ======= Header ======= -->
 
