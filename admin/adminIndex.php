@@ -21,54 +21,54 @@
 
 
   function checkCookie() {
-  let sessionid = getCookie("sessionid");
-  
-  if (sessionid != "") {
+    let sessionid = getCookie("sessionid");
     
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "https://itsensei.herokuapp.com/api/session/" + sessionid);
+    if (sessionid != "") {
+      
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "https://itsensei.herokuapp.com/api/session/" + sessionid);
 
-    xhr.send();
+      xhr.send();
 
-    xhr.onload = function(){
+      xhr.onload = function(){
 
-      var emptyArray = "[]";
+        var emptyArray = "[]";
 
-      if(xhr.responseText === emptyArray){
-        alert('Please Login First!');
-        window.location.replace("../login.php");
+        if(xhr.responseText === emptyArray){
+          alert('Please Login First!');
+          window.location.replace("../login.php");
+        }
+        else{
+
+          var sessionInfo = JSON.parse(xhr.responseText);
+          alert('Welcome ' + sessionInfo[0].userid);
+
+        }
+
       }
-      else{
-
-        var sessionInfo = JSON.parse(xhr.responseText);
-        alert('Welcome ' + sessionInfo[0].userid);
-
-      }
-
-    }
 
 
-  } else {
-    alert('Please Login First!');
-    window.location.replace("../login.php");
-  }
-}
-
-
-function getCookie(cname) {
-  let name = cname + "=";
-  let ca = document.cookie.split(';');
-  for(let i = 0; i < ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
+    } else {
+      alert('Please Login First!');
+      window.location.replace("../login.php");
     }
   }
-  return "";
-}
+
+
+  function getCookie(cname) {
+    let name = cname + "=";
+    let ca = document.cookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
 
 
 </script>
