@@ -45,7 +45,7 @@ window.addEventListener("load",function()
       $("table").hide();
       $("input").hide();
       // document.getElementsByTagName("form")[0].action=ToUpdateCoursePHP;
-      document.getElementsByTagName("form")[1].action="<?php echo $ToViewTopCoursePHP?>";
+      document.getElementById("back").href="<?php echo $ToViewTopCoursePHP?>";
 
     })
     var id=getParameter('id');
@@ -115,9 +115,9 @@ window.addEventListener("load",function()
 
   function checkCookie() {
     let sessionid = getCookie("sessionid");
-    
+
     if (sessionid != "") {
-      
+
       var xhr = new XMLHttpRequest();
       xhr.open("GET", "https://itsensei.herokuapp.com/api/session/" + sessionid);
 
@@ -244,10 +244,8 @@ window.addEventListener("load",function()
 </form>
 
 <div >
-      <form method="post">
-        <input class="btn btn-outline-secondary rounded-pill" type="submit" value="Return To Previous Page"  >
+<a id="back" href="" class="btn btn-outline-secondary rounded-pill">Return To Previous Page </a>
 
-      </form>
       </div>
 
       </div>
