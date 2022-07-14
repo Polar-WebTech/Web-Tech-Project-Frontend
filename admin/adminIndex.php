@@ -69,9 +69,9 @@ $.ajax({
       content+=("<table style='width:100%; margin-left: 20px'>")
       // content+=("<div class='col-lg-6 order-2 order-lg-1'>");
       content+=("<tr>")
-      content+=("<th style='width:20%'><p>" + (i+1) + "</p></th>");
+      content+=("<th style='width:10%'><p>" + (i+1) + "</p></th>");
 
-      content+=("<th style='width:20%'><p>"+servicelist[i].goal+"</p></th>");
+      content+=("<th style='width:25%'><p>"+servicelist[i].goal+"</p></th>");
       content+=("<th style='width:70%'><p>"+servicelist[i].description+"</p></th>");
       content+=("</tr>")
       // content+=("</div>");
@@ -192,12 +192,12 @@ $.ajax({
         </div> 
     </section>
 
-    <!-- ======= Company Section ======= -->
+    <!-- ======= Company Section ======= 
     <section id="company" class="portfolio">
       <div class="container">
 
         <div class="section-title">
-        <h2>Cooperated Companies &nbsp;&nbsp;&nbsp;<a href="<?php echo $ToViewCompanyPHP?>">[Edit]</a></h2>
+        <h2>Cooperated Companies &nbsp;&nbsp;&nbsp;<a href="<?php //echo $ToViewCompanyPHP?>">[Edit]</a></h2>
 
 
         </div>
@@ -223,7 +223,7 @@ $.ajax({
 
       </div>
 
-    </section><!-- End Company Section -->
+    </section> End Company Section -->
 
     <!-- ======= Counts Section ======= -->
     <section id="counts" class="counts">
