@@ -58,8 +58,9 @@
 
       let sessionid = getCookie("sessionid");
 
-      document.cookie="sessionid="+sessionid+"; expires=Sun, 20 Aug 2000 12:00:00 UTC";  
+      // document.cookie="sessionid="+sessionid+"; expires=Sun, 20 Aug 2000 12:00:00 UTC";  
 
+      setCookie("sessionid",sessionid,0);
 
       var dltXML = new XMLHttpRequest();
 
@@ -73,6 +74,14 @@
             window.location.replace("../login.php");
         };
 
+    }
+
+
+    function setCookie(cname, cvalue, exdays) {
+      const d = new Date();
+      d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+      let expires = "expires="+d.toUTCString();
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
     }
 
 
