@@ -1,12 +1,7 @@
 <?php
-include ("../config/setting.php");
-include ("../config/db.php");
-include ('../config/checkSessionOther.php');
-$sqlProfile="select * from tbl_profile";
-mysqli_select_db($conn, $database);
-$resultProfile = mysqli_query($conn, $sqlProfile);
-$rowProfile=mysqli_fetch_assoc($resultProfile);
+  require './config/url.php';
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,9 +12,17 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
    border-width:2px;
    color:green;
   }
+   th,td
+  {
+    padding:10px;
+  }
+  th
+  {
+    font-size: large;
+  }
 
   </style>
-
+  <?php include 'head.php'?>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
@@ -57,14 +60,14 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
 
   <!-- ======= Header ======= -->
   <header id="header" class="fixed-top header-inner-pages ">
-    <div class="container-fluid">
+    <!-- <div class="container-fluid">
 
       <div class="row justify-content-center" style="padding-top:20px;padding-bottom:20px">
         <div class="col-xl-9 d-flex align-items-center justify-content-lg-between">
           <h1 class="logo me-auto me-lg-0"><a href="adminIndex.php"><?php echo $rowProfile['Website_name'] ?></a></h1>
         </div>
-      </div>
-
+      </div> -->
+      <?php include 'headerWithNavigation.php' ?>
     </div>
   </header><!-- End Header -->
 
@@ -74,10 +77,10 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
 
     <!-- ======= Features Section ======= -->
     <?php
-    $no=1;
-    $sql ="select * from tbl_list";  // sql command
-    mysqli_select_db($conn,$database); ///select database as default
-    $result=mysqli_query($conn,$sql);  // command allow sql cmd to be sent to mysql
+    // $no=1;
+    // $sql ="select * from tbl_list";  // sql command
+    // mysqli_select_db($conn,$database); ///select database as default
+    // $result=mysqli_query($conn,$sql);  // command allow sql cmd to be sent to mysql
   ?>
 
     <section id="features" class="features">
@@ -88,33 +91,34 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
           <h3><a href="adminIndex.php" id="back"><u>Back</u></a><br></h3>
         </div>
         <div class="row">
-          <table style="width:100%">
+          <!-- <table style="width:100%">
           <div class="col-lg-6 order-2 order-lg-1">
             <div class="icon-box mt-5 mt-lg-0">
 
               <?php
-              while ($row=mysqli_fetch_assoc($result)){
+              //while ($row=mysqli_fetch_assoc($result)){
               ?>
               <tr>
               <th ><i class="bx bx-receipt"></i></th>
-              <th><h4><?php echo $no; ?></h4></th>
-              <th style="width:20%"><p><?php echo $row['tbl_list_Goal'];?></p></th>
-              <th style="width:70%"><p><?php echo $row['tbl_list_Description'];?></p></th>
+              <th><h4><?php //echo $no; ?></h4></th>
+              <th style="width:20%"><p><?php //echo $row['tbl_list_Goal'];?></p></th>
+              <th style="width:70%"><p><?php //echo $row['tbl_list_Description'];?></p></th>
               </tr>
               <tr>
               <th> </th>
               <th></th>
-              <th style="width:20%"><a href="deletelist.php?tbl_list_Goal=<?php echo  $row['tbl_list_Goal'] ; ?>" onclick="return confirm ('Are you sure to delete this mission?')">Delete Mission </a></p></th>
-              <th style="width:70%"><p><a href="updatelist.php?tbl_list_Goal=<?php echo  $row['tbl_list_Goal'] ; ?>">Update Description </a></th>
+              <th style="width:20%"><a href="deletelist.php?tbl_list_Goal=<?php //echo  $row['tbl_list_Goal'] ; ?>" onclick="return confirm ('Are you sure to delete this mission?')">Delete Mission </a></p></th>
+              <th style="width:70%"><p><a href="updatelist.php?tbl_list_Goal=<?php //echo  $row['tbl_list_Goal'] ; ?>">Update Description </a></th>
               </tr>
-              <?php $no++;
-              } ?>
+              <?php //$no++;
+              //} ?>
 
             </div>
-            </table>
+            </table>  -->
           </div>
+          <br>
 
-    <a href="insertlist.php">
+    <a href="<?php echo $ToInsertMissionPHP?>">
     <button type="button" class="editbtn" style="border-radius:25px;background-color:lightgrey;color:green;padding:10px;">Insert New Mission</button> </a>
         </div>
 
@@ -139,5 +143,136 @@ $rowProfile=mysqli_fetch_assoc($resultProfile);
   <script src="../assets/js/main.js"></script>
 
 </body>
+<script>
+    let table = document.createElement('table');
+    let thead = document.createElement('thead');
+    let tbody = document.createElement('tbody');
+    table.appendChild(thead);
+    table.appendChild(tbody);
+
+    let row_1 = document.createElement('tr');
+    let heading_1 = document.createElement('th');
+    heading_1.innerHTML = "No";
+    let heading_2 = document.createElement('th');
+    heading_2.innerHTML = "Mission";
+    let heading_3 = document.createElement('th');
+    heading_3.innerHTML = "Description";
+
+    row_1.appendChild(heading_1);
+    row_1.appendChild(heading_2);
+    row_1.appendChild(heading_3);
+    thead.appendChild(row_1);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('get','<?php echo $ToMission?>');
+    xhr.send();
+
+      xhr.onload = function(){
+
+        var serviceArray = JSON.parse(xhr.responseText);
+        // var rowDiv = document.querySelector("#services .container .row");
+
+
+        for(var i=0; i<serviceArray.length; i++){
+
+          let row = document.createElement('tr');
+          let row_data_1 = document.createElement('td');
+          row_data_1.innerHTML = i+1;
+          let row_data_2 = document.createElement('td');
+          row_data_2.innerHTML = serviceArray[i].goal;
+          let row_data_3 = document.createElement('td');
+          row_data_3.innerHTML = serviceArray[i].description;
+
+          let row_data_4 = document.createElement('td');
+
+          row_data_4.innerHTML = "<a href='updatelist.php?goal="+serviceArray[i].goal+"'>Update Mission </a>";
+
+          let row_data_5 = document.createElement('td');
+          let p = document.createElement('p');
+          var ad = document.createElement("button");
+          ad.setAttribute("onclick","return deleteMission('" + serviceArray[i].goal +"');");
+          ad.setAttribute("style","background-color:transparent; border: 0px; color:#009961");
+          ad.innerHTML = "Delete Mission";
+          p.appendChild(ad);
+          p.setAttribute("style","margin-top: 20px");
+          row_data_5.appendChild(p);
+
+          row.appendChild(row_data_1);
+          row.appendChild(row_data_2);
+          row.appendChild(row_data_3);
+          row.appendChild(row_data_4);
+          row.appendChild(row_data_5);
+          tbody.appendChild(row);
+        }
+        document.getElementsByClassName('row')[1].appendChild(table);
+      }
+
+</script>
+<script>
+
+      function deleteMission(goal){
+        if (confirm("Are you sure to delete this service?")==true)
+      {
+        $.ajax({
+        type:"delete",
+        url:"<?php echo $ToMission?>" +"/" + goal,
+        success: function(data)
+        {
+          alert ("Delete successfully");
+          window.location.replace("viewlist.php");
+        },
+        error: function(data)
+        {
+          alert ("Delete failure");
+
+        }
+      });
+      }
+        // var dltXML = new XMLHttpRequest();
+
+        // dltXML.open("DELETE",""+"/" + servicename);
+
+        // dltXML.send();
+
+        // dltXML.onload = function(){
+        //     alert("Deleted successfully.");
+
+        //     window.location.replace("viewService.php");
+        // };
+      }
+</script>
+<script>
+
+function deleteService(goal){
+  if (confirm("Are you sure to delete this mission?")==true)
+{
+  $.ajax({
+  type:"delete",
+  url:"<?php echo $ToService ?>"+"/"+servicename,
+  success: function(data)
+  {
+    alert ("Delete successfully");
+    window.location.replace("<?php echo $ToViewServicePHP ?>");
+  },
+  error: function(data)
+  {
+    alert ("Delete failure");
+
+  }
+});
+}
+  // var dltXML = new XMLHttpRequest();
+
+  // dltXML.open("DELETE",""+"/" + servicename);
+
+  // dltXML.send();
+
+  // dltXML.onload = function(){
+  //     alert("Deleted successfully.");
+
+  //     window.location.replace("viewService.php");
+  // };
+}
+</script>
 
 </html>

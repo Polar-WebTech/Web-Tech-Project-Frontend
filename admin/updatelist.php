@@ -1,13 +1,7 @@
 <?php
-include ("../config/setting.php");
-include ("../config/db.php");
-include_once ("../config/function.php");
-include ('../config/checkSessionOther.php');
-$sqlProfile="select * from tbl_profile";
-mysqli_select_db($conn, $database);
-$resultProfile = mysqli_query($conn, $sqlProfile);
-$rowProfile=mysqli_fetch_assoc($resultProfile);
+  require './config/url.php';
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -69,21 +63,15 @@ input[type="submit"].inp:hover{
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+  <?php include 'head.php'?>
 </head>
+
 
 <body>
 
   <!-- ======= Header ======= -->
   <header id="header" class="fixed-top header-inner-pages ">
-    <div class="container-fluid">
-
-      <div class="row justify-content-center" style="padding-top:20px;padding-bottom:20px">
-        <div class="col-xl-9 d-flex align-items-center justify-content-lg-between">
-          <h1 class="logo me-auto me-lg-0"><a href="adminIndex.php"><?php echo $rowProfile['Website_name'] ?></a></h1>
-        </div>
-      </div>
-
-    </div>
+  <?php include 'headerWithNavigation.php' ?> 
   </header><!-- End Header -->
 
 
@@ -101,37 +89,37 @@ input[type="submit"].inp:hover{
             <div class="icon-box mt-5 mt-lg-0">
 <?php
 
-if (isset($_POST['desc'])){
- //echo " you have try to save ";
-        $u=$_GET['tbl_list_Goal'];  //error  type="text" disabled
-        $n=$_POST['desc'];
-        $sql ="UPDATE `tbl_list` SET `tbl_list_Description`='".$n."'
-        WHERE (`tbl_list_Goal`='".$u."') LIMIT 1";  // sql command
-//echo $sql;
-        mysqli_select_db($conn,$database); ///select database as default
-        $result=mysqli_query($conn,$sql);  // command allow sql cmd to be sent to mysql
-       // mysqli_fetch_assoc($result);
-       goto2("viewlist.php","The mission is successfully updated");
-} else {
-    $u=$_GET['tbl_list_Goal'];
-    $sql ="select * from tbl_list where tbl_list_Goal='".$u."'";  // sql command
-    mysqli_select_db($conn,"wpproject"); ///select database as default
-    $result=mysqli_query($conn,$sql);  // command allow sql cmd to be sent to mysql
+// if (isset($_POST['desc'])){
+//  //echo " you have try to save ";
+//         $u=$_GET['tbl_list_Goal'];  //error  type="text" disabled
+//         $n=$_POST['desc'];
+//         $sql ="UPDATE `tbl_list` SET `tbl_list_Description`='".$n."'
+//         WHERE (`tbl_list_Goal`='".$u."') LIMIT 1";  // sql command
+// //echo $sql;
+//         mysqli_select_db($conn,$database); ///select database as default
+//         $result=mysqli_query($conn,$sql);  // command allow sql cmd to be sent to mysql
+//        // mysqli_fetch_assoc($result);
+//        goto2("viewlist.php","The mission is successfully updated");
+// } else {
+//     $u=$_GET['tbl_list_Goal'];
+//     $sql ="select * from tbl_list where tbl_list_Goal='".$u."'";  // sql command
+//     mysqli_select_db($conn,"wpproject"); ///select database as default
+//     $result=mysqli_query($conn,$sql);  // command allow sql cmd to be sent to mysql
 
-    $row=mysqli_fetch_assoc($result);
+//     $row=mysqli_fetch_assoc($result);
 //echo $u;
 ?>
-<form action="updatelist.php?tbl_list_Goal=<?php echo $u; ?>" method="POST">
+<form method="PUT" id="missionForm">
  <table style="width:100%" id="tableList">
  <tr>
   <th><label for="Goal">Mission</label></th>
   <th>:</th>
-  <th><input type="text" disabled id="tbl_list_Goal" name="tbl_list_Goal" size="50" value="<?php echo $u; ?>  "></th>
+  <th><input type="text" disabled id="goal" name="goal" size="50" value="<?php //echo $u; ?>  "></th>
  </tr>
  <tr>
   <th><label for="desc"> Description</label></th>
   <th>:</th>
-  <th><textarea id="desc" rows="5px" cols="70px" name="desc" required><?php echo $row['tbl_list_Description'];?></textarea></th>
+  <th><textarea id="desc" rows="5px" cols="70px" name="description" required><?php //echo $row['tbl_list_Description'];?></textarea></th>
  </tr>
  <tr>
   <td></td>
@@ -147,7 +135,7 @@ if (isset($_POST['desc'])){
   <input type="submit" value="Return to previous page" style="border-radius:25px;background-color:lightgrey;color:green;padding:10px;">
 </form>
 
-<?php } ?>
+<?php //} ?>
 
 </div>
 </div>
@@ -177,5 +165,52 @@ if (isset($_POST['desc'])){
   <script src="../assets/js/main.js"></script>
 
 </body>
+<script>
 
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const goal = urlParams.get('goal');
+
+  document.getElementById("missionForm").setAttribute("action","<?php echo $ToMission?>"+"/"+goal);
+
+  var xml = new XMLHttpRequest();
+  xml.open('get','<?php echo $ToMission?>' +"/" + goal);
+
+  xml.send();
+
+  xml.onload = function(){
+
+    var pricingData = JSON.parse(xml.responseText);
+
+    document.getElementById("goal").value = pricingData[0].goal
+    document.getElementById("description").value = pricingData[0].description;
+  }
+
+
+</script>
+
+<!-- Javascript to update data (MUST ENABLE MOESIF CORS) -->
+<script>
+  var frm = $('#missionForm');
+
+  frm.submit(function (e) {
+
+      e.preventDefault();
+
+      $.ajax({
+          type: frm.attr('method'),
+          url: frm.attr('action'),
+          data: frm.serialize(),
+          success: function (data) {
+              alert('Submission was successful.');
+              window.location.replace("viewlist.php");
+          },
+          error: function (data) {
+              console.log('An error occurred.');
+              console.log(data);
+          },
+      });
+  });
+
+</script>
 </html>
