@@ -21,7 +21,7 @@ $ToEditMissionPHP="updatelist.php";
  // Other
 $ToAdminIndexPHP="adminIndex.php";
 $ToViewTopCoursePHP="viewTopCourse.php";
-$ToViewCourseCategoryPHP="viewCourseCategory.php";
+$ToViewCourseCategoryPHP="viewcoursecategory.php";
 $ToCourseDetailAdminPHP="coursedetailAdmin.php";
 $ToViewServicePHP="./viewService.php";
 $ToViewMissionPHP="./viewlist.php";
