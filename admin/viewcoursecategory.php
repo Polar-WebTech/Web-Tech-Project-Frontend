@@ -20,7 +20,7 @@
     {
       // $("#header").load("header.html");
       $("a").hide();
-      document.getElementsByTagName("form")[0].action="<?php echo $ToViewTopCoursePHP?>";
+      document.getElementById("back").href="<?php echo $ToViewTopCoursePHP?>";
       document.getElementById("linkInsertCategory").href="<?php echo $ToInsertCategoryPHP?>";
     })
 
@@ -219,10 +219,8 @@
         <br>
 
         <div >
-      <form method="post">
-        <input class="btn btn-outline-secondary rounded-pill" type="submit" value="Return To Previous Page"  >
+        <a id="back" href="" class="btn btn-outline-secondary rounded-pill">Return To Previous Page </a>
 
-      </form>
       </div>
 
 <script>

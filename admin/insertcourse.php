@@ -38,7 +38,7 @@
       $("#table_course").hide();
       $("input").hide();
 
-      document.getElementsByTagName("form")[1].action="<?php echo $ToViewTopCoursePHP?>";
+      document.getElementById("back").href="<?php echo $ToViewTopCoursePHP?>";
 
     })
 
@@ -86,9 +86,9 @@
 
   function checkCookie() {
     let sessionid = getCookie("sessionid");
-    
+
     if (sessionid != "") {
-      
+
       var xhr = new XMLHttpRequest();
       xhr.open("GET", "https://itsensei.herokuapp.com/api/session/" + sessionid);
 
@@ -246,10 +246,8 @@ var form=$("#form");
 
 
       <div >
-      <form method="post">
-        <input class="btn btn-outline-secondary rounded-pill" type="submit" value="Return To Previous Page"  >
+      <a id="back" href="" class="btn btn-outline-secondary rounded-pill">Return To Previous Page </a>
 
-      </form>
       </div>
 
       </div>
