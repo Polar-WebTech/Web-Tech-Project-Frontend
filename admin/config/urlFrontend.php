@@ -4,14 +4,14 @@
 
 
  // Insert
-$ToInsertCoursePHP="insertCourse.php";
-$ToInsertCategoryPHP='insertCategory.php';
+$ToInsertCoursePHP="insertcourse.php";
+$ToInsertCategoryPHP='insertcategory.php';
 $ToInsertServicePHP="insertService.php";
 $ToInsertMissionPHP="insertlist.php";
  // Update
 $ToEditContactPHP="editContact.php";
-$ToUpdateCategoryPHP="updateCategory.php";
-$ToUpdateCoursePHP="updateCourse.php";
+$ToUpdateCategoryPHP="updatecategory.php";
+$ToUpdateCoursePHP="updatecourse.php";
 $ToUpdateServicePHP="updateService.php";
 $ToEditProfilePHP="editProfile.php";
 $ToEditMissionPHP="updatelist.php";
