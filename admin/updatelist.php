@@ -179,7 +179,7 @@ input[type="submit"].inp:hover{
  <tr>
   <th><label for="desc"> Description</label></th>
   <th>:</th>
-  <th><textarea id="desc" rows="5px" cols="70px" name="description" required><?php //echo $row['tbl_list_Description'];?></textarea></th>
+  <th><textarea id="description" rows="5px" cols="70px" name="description" required><?php //echo $row['tbl_list_Description'];?></textarea></th>
  </tr>
  <tr>
   <td></td>
@@ -242,7 +242,7 @@ input[type="submit"].inp:hover{
 
     var pricingData = JSON.parse(xml.responseText);
 
-    document.getElementById("goal").value = pricingData[0].goal
+    document.getElementById("goal").value = pricingData[0].goal;
     document.getElementById("description").value = pricingData[0].description;
   }
 

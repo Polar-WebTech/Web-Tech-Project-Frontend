@@ -135,7 +135,7 @@
 
               setCookie("sessionid",response.sessionid,1/24);
 
-              window.location.replace("admin/adminIndex.php");
+              window.location.replace("./admin/adminIndex.php");
 
             }
             else{
