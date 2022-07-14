@@ -31,21 +31,69 @@ input[type="submit"].save:hover{
 <?php include 'head.php'?>
 </head>
 
+<script>
+
+  // $(document).ready(function(){
+      checkCookie();
+  // });
+
+
+  function checkCookie() {
+    let sessionid = getCookie("sessionid");
+    
+    if (sessionid != "") {
+      
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "https://itsensei.herokuapp.com/api/session/" + sessionid);
+
+      xhr.send();
+
+      xhr.onload = function(){
+
+        var emptyArray = "[]";
+
+        if(xhr.responseText === emptyArray){
+          alert('Please Login First!');
+          window.location.replace("../login.php");
+        }
+        else{
+
+          var sessionInfo = JSON.parse(xhr.responseText);
+          // alert('Welcome ' + sessionInfo[0].userid);
+
+        }
+
+      }
+
+
+    } else {
+      alert('Please Login First!');
+      window.location.replace("../login.php");
+    }
+  }
+
+
+  function getCookie(cname) {
+    let name = cname + "=";
+    let ca = document.cookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
+
+</script>
+
 <!-- ======= Header ======= -->
-<header id="header" class="fixed-top header-inner-pages ">
-<?php include 'headerWithNavigation.php' ?>
-    <!-- <div class="container-fluid">
-
-    <div class="row justify-content-center" style="padding-top:20px;padding-bottom:20px">
-    <div class="col-xl-9 d-flex align-items-center justify-content-lg-between">
-      <h1 class="logo me-auto me-lg-0"><a href="adminIndex.php"><?php //echo $rowProfile['Website_name'] ?></a></h1>
-    </div>
-    </div>
-
-    </div> -->
-</header>
-<!-- End Header -->
 <body>
+<?php include 'headerWithNavigation.php' ?>
 <main id="main">
 
 <!-- ======= profiles Section ======= -->

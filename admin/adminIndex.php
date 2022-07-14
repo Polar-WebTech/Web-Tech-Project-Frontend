@@ -41,7 +41,7 @@
         else{
 
           var sessionInfo = JSON.parse(xhr.responseText);
-          alert('Welcome ' + sessionInfo[0].userid);
+          // alert('Welcome ' + sessionInfo[0].userid);
 
         }
 

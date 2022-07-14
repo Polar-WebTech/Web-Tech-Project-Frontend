@@ -96,12 +96,12 @@
 
               </div>
 
-              <div style="display: flex; justify-content:center;">
+              <!-- <div style="display: flex; justify-content:center;">
               <input type="button" value="Forget Password" class="btn btn-primary btn-link btn-wd btn-lg" id="btnForget" onClick="document.location.href='ForgetPassword.php'" />
               </div>
               <div style="display: flex; justify-content:center;">
               <input type="button" value="Delete Cookies" class="btn btn-primary btn-link btn-wd btn-lg" id="btnCookie" onClick="document.location.href='config/deletecookie.php'" />
-              </div>
+              </div> -->
               </div>
             </form>
             <?php //} ?>
