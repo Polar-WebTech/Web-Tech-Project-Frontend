@@ -22,9 +22,9 @@
 
   function checkCookie() {
     let sessionid = getCookie("sessionid");
-    
+
     if (sessionid != "") {
-      
+
       var xhr = new XMLHttpRequest();
       xhr.open("GET", "https://itsensei.herokuapp.com/api/session/" + sessionid);
 
@@ -251,10 +251,10 @@ $.ajax({
               </div>
             </table> -->
           </div>
-        </div> 
+        </div>
     </section>
 
-    <!-- ======= Company Section ======= 
+    <!-- ======= Company Section =======
     <section id="company" class="portfolio">
       <div class="container">
 
@@ -506,6 +506,7 @@ var marker = new L.marker(Location, {
     draggable: 'false',
 
   }).addTo(map);
+  marker.dragging.disable();
   marker.bindPopup("We are here").openPopup();
 
         document.getElementById("location").innerHTML=contact[0].location;
@@ -549,7 +550,7 @@ xhr.onload = function(){
 
   var pricingArray = JSON.parse(xhr.responseText);
   var rowDiv = document.querySelector("#pricing .container .row");
-    
+
 
   for(var i=0; i<pricingArray.length; i++){
 

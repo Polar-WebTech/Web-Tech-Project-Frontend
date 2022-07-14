@@ -121,9 +121,9 @@
 
   function checkCookie() {
     let sessionid = getCookie("sessionid");
-    
+
     if (sessionid != "") {
-      
+
       var xhr = new XMLHttpRequest();
       xhr.open("GET", "https://itsensei.herokuapp.com/api/session/" + sessionid);
 
