@@ -23,10 +23,10 @@ $ToAdminIndexPHP="adminIndex.php";
 $ToViewTopCoursePHP="viewTopCourse.php";
 $ToViewCourseCategoryPHP="viewCourseCategory.php";
 $ToCourseDetailAdminPHP="coursedetailAdmin.php";
-$ToViewServicePHP="viewService.php";
-$ToViewMissionPHP="viewlist.php";
+$ToViewServicePHP="./viewService.php";
+$ToViewMissionPHP="./viewlist.php";
 $ToViewCompanyPHP="";
-$ToViewPricePHP="viewPrice.php";
+$ToViewPricePHP="./viewPrice.php";
 // Function for frontend
 
 ?>

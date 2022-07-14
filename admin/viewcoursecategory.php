@@ -26,6 +26,7 @@
 
     function deleteCategory(id)
     {
+
       if (confirm("Are you sure to delete this category")==true)
       {
         $.ajax({
